@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load i18n %}
+
+{% block content %}
+<table>
+	<tr>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		{# <td>{{object.field1|safe}}</td> #}
+		<td>{{object.field2}}</td>
+		<td>{{object.field3}}</td>
+	</tr>
+</table>
+{% endblock content %}
+

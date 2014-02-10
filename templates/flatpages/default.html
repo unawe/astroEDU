@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load markup %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="layout_content"><div class="layout_container"><div class="layout_flatpage">
+	<h1>{{ flatpage.title }}</h1>
+	{{ flatpage.content|markdown }}
+</div></div></div>
+
+{% endblock %}

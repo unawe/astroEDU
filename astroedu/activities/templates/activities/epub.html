@@ -1,0 +1,33 @@
+{% spaceless %}
+{% load staticfiles %}
+{% load i18n %}
+{% load markup %}
+{% endspaceless %}<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns:epub="http://www.idpf.org/2007/ops" xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{object.lang}}" lang="{{object.lang}}">
+<head>
+	<title>{{object.title}}</title>
+	<style type="text/css">
+	body { font-family: Helvetica, Arial, sans-serif; }
+	.summary { font-style: italic; }
+	h2 img { height: 1em; vertical-align: absmiddle; margin-right: 0.4em;}
+	</style>
+</head>
+<body>
+	<h1>{{ object.title }}</h1>
+	<div class="summary">{{ object.teaser }}</div>
+	<div class="author">{{ object.author.name }}, {{ object.institution.name }}</div>
+
+	{% include "activities/epub_section.html" with code="description" text="Brief Description" content=object.description|markdown %}
+	{% include "activities/epub_section.html" with code="goals" text="Goals" content=object.goals|markdown %}
+	{% include "activities/epub_section.html" with code="objectives" text="Learning Objectives" content=object.objectives|markdown %}
+	{% include "activities/epub_section.html" with code="materials" text="Materials" content=object.materials|markdown %}
+	{% include "activities/epub_section.html" with code="background" text="Background Information" content=object.background|markdown %}
+	{% include "activities/epub_section.html" with code="fulldesc" text="Full Activity Description" content=object.fulldesc|markdown %}
+	{% include "activities/epub_section.html" with code="evaluation" text="Evaluation" content=object.evaluation|markdown %}
+	{% include "activities/epub_section.html" with code="curriculum" text="Curriculum" content=object.curriculum|markdown %}
+	{% include "activities/epub_section.html" with code="additional_information" text="Additional Information" content=object.additional_information|markdown %}
+	{% include "activities/epub_section.html" with code="conclusion" text="Conclusion" content=object.conclusion|markdown %}
+
+</body>
+</html>

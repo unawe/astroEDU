@@ -1,0 +1,13 @@
+        {% if content %}
+        <div class="section_meta"><div class="section_meta_inner">
+            <div class="facet">
+                <div class="title_text">{{text}}</div>
+                {% for time in content %}
+                <div class="content">
+                    <a href="{{ request.get_full_path }}&amp;selected_facets={{code}}_exact:{{ time.0|urlencode }}">{{ time.0 }}</a> {# ({{ time.1 }}) #}
+                </div>
+                {% endfor %}
+            </div>
+            <div style="clear: both"></div>
+        </div></div>
+        {% endif %}

@@ -1,0 +1,33 @@
+{% load i18n %}{% load staticfiles %}
+{# {% load markup %} #}
+    <div class="list_item">
+    	<div class="title">{% if not object.is_visible %}(not visible){% endif %}<a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
+        <div class="metadata">
+            DATE: <b style="bold">{{ object.release_date|date:"Y-m-d" }}</b>
+            <a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/metaseparator.png' %}"/></a>
+            BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
+        </div>
+        {# <div class="description">{{ object.description|markdown }}</div> #}
+        <div class="description"><p>{{ object.teaser }}</p></div>
+        <div class="metadata2">
+            <div style="width: 118px; margin-left: 10px; margin-right: 10px; ">
+                <div class="caption">THEME</div>
+                <div class="value">{{ object.theme }}</div>
+            </div>
+            <div style="width: 75px; margin-left: 35px; "><img style="height: 75px;" src="/static/designimages/sections-grey/age.png"></div>
+            <div style="width: 75px; margin-left: 20px; margin-right: 10px; ">
+                <div class="caption">AGE</div>
+                <div class="value">{{ object.age_display }}</div>
+            </div>
+            <div style="width: 75px; margin-left: 20px; "><img style="height: 75px;" src="/static/designimages/sections-grey/time.png"></div>
+            <div style="width: 148px; margin-left: 20px; margin-right: 10px; ">
+                <div class="caption">TIME</div>
+                <div class="value">{{ object.time }}</div>
+            </div>
+            <div style="margin-left: 11px; margin-top: 20px;"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
+            <div style="clear: both"></div>
+        </div>
+        <div><img style="margin-top: 14px;" src="{% static 'designimages/list_item_footer.png' %}"/></div>
+        {# <li><a href="{% url 'activities:detail' object.slug %}">{{ object.title }}</a></li> #}
+        <!-- <li><a href="/activities/{{ object.slug }}/">{{ object.title }}</a></li> -->
+    </div>

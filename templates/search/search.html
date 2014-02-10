@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load highlight %}
+{% load staticfiles %}
+
+{% block extra_css %}
+<style type="text/css">
+.layout_container > .layout_rightcolumn {
+    margin-left: 150px;
+    width: 268px;
+}
+
+.facet .title_text {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+.facet .content {
+    margin: 10px;
+    font-size: 12px;
+    font-weight: bold;    
+}
+
+.notfound {
+    font-size: 18px;
+}
+.notfound img {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="layout_content"><div class="layout_container"><div class="layout_leftcolumn">
+    {% if query %}
+
+    <div class="archives_list">
+
+        {% for result in page.object_list %}
+            <!--{{ result.score|floatformat:2}}--> {% include 'activities/list_item.html' with object=result.object %}
+        {% empty %}
+            <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" /> No results found!</p>
+        {% endfor %}
+
+         {% if page.has_previous or page.has_next %}
+            <div>
+                {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                |
+                {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    {% else %}
+        <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" /> No results found!</p>
+    {% endif %}
+
+
+</div><div class="layout_rightcolumn">
+
+
+{% if query %}
+    <!-- Begin faceting. -->
+    <div class="meta">
+        <!-- facets.fields.age -->
+        <!-- facets.fields.level -->
+        {% include "search/search_facet.html" with code="time" text="Time" content=facets.fields.time %}
+        {% include "search/search_facet.html" with code="group" text="group" content=facets.fields.group %}
+        {% include "search/search_facet.html" with code="supervised" text="supervised" content=facets.fields.supervised %}
+        {% include "search/search_facet.html" with code="cost" text="cost" content=facets.fields.cost %}
+        {% include "search/search_facet.html" with code="location" text="location" content=facets.fields.location %}
+        <!-- facets.fields.skills -->
+        {% include "search/search_facet.html" with code="learning" text="learning" content=facets.fields.learning %}
+    </div>
+    <!-- End faceting -->
+{% endif %}
+
+</div><div style="clear: both;">
+</div></div></div>
+
+
+
+
+{% endblock %}

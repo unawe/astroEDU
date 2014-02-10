@@ -1,0 +1,7 @@
+{% load staticfiles %}
+{% load i18n %}
+
+	{% if content %}
+	<h2>{# <img src="{% static 'designimages/sections-orange/'|add:code|add:'.png' %}" /> #}{{text}}</h2>
+	<div class="text">{{ content }}</div>
+	{% endif %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load markup %}
+
+
+{% block site_title %}{{ object.title }} | astroEDU {% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+{% if user.is_staff %}
+<div class="admin-toolbar">
+    {% if object %}
+	<div class"modeladmin">
+		<a href="{{ object.get_admin_change_url }}">Edit</a> |
+		<a href="{{ object.get_admin_delete_url }}">Delete</a> |
+		<a href="{{ object.get_admin_history_url }}">History</a> |
+		<a href="{{ object.get_admin_add_url }}">Add another {{ object.get_verbose_name }}</a> |
+		<a href="{{ object.get_admin_changelist_url }}">Manage {{ object.get_verbose_name_plural }}</a>
+	</div>
+    <div class="archival{% if not object.is_visible%}_private{% endif %}">
+    	is_visible: {{ object.is_visible }} |
+    	published: {{ object.published }} |
+    	release_date: {{ object.release_date }} |
+    	embargo_date: {{ object.embargo_date }} |
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+<div class="layout_content"><div class="layout_container"><div class="layout_leftcolumn">
+
+	<h1 style="margin-top: 0px;">{{ object.title }}</h1>
+	
+	{# <div class="summary">{{ object.description }}</div> #}
+
+	{% for object in object.activities.all %}
+		{% include 'activities/list_item.html' %}
+	{% endfor %}
+
+
+
+</div><div class="layout_rightcolumn">
+
+
+</div><div style="clear: both;">
+</div></div></div>
+{% endblock content %}
+
+
+
+
+

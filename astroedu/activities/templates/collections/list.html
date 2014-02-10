@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+h2 {
+	color: #F8B132;
+	font-size: 28px;
+	margin-top: 0;
+	text-transform: uppercase;
+	font-weight: 900;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="layout_content"><div class="layout_container"><div class="layout_wide">
+	<h2>Activity Collections</h2>
+
+{% if object_list %}
+<div class="archives_list">
+    {% for object in object_list %}
+    	{% include 'collections/list_item.html' %}
+    {% endfor %}
+	<div style="clear: both"></div>
+</div>
+{% else %}
+    <p>No collections are available.</p>
+{% endif %}
+
+</div></div></div>
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% load markup %}
+
+{{ object.title }}
+{{ object.theme }}
+{{ object.teaser }}
+{{ object.description|markdown|striptags }}
+{{ object.keywords|markdown|striptags }}
+{{ object.materials|markdown|striptags }}
+{{ object.goals|markdown|striptags }}
+{{ object.objectives|markdown|striptags }}
+{{ object.background|markdown|striptags }}
+{{ object.fulldesc|markdown|striptags }}
+{{ object.evaluation|markdown|striptags }}
+{{ object.curriculum|markdown|striptags }}
+{{ object.additional_information|markdown|striptags }}
+{{ object.conclusion|markdown|striptags }}

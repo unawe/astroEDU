@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block extra_css %}
+<style>
+.layout_search {
+	background-image: url("{% static 'designimages/home_search_bg.png' %}");
+	background-repeat: no-repeat;
+	background-position: bottom center;
+	text-align: center;
+}
+.home_slogan {
+	color: #F8B132;
+	text-transform: uppercase;
+	font-size: 18px;
+	padding-top: 82px;
+	padding-right: 40px;
+}
+.home_search_box {
+	/*height: 540px;*/
+	height: 390px;
+}
+.home_search_box form {
+	width: 600px;
+	position: relative;
+	top: 112px;
+	left: 312px;
+}
+
+.layout_featured {
+	background-color: #FFFFFF; /*#F8B132;*/
+	padding-bottom: 100px;
+}
+.layout_featured h2 {
+	color: #F8B132;
+	font-size: 28px;
+	padding-top: 36px;
+	padding-bottom: 30px;
+	margin-top: 0;
+	text-transform: uppercase;
+	font-weight: 900;
+}
+</style>
+{% endblock %}
+
+
+{% block top %}
+
+	<div class="layout_top"><div class="layout_container">
+		<img src="{% static 'designimages/astroedu_logo.png' %}" style="margin-top: 36px;"/>
+		<div  style="float: right; margin-top: 28px;">
+			<a href="http://astro4dev.org" target="_blank" style="text-decoration: none;"><img src="{% static 'designimages/iau_logo.png' %}"/></a>
+			<a class="fancybox" rel="group" href="#helpus" style="padding-left: 30px;"><img src="{% static 'designimages/helpus_badge.png' %}"/></a>
+		</div>
+		<div style="clear: both"></div>
+	</div></div>
+
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="layout_search"><div class="layout_container">
+		<div class="home_slogan"><span style="font-weight: bold">Peer-reviewed</span> astronomy education activities</div>
+		<div class="home_search_box">{% include "astroedu/search_form.html" %}</div>
+	</div></div>
+
+	<div class="layout_featured"><div class="layout_container">
+		<h2>Featured Activities</h2>
+		<div>
+			{% for object in featured %}
+				{% include "astroedu/featured_item.html" %}
+			{% endfor %}
+		</div>
+		<div style="clear: both"></div>
+	</div></div>
+
+{% endblock %}
