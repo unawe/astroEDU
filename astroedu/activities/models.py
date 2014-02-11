@@ -106,6 +106,8 @@ class Activity(ArchivalModel, TranslationModel):
 
     author = models.ForeignKey(Author)
     institution = models.ForeignKey(Institution)
+    acknowledgement = models.CharField(blank=True, max_length=255)
+
     doi = models.CharField(blank=True, max_length=50, verbose_name='DOI', help_text=_(u'Digital Object Identifier, in the format XXXX/YYYY. See http://www.doi.org/'))
     ''' Digital Object Identifier '''
 

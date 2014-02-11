@@ -99,7 +99,7 @@ class ActivityAdmin(CounterAdmin):
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
     
     fieldsets = [
-        (None, {'fields': ('slug', 'title', 'author', 'institution', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
+        (None, {'fields': ('slug', 'title', 'author', 'institution', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
         # ('Publishing', {'fields': ('published', ('release_date', 'embargo_date'), ), }),
