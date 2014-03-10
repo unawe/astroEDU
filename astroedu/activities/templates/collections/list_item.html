@@ -2,9 +2,11 @@
     <div class="featured_item">
         <div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
         <div class="image"><a href="{{ object.get_absolute_url }}"><img src="/media/collections/thumb/{{object.slug}}.jpg"/></a></div>
-        <div class="metadata2">
+        <div class="metadata3">
             <p style="margin-top: 0px; margin-bottom: 0px; ">{{ object.description }}</p>
-            <div style="float: right; margin-left: 11px; "><a href="{{ object.get_absolute_url }}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
+            <div>
+                <div style="float: right; margin-right: 11px; margin-top: 11px; "><a href="{{ object.get_absolute_url }}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
+            </div>
             <div style="clear: both"></div>
         </div>
         <div><img style="margin-top: 8px; margin-bottom: 16px;" src="{% static 'designimages/collection_footer.png' %}"/></div>
