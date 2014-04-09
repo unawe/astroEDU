@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from contrib.remainingcharacters.admin import CounterAdmin
+from contrib.adminutils import download_csv
 
 from astroedu.activities.models import Activity, Attachment, Author, Institution, MetadataOption, Collection, RepositoryEntry
 # from astroedu.activities.models import Richtext
@@ -55,6 +56,7 @@ class RepositoryEntryInline(admin.TabularInline):
     readonly_fields = ('repo',)
     # fields = ('url', )
 
+
 class ActivityAdminForm(forms.ModelForm):
     
     class Meta:
@@ -94,7 +96,8 @@ class ActivityAdmin(CounterAdmin):
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
-    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
+    list_filter = ('is_visible', 'age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
+    actions = (download_csv, )
 
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
     
