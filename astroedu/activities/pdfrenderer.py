@@ -245,6 +245,10 @@ class Renderer(PdfRendererBase):
             elements.append(SectionHeader(self, 'Learning Objectives', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/objectives.png')))
             append_richtext(self, elements, self.data['objectives'])
 
+        if self.data['evaluation']:
+            elements.append(SectionHeader(self, 'Evaluation', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/evaluation.png')))
+            append_richtext(self, elements, self.data['evaluation'])
+
         if self.data['materials']:
             elements.append(SectionHeader(self, 'Materials', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/materials.png')))
             append_richtext(self, elements, self.data['materials'])
@@ -256,10 +260,6 @@ class Renderer(PdfRendererBase):
         if self.data['fulldesc']:
             elements.append(SectionHeader(self, 'Full Activity Description', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/fulldesc.png')))
             append_richtext(self, elements, self.data['fulldesc'])
-
-        if self.data['evaluation']:
-            elements.append(SectionHeader(self, 'Evaluation', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/evaluation.png')))
-            append_richtext(self, elements, self.data['evaluation'])
 
         if self.data['curriculum']:
             elements.append(SectionHeader(self, 'Curriculum', styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/curriculum.png')))

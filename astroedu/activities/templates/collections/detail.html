@@ -8,6 +8,9 @@
 {% block site_title %}{{ object.title }} | astroEDU {% endblock %}
 
 {% block extra_css %}
+<style>
+.summary { font-size: 14px; color: #F8B132; font-weight: bold; }
+</style>
 {% endblock %}
 
 
@@ -39,7 +42,7 @@
 
 	<h1 style="margin-top: 0px;">{{ object.title }}</h1>
 	
-	{# <div class="summary">{{ object.description }}</div> #}
+	<div class="summary" style="margin-top: 0px; margin-bottom: 50px; line-height: 1.35em; ">{{ object.description }}</div>
 
 	{% for object in object.activities.all %}
 		{% include 'activities/list_item.html' %}

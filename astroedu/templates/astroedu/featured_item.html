@@ -12,6 +12,20 @@
 		{# <div class="description">{{ object.description|markdown }}</div> #}
 		<div class="description"><p>{{ object.teaser }}</p></div>
 		<div class="metadata2">
+			<!-- <div style="width: 256px; margin-left: 10px; margin-right: 10px; ">
+				<div style="float: left; max-width: 180px;">
+					<div class="caption">THEME</div>
+					<div class="value">{{ object.theme }}</div>
+				</div>
+				<div style="float: left; margin-left: 20px; ">
+					<div class="caption">AGE</div>
+					<div class="value">{{ object.age_display }}</div>
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div style="margin-left: 11px; margin-top: 20px;"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div> -->
+
+			<div style="clear: both"></div>
 			<div style="width: 118px; margin-left: 10px; margin-right: 10px; ">
 				<div class="caption">THEME</div>
 				<div class="value">{{ object.theme }}</div>
@@ -22,6 +36,7 @@
 			</div>
 			<div style="margin-left: 11px; margin-top: 20px;"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
 			<div style="clear: both"></div>
+
 		</div>
-		<div><img style="margin-top: 14px;" src="{% static 'designimages/featured_footer.png' %}"/></div>
+
 	</div>

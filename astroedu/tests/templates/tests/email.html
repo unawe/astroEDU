@@ -1,4 +1,6 @@
-<form action="/test/" method="post">{% csrf_token %}
+<form action="" method="post">{% csrf_token %}
+<p>sender: {{ sender }}</p>
+<p>recipients: {{ recipients }}</p>
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>

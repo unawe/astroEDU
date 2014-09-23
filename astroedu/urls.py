@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
+from django.http import HttpResponseRedirect
 from django.contrib import admin
 # import markupmirror.urls
 
@@ -9,7 +11,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
 
     url(r'^$', 'astroedu.views.home', name='home'),
+    url(r'^tests/', include('astroedu.tests.urls', namespace='tests')),
     url(r'^activities/', include('astroedu.activities.urls', namespace='activities')),
+
 
     # url(r'^search/', include('haystack.urls')),
 
@@ -22,6 +26,15 @@ urlpatterns = patterns('',
     url(r'^admin/history/', include('djangoplicity.adminhistory.urls', namespace="adminhistory_site", app_name="history" )),
     url(r'^admin/', include(admin.site.urls)),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^500/$', TemplateView.as_view(template_name="500.html")),
+        (r'^404/$', TemplateView.as_view(template_name="404.html")),
+        # redirects (use nginx.conf for production)
+        url(r'^blog/?$', lambda x: HttpResponseRedirect('http://medium.com/@IAUastroEDU')),
+        url(r'^volunteer/?$', lambda x: HttpResponseRedirect('https://unawe.typeform.com/to/UIBI5e')),
+    )
 
 
 from haystack.forms import SearchForm, ModelSearchForm, HighlightedModelSearchForm, FacetedSearchForm

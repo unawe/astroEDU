@@ -96,7 +96,7 @@ class ActivityAdmin(CounterAdmin):
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
-    list_filter = ('is_visible', 'age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
+    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
     actions = (download_csv, )
 
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]

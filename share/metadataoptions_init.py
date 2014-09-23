@@ -1,8 +1,11 @@
 from astroedu.activities.models import MetadataOption
 
+
 def add(group, code, title, position):
     x = MetadataOption(group=group, code=code, title=title, position=position)
     x.save()
+
+
 
 i = 0
 i+=1; add('age', '0-4', u'0 > 4', i)
@@ -54,3 +57,4 @@ i+=1; add('learning', 'open-ended', u'Open-ended enquiry', i)
 i+=1; add('learning', 'guided', u'Guided enquiry', i)
 i+=1; add('learning', 'structured', u'Structured enquiry', i)
 i+=1; add('learning', 'confirmation_verification', u'Confirmation or Verification', i)
+

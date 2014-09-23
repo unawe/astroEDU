@@ -32,6 +32,8 @@ h1 { margin-top: 0px; margin-bottom: 28px; }
 
 .section table {
 	margin-top: 1em;
+	margin-left: auto; 
+	margin-right: auto;	
 }
 .section th {
 	font-weight: bold;
@@ -41,6 +43,7 @@ h1 { margin-top: 0px; margin-bottom: 28px; }
 	margin: 4px; 
 	padding-left: 4px; padding-right: 4px;
 	padding-top: 4px; padding-bottom: 4px;
+	font-size: 85%;
 }
 
 </style>
@@ -81,10 +84,10 @@ h1 { margin-top: 0px; margin-bottom: 28px; }
 	{% include "activities/detail_section.html" with code="description" text="Brief Description" content=object.description|markdown %}
 	{% include "activities/detail_section.html" with code="goals" text="Goals" content=object.goals|markdown %}
 	{% include "activities/detail_section.html" with code="objectives" text="Learning Objectives" content=object.objectives|markdown %}
+	{% include "activities/detail_section.html" with code="evaluation" text="Evaluation" content=object.evaluation|markdown %}
 	{% include "activities/detail_section.html" with code="materials" text="Materials" content=object.materials|markdown %}
 	{% include "activities/detail_section.html" with code="background" text="Background Information" content=object.background|markdown %}
 	{% include "activities/detail_section.html" with code="fulldesc" text="Full Activity Description" content=object.fulldesc|markdown %}
-	{% include "activities/detail_section.html" with code="evaluation" text="Evaluation" content=object.evaluation|markdown %}
 	{% include "activities/detail_section.html" with code="curriculum" text="Curriculum" content=object.curriculum|markdown %}
 	{% include "activities/detail_section.html" with code="additional_information" text="Additional Information" content=object.additional_information|markdown %}
 	{% include "activities/detail_section.html" with code="conclusion" text="Conclusion" content=object.conclusion|markdown %}
@@ -123,8 +126,9 @@ h1 { margin-top: 0px; margin-bottom: 28px; }
 		{% include "activities/detail_section_meta_list.html" with code="skills" text="Core skills" content=object.skills.all %}
 		{% include "activities/detail_section_meta.html" with code="learning" text="Type of learning activity" content=object.learning %}
 
+		<div style="margin-top: 20px;"></div>
 		{% if object.attachment_list %}
-		<div class="section_meta_2 grey" style="margin-top: 20px;">
+		<div class="section_meta_2 grey">
 			<div class="title_text">Attachments</div>
 			{% for attachment in object.attachment_list %}
 				<div class="content"><img src="{% static 'designimages/attachment_icon.png' %}"/><a href="/media/{{ attachment.file.name }}" target="_blank">{{ attachment.display_name }}</a></div>

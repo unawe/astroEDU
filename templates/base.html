@@ -67,7 +67,8 @@ ul.unbulleted {
 {% block top %}
 <div class="layout_top"><div class="layout_container" style="position: relative;">
 	<a href="/"><img src="{% static 'designimages/astroedu_logo.png' %}" style="margin-top: 36px;"/></a>
-	<a class="fancybox" href="#helpus" style="float: right; padding-left: 30px; margin-top: 28px;"><img src="{% static 'designimages/helpus_badge.png' %}"/></a>
+	<!-- <a class="fancybox" href="#helpus" style="float: right; padding-left: 30px; margin-top: 28px;"><img src="{% static 'designimages/volunteer_badge.png' %}"/></a> -->
+	<a href="/volunteer" target="_blank" style="float: right; padding-left: 30px; margin-top: 28px;"><img src="{% static 'designimages/volunteer_badge.png' %}"/></a>
 	<div style="float: right; margin-top: 38px; ">{% include "astroedu/search_form.html" %} </div>
 
 	<div style="clear: both"></div>
@@ -77,10 +78,10 @@ ul.unbulleted {
 {% endblock %}
 
 {% block content %}{% endblock %}
-<div id="helpus" style="display:none; ">
+<!-- <div id="helpus" style="display:none; ">
 	<a href="mailto:astroedu@strw.leidenuniv.nl?subject=Help+us+improve"><img src="{% static 'designimages/helpus_popup.jpg' %}"/></a>
 </div>
-
+ -->
 	<div class="layout_resources"><div class="layout_container">
 		<div style="float: left; margin-left: 108px; ">
 			<div style="margin-bottom: 26px;"><a href="{% url 'activities:collections_list' %}"><img src="{% static 'designimages/bigicon_collections.png' %}"/></a></div>
@@ -94,10 +95,11 @@ ul.unbulleted {
 	</div></div>
 
 	<div class="layout_footer"><div class="layout_container">
+					<!-- <li><a href="{% url 'activities:collections_list' %}">Collections</a></li> -->
 		<div style="float: left; width: 458px;">
-			<div style="float: left; width: 250px;">
+<!-- 			<div style="float: left; width: 250px;">
 				<ul class="unbulleted">
-					<li><a href="{% url 'activities:collections_list' %}">Collections</a></li>
+					<li><a href="/blog/">Blog</a></li>
 					<li><a href="/submission/">Submission</a></li>
 					<li><a href="/guidelines/">Guidelines</a></li>
 					<li><a href="/peerreview/">Peer Review</a></li>
@@ -108,6 +110,22 @@ ul.unbulleted {
 					<li><a href="/about/">About</a></li>
 					<li><a href="/workflow/">Workflow</a></li>
 					<li><a href="/faq/">FAQ</a></li>
+					<li><a href="/contact/">Contact</a></li>
+				</ul>
+			</div> -->
+			<div style="float: left; width: 250px;">
+				<ul class="unbulleted">
+					<li><a href="/submission/">Submission</a></li>
+					<li><a href="/peerreview/">Peer Review</a></li>
+					<li><a href="/ebl/">Enquiry</a></li>
+					<li><a href="/faq/">FAQ</a></li>
+				</ul>
+			</div>
+			<div style="float: left; width: 200px;">
+				<ul class="unbulleted">
+					<li><a href="/about/">About</a></li>
+					<li><a href="/workflow/">Workflow</a></li>
+					<li><a href="/blog/">Blog</a></li>
 					<li><a href="/contact/">Contact</a></li>
 				</ul>
 			</div>

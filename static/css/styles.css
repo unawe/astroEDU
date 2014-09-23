@@ -8,11 +8,11 @@
   text-decoration: none;
 }
 .activity_list_item .metadata {
+  margin-bottom: 22px;
   font-size: 10px;
 }
 .activity_list_item .image {
   height: 180px;
-  margin-top: 22px;
   margin-bottom: 24px;
   background: #f8b132;
 }
@@ -101,11 +101,11 @@
   text-decoration: none;
 }
 .list_item .metadata {
+  margin-bottom: 22px;
   font-size: 10px;
 }
 .list_item .image {
   height: 180px;
-  margin-top: 22px;
   margin-bottom: 24px;
   background: #f8b132;
 }

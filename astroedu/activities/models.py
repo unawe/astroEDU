@@ -114,21 +114,21 @@ class Activity(ArchivalModel, TranslationModel):
     # age = models.CharField(blank=True, max_length=10, help_text=_(u'Use the format min_age > max_age, or min_age+'))
     age = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'age'}, related_name='age+', blank=True, null=True, )
     # level = models.CharField(blank=True, max_length=10, choices=LEVEL_CHOICES, help_text=_(u'Specify at least one of "Age" and "Level"'))
-    level = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'level'}, related_name='level+', blank=True, null=True, help_text=_(u'Specify at least one of "Age" and "Level". '))
+    level = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'level'}, related_name='level+', blank=True, null=True, help_text=_(u'Specify at least one of "Age" and "Level". '), )
     # time = models.CharField(blank=False, max_length=10, choices=TIME_CHOICES)
-    time = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'time'}, related_name='+', blank=False, null=False)
+    time = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'time'}, related_name='+', blank=False, null=False, )
     # group = models.CharField(blank=True, max_length=10, choices=GROUP_CHOICES)
     group = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'group'}, related_name='+', blank=True, null=True, )
     # supervised = models.CharField(blank=True, max_length=12, choices=SUPERVISED_CHOICES)
     supervised = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'supervised'}, related_name='+', blank=True, null=True, )
     # cost = models.CharField(blank=True, max_length=10, choices=COST_CHOICES)
-    cost = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'cost'}, related_name='+', blank=True, null=True)
+    cost = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'cost'}, related_name='+', blank=True, null=True, )
     # location = models.CharField(blank=True, max_length=10, choices=LOCATION_CHOICES)
-    location = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'location'}, related_name='+', blank=True, null=True)
+    location = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'location'}, related_name='+', blank=True, null=True, )
     # skills = models.CharField(blank=True, max_length=30, verbose_name=u'core skills', choices=SKILLS_CHOICES)
-    skills = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'skills'}, related_name='skills+', blank=True, null=True, verbose_name=u'core skills')
+    skills = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'skills'}, related_name='skills+', blank=True, null=True, verbose_name=u'core skills', )
     # learning = models.CharField(blank=False, max_length=30, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'), choices=LEARNING_CHOICES)
-    learning = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'learning'}, related_name='+', blank=False, null=False, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'))
+    learning = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'learning'}, related_name='+', blank=False, null=False, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'), )
 
     theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
 
@@ -187,15 +187,15 @@ class Activity(ArchivalModel, TranslationModel):
     #     else:
     #         tasks.make_thumbnail.delay(self)
 
-    def generate_downloads(self, blocking=False):
-        if blocking:
-            tasks.zip_attachments(self)
-            # tasks.make_epub(self)
-            tasks.make_pdf(self)
-        else:
+    def generate_downloads(self, pdf=True, epub=True, rtf=True, zip=True):
+        if zip:
             tasks.zip_attachments.delay(self)
+        if epub:
             tasks.make_epub.delay(self)
+        if pdf:
             tasks.make_pdf.delay(self)
+        if rtf:
+            pass
 
     # def save(self, *args, **kwargs):
     #     super(Activity, self).save(*args, **kwargs)
