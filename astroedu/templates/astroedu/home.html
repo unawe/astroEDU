@@ -4,15 +4,23 @@
 
 {% block top %}
 
-	<div class="layout_top"><div class="layout_container">
-		<img src="{% static 'designimages/astroedu_logo.png' %}" style="margin-top: 36px;"/>
-		<div  style="float: right; margin-top: 28px;">
-			<a href="http://astro4dev.org" target="_blank" style="text-decoration: none;"><img src="{% static 'designimages/iau_logo.png' %}"/></a>
-			<!-- <a class="fancybox" rel="group" href="#helpus" style="padding-left: 30px;"><img src="{% static 'designimages/helpus_badge.png' %}"/></a> -->
-			<a href="/volunteer" target="_blank" style="padding-left: 30px;"><img src="{% static 'designimages/volunteer_badge.png' %}"/></a>
+	<div class="layout_top">
+		<div class="layout_container">
+			<div class="top_left">
+				<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" />
+			</div>
+			<div class="top_right">
+				<a href="http://astro4dev.org" target="_blank">
+					<img src="{% static 'designimages/iau_logo.png' %}" />
+				</a>
+				<a href="/volunteer" target="_blank">
+					<img src="{% static 'designimages/volunteer_badge.png' %}" />
+				</a>
+			</div>
+
+			<div style="clear: both"></div>
 		</div>
-		<div style="clear: both"></div>
-	</div></div>
+	</div>
 
 {% endblock %}
 
@@ -20,24 +28,20 @@
 {% block content %}
 
 	<div class="layout_search"><div class="layout_container">
-		<div class="home_slogan"><span style="font-weight: bold">Peer-reviewed</span> astronomy education activities</div>
+		<div class="home_slogan"><strong>Peer-reviewed</strong> astronomy education activities</div>
 		<div class="home_search_box">{% include "astroedu/search_form.html" %}</div>
 	</div></div>
 
-	<div class="layout_featured"><div class="layout_container">
-		<h2>Featured Activities</h2>
-		<div>
-			{% for object in featured %}
-				{% include "astroedu/featured_item.html" %}
-			{% endfor %}
+	<div class="layout_featured">
+		<div class="layout_container">
+			<h2>Featured Activities</h2>
+			<div>
+				{% for object in featured %}
+					{% include "astroedu/featured_item.html" %}
+				{% endfor %}
+			</div>
+			<div style="clear: both"></div>
 		</div>
-		<div style="clear: both"></div>
-		<div>
-			<img style="margin-top: 14px; margin-right: 24px;" src="{% static 'designimages/featured_footer.png' %}"/>
-			<img style="margin-top: 14px; margin-right: 24px;" src="{% static 'designimages/featured_footer.png' %}"/>
-			<img style="margin-top: 14px;" src="{% static 'designimages/featured_footer.png' %}"/>
-		</div>
-		<div style="clear: both"></div>
-	</div></div>
+	</div>
 
 {% endblock %}

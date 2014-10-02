@@ -2,41 +2,40 @@
 {# {% load markup %} #}
 	<div class="featured_item">
 		<div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
-		<div class="metadata" style="line-height: 1.4em;">
-			DATE: <b style="color: #F8B132">{{ object.release_date|date:"Y-m-d" }}</b>
+		<div class="metadata">
+			DATE: <b>{{ object.release_date|date:"Y-m-d" }}</b>
 			<!-- <img src="{% static 'designimages/metaseparator.png' %}"/></a> --><br/>
-			BY:  <b style="color: #F8B132">{{ object.author.name }}, {{ object.institution.name }}</b>
+			BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
 		</div>
 		{# <div class="image"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'activities/thumb/'|add:object.slug|add:'.jpg' %}"/></a></div> #}
 		<div class="image"><a href="{% url 'activities:detail' object.slug %}"><img src="/media/activities/thumb/{{object.slug}}.jpg"/></a></div>
 		{# <div class="description">{{ object.description|markdown }}</div> #}
-		<div class="description"><p>{{ object.teaser }}</p></div>
-		<div class="metadata2">
-			<!-- <div style="width: 256px; margin-left: 10px; margin-right: 10px; ">
-				<div style="float: left; max-width: 180px;">
-					<div class="caption">THEME</div>
-					<div class="value">{{ object.theme }}</div>
-				</div>
-				<div style="float: left; margin-left: 20px; ">
-					<div class="caption">AGE</div>
-					<div class="value">{{ object.age_display }}</div>
-				</div>
-				<div style="clear: both"></div>
-			</div>
-			<div style="margin-left: 11px; margin-top: 20px;"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div> -->
 
-			<div style="clear: both"></div>
-			<div style="width: 118px; margin-left: 10px; margin-right: 10px; ">
+		<div class="description"><p>{{ object.teaser }}</p></div>
+		<div class="metadata_bottom">
+
+			<div class="col">
 				<div class="caption">THEME</div>
 				<div class="value">{{ object.theme }}</div>
 			</div>
-			<div style="width: 118px; margin-left: 10px; margin-right: 10px; ">
+
+			<div class="col">
 				<div class="caption">AGE</div>
 				<div class="value">{{ object.age_display }}</div>
 			</div>
-			<div style="margin-left: 11px; margin-top: 20px;"><a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
+
+			<div class="activity-link">
+				<a href="{% url 'activities:detail' object.slug %}">
+					<img src="{% static 'designimages/arrow_next.png' %}"/>
+				</a>
+			</div>
+			
 			<div style="clear: both"></div>
 
+		</div>
+
+		<div class="layout_featured_footer">
+			<img src="{% static 'designimages/featured_footer.png' %}"/>
 		</div>
 
 	</div>

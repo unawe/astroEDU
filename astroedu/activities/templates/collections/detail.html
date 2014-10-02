@@ -4,19 +4,9 @@
 {% load i18n %}
 {% load markup %}
 
-
 {% block site_title %}{{ object.title }} | astroEDU {% endblock %}
 
-{% block extra_css %}
-<style>
-.summary { font-size: 14px; color: #F8B132; font-weight: bold; }
-</style>
-{% endblock %}
-
-
-
 {% block content %}
-
 
 {% if user.is_staff %}
 <div class="admin-toolbar">
@@ -38,23 +28,22 @@
 </div>
 {% endif %}
 
-<div class="layout_content"><div class="layout_container"><div class="layout_leftcolumn">
+<div class="layout_content">
+	<div class="layout_container collection_detail">
 
-	<h1 style="margin-top: 0px;">{{ object.title }}</h1>
-	
-	<div class="summary" style="margin-top: 0px; margin-bottom: 50px; line-height: 1.35em; ">{{ object.description }}</div>
+		<div class="layout_leftcolumn">
+			<h1>{{ object.title }}</h1>
+			<div class="summary">{{ object.description }}</div>
+			{% for object in object.activities.all %}
+				{% include 'activities/list_item.html' %}
+			{% endfor %}
 
-	{% for object in object.activities.all %}
-		{% include 'activities/list_item.html' %}
-	{% endfor %}
+	</div>
 
-
-
-</div><div class="layout_rightcolumn">
-
-
-</div><div style="clear: both;">
-</div></div></div>
+	<div class="layout_rightcolumn"></div>
+	<div style="clear: both;"></div>
+	</div>
+</div>
 {% endblock content %}
 
 
