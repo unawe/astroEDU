@@ -55,25 +55,10 @@
 	{% include "activities/detail_section.html" with code="curriculum" text="Curriculum" content=object.curriculum|markdown %}
 	{% include "activities/detail_section.html" with code="additional_information" text="Additional Information" content=object.additional_information|markdown %}
 	{% include "activities/detail_section.html" with code="conclusion" text="Conclusion" content=object.conclusion|markdown %}
+  
 
-
-    <div id="disqus_thread"></div>
-    <script type="text/javascript">
-        var disqus_shortname = 'astroedu'; 
-        var disqus_identifier = 'activity/{{ object.uuid }}'
-        var disqus_title = '{{ object.title }}'
-        var disqus_category_id = '2646689'; // using category 'activities'
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-    
-
-</div><div class="layout_rightcolumn">
+</div>
+<div class="layout_rightcolumn">
 
 	<div class="meta">
 		{% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
@@ -163,8 +148,31 @@ var addthis_share = {
 
 	</div>
 
-</div><div style="clear: both;">
-</div></div></div>
+</div>
+
+<div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'astroedu'; 
+        var disqus_identifier = 'activity/{{ object.uuid }}'
+        var disqus_title = '{{ object.title }}'
+        var disqus_category_id = '2646689'; // using category 'activities'
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>	
+</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+
+</div>
 
 
 {% endblock content %}

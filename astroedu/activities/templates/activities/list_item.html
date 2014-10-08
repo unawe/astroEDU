@@ -10,15 +10,9 @@
             BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
         </div>
 
-        {# <div class="description">{{ object.description|markdown }}</div> #}
-
         <div class="description">
-            {% if object.main_visual %}<div><img src="/media/activities/thumb/{{object.slug}}.jpg"/></div>{% endif %}
+            {% if object.main_visual %}<img src="/media/activities/thumb/{{object.slug}}.jpg"/>{% endif %}
             <div class="list_item_short">{{ object.teaser }}</div>
-            
-            <!-- {% if object.main_visual %}<div style="float: left; margin-right: 20px; "><img style="width: 185px;" src="/media/activities/thumb/{{object.slug}}.jpg"/></div>{% endif %}
-            <div style="float: left; width: 480px; font-size: 14px; font-weight: 500; ">{{ object.teaser }}</div>
-            <div style="clear: both"></div> -->
         </div>
 
         <div class="metadata_bottom">
@@ -53,6 +47,4 @@
             <div style="clear: both"></div>
         </div>
 
-        <div class="list_item_footer"><img src="{% static 'designimages/list_item_footer.png' %}"/></div>
-        {# <li><a href="{% url 'activities:detail' object.slug %}">{{ object.title }}</a></li> #}
     </div>

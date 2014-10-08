@@ -1,8 +1,6 @@
-<form method="get" action="/search" name="search">
-	{# <input type="text" name="q" class="search_textbox" placeholder="Find education activities" /> #}
-	<input type="text" name="q" class="search_textbox" placeholder="Find Education Activities" value="{{ form.q.value }}" />
-	{# {{ form.q }} #}
-	
-	{# <input type="submit" class="search_button" value="Search" /> #}
-	<div class="search_button_2" onclick="document.forms['search'].submit()"><div>Search</div></div>
-</form>
+<div id="search-form">
+	<form method="get" action="/search" name="search">
+		<input type="text" name="q" class="search_textbox" placeholder="Find Education Activities" value="{{ form.q.value }}" />
+		<button type="submit" class="search_btn" onclick="document.forms['search'].submit()">Search</button>
+	</form>
+</div>
