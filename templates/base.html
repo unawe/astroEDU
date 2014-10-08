@@ -117,17 +117,15 @@
 		</div>
 
 		<div class="footer_right">
-			<div>
-				<img src="{% static 'designimages/sponsors.png' %}" usemap="#map"/>
-				<map name="map"> <!-- coords are: left top right bottom x-->
-	  				<area shape="rect" coords="0,0,77,73" alt="IAU" href="http://www.iau.org" target="_blank">
-	  				<area shape="rect" coords="104,0,174,73" alt="UNAWE" href="http://www.unawe.org" target="_blank">
-	  				<area shape="rect" coords="192,0,292,73" alt="LCOGT" href="http://lcogt.net" target="_blank">
-	  				<area shape="rect" coords="307,0,384,73" alt="Leiden University" href="http://www.leiden.edu" target="_blank">
-	  				<area shape="rect" coords="406,0,477,73" alt="European Comission" href="http://ec.europa.eu/index_en.htm" target="_blank">
-	  				<area shape="rect" coords="497,0,582,73" alt="UNESCO OER" href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/what-are-open-educational-resources-oers/" target="_blank">
-
-				</map>
+			<div class="sponsor-list">
+				<ul>
+					<li><a href="http://www.iau.org" title="IAU" target="_blank"><img src="{% static 'designimages/sponsors/iau_logo.png' %}" alt="sponsor" /></a></li>
+					<li><a href="http://www.unawe.org" title="UNAWE" target="_blank"><img src="{% static 'designimages/sponsors/unawe_logo.png' %}" alt="sponsor" /></a></li>
+					<li><a href="http://www.lcogt.net" title="LCOGT" target="_blank"><img src="{% static 'designimages/sponsors/lcogt_logo.png' %}" alt="sponsor" /></a></li>
+					<li><a href="http://www.leiden.edu" title="Leiden University" target="_blank"><img src="{% static 'designimages/sponsors/uni_leiden_logo.png' %}" alt="sponsor" /></a></li>
+					<li><a href="http://ec.europa.eu/index_en.htm" title="European Commission" target="_blank"><img src="{% static 'designimages/sponsors/eu_logo.png' %}" alt="sponsor" /></a></li>
+					<li><a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/what-are-open-educational-resources-oers/" title="UNESCO OER" target="_blank"><img src="{% static 'designimages/sponsors/unesco_oer_logo.png' %}" alt="sponsor" /></a></li>
+				</ul>		
 			</div>
 		</div>
 		<div style="clear: both"></div>
