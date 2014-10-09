@@ -1,4 +1,4 @@
-/* update @goodthngs for goodthingseverywhere.com 10/2014 / Leiden */
+/* astroEDU styles by @goodthngs for goodthingseverywhere.com 10/2014 / Original styles by https://github.com/bruno-rino / Leiden */
 
 @import url("../fonts/gotham-web/font.css");
 
@@ -18,6 +18,7 @@ table{border-collapse:collapse;border-spacing:0}
 hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
 input,select{vertical-align:middle}
 
+/* base */
 body, p, td, th, ul, ol, input, textarea { font-family: 'Gotham', sans-serif; color: #666666; font-size: 14px; font-weight: 500; }
 h1, h2, h3, h4 { margin-top: 2.70em; margin-bottom: 1.35em; }
 p, ul, ol { line-height: 1.35em; }
@@ -36,20 +37,6 @@ ol { margin-left: 35px; }
 ul.unbulleted {
 	margin-left: 0px;
 }
-body {
-	background-image: url("../designimages/stars_bg.png");
-	background-position: center top;
-	background-color: #F6F6F6;
-}
-
-.top_right img, .meta_action img, img.logo {
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: #ffffff;
 }
@@ -62,7 +49,20 @@ body {
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #ffffff;
 }
+.top_right img, .meta_action img, img.logo {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
 
+/* background images */
+body {
+	background-image: url("../designimages/stars_bg.png");
+	background-position: center top;
+	background-color: #F6F6F6;
+}
 .curvy_bg {
 	height: 228px; 
 	width: 100%; 
@@ -112,8 +112,6 @@ span.close-btn {
 .body_wrap {
 	min-width: 100%; 
 }
-
-/* base */
 .layout_container {
 	margin-left: auto;
 	margin-right: auto;
@@ -133,6 +131,8 @@ span.close-btn {
 .comments {width: 630px; float: left; margin-bottom: 180px;}
 .layout_narrow img, .layout_leftcolumn img { max-width: 100%; }
 .layout_leftcolumn h1 {margin-top: 0;}
+
+/* header */
 .layout_top {
 	background-image: url("../designimages/home_top_bg.png");
 	height: 115px;
@@ -168,7 +168,6 @@ span.close-btn {
 	height: auto;	
 	padding: 64px 0 50px 0;
 }
-
 .top_right img {
   transform: scale(1);
   -webkit-transform: scale(1);

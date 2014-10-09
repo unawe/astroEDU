@@ -1,12 +1,12 @@
 {% load i18n %}{% load staticfiles %}
     <div class="featured_item">
         <div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
-        <div class="image"><a href="{{ object.get_absolute_url }}"><img src="/media/collections/thumb/{{object.slug}}.jpg"/></a></div>
+        <div class="image"><a href="{{ object.get_absolute_url }}"><img src="/media/collections/thumb/{{object.slug}}.jpg" alt="{{ object.title }}" /></a></div>
         <div class="metadata_bottom">
             <p>{{ object.description }}</p>
-            <div class="link_col"><a href="{{ object.get_absolute_url }}"><img src="{% static 'designimages/arrow_next.png' %}"/></a></div>
+            <div class="link_col"><a href="{{ object.get_absolute_url }}"><img src="{% static 'designimages/arrow_next.png' %}" alt="View activity" /></a></div>
             <div style="clear: both"></div>
         </div>
-        <div class="collection_footer"><img src="{% static 'designimages/collection_footer.png' %}"/></div>
+        <div class="collection_footer"><img src="{% static 'designimages/collection_footer.png' %}" alt=""/></div>
     </div>
 

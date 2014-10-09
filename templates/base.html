@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 {% load i18n %}{% load staticfiles %}
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="astroEDU is an open-access peer-review platform for educators to discover, review, distribute, improve, and remix the best astronomy education activities around the world.">
 <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
@@ -42,13 +43,13 @@
 	
 		<div class="top_left">
 			<a href="/">
-				<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" />
+				<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" alt="astroEDU Logo" />
 			</a>
 		</div>
 
 		<div class="top_right_search">
 			<a href="/volunteer" target="_blank">
-				<img src="{% static 'designimages/volunteer_badge.png' %}" />
+				<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" />
 			</a>
 			<div class="top_search">{% include "astroedu/search_form.html" %} </div>
 		</div>
@@ -68,7 +69,7 @@
 		<div class="meta_action">
 			
 			<div class="action_icon">
-				<a href="{% url 'activities:collections_list' %}"><img src="{% static 'designimages/bigicon_collections.png' %}"/></a>
+				<a href="{% url 'activities:collections_list' %}"><img src="{% static 'designimages/bigicon_collections.png' %}" alt="View activity collections" /></a>
 			</div>
 			
 			<div class="orange_gray_button">
@@ -84,7 +85,7 @@
 			
 			<div class="action_icon">
 				<a href="/submission/">
-					<img src="{% static 'designimages/bigicon_submit.png' %}"/>
+					<img src="{% static 'designimages/bigicon_submit.png' %}" alt="How to submit" />
 				</a>
 			</div>
 			
@@ -146,11 +147,11 @@
 		</div>
 		-->
 		<div class="footer_profiles">
-			<a href="https://www.facebook.com/iauastroedu"><img src="{% static 'designimages/sections-orange/social_facebook.png' %}"/></a>
+			<a href="https://www.facebook.com/iauastroedu"><img src="{% static 'designimages/sections-orange/social_facebook.png' %}" alt="astroEDU on Facebook" /></a>
 			&nbsp;
-			<a href="http://gplus.to/astroEDU"><img src="{% static 'designimages/sections-orange/social_google.png' %}"/></a>
+			<a href="http://gplus.to/astroEDU"><img src="{% static 'designimages/sections-orange/social_google.png' %}" alt="astroEDU on Google+" /></a>
 			&nbsp;
-			<a href="https://twitter.com/IAUastroEDU"><img src="{% static 'designimages/sections-orange/social_twitter.png' %}"/></a>
+			<a href="https://twitter.com/IAUastroEDU"><img src="{% static 'designimages/sections-orange/social_twitter.png' %}" alt="astroEDU on Twitter" /></a>
 		</div>
 	</div></div>
 

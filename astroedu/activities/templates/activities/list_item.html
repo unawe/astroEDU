@@ -6,12 +6,12 @@
        
         <div class="metadata">
             DATE: <b style="bold">{{ object.release_date|date:"Y-m-d" }}</b>
-            <a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/metaseparator.png' %}"/></a>
+            <a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/metaseparator.png' %}" alt="" /></a>
             BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
         </div>
 
         <div class="description">
-            {% if object.main_visual %}<img src="/media/activities/thumb/{{object.slug}}.jpg"/>{% endif %}
+            {% if object.main_visual %}<img src="/media/activities/thumb/{{object.slug}}.jpg" alt="{{object.title}}" />{% endif %}
             <div class="list_item_short">{{ object.teaser }}</div>
         </div>
 
@@ -23,7 +23,7 @@
             </div>
 
             <div class="feat_col">
-                <img src="/static/designimages/sections-grey/age.png" />
+                <img src="/static/designimages/sections-grey/age.png" alt="" />
             </div>
            
             <div class="feat_col">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="feat_col">
-                <img src="/static/designimages/sections-grey/time.png" />
+                <img src="/static/designimages/sections-grey/time.png" alt="" />
             </div>
                 
             <div class="feat_col">
@@ -41,7 +41,7 @@
             </div>
             <div class="link_col">
                 <a href="{% url 'activities:detail' object.slug %}">
-                    <img src="{% static 'designimages/arrow_next.png' %}" />
+                    <img src="{% static 'designimages/arrow_next.png' %}" alt="View activity" />
                 </a>
             </div>
             <div style="clear: both"></div>
