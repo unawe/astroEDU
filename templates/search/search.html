@@ -3,26 +3,6 @@
 {% load highlight %}
 {% load staticfiles %}
 
-{% block extra_css %}
-<style type="text/css">
-.layout_container > .layout_rightcolumn {
-    margin-left: 150px;
-    width: 268px;
-}
-
-.facet .title_text {
-    font-size: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-.facet .content {
-    margin: 10px;
-    font-size: 12px;
-    font-weight: bold;    
-}
-
-</style>
-{% endblock %}
 {% block site_title %} Search results | astroEDU {% endblock %}
 
 {% block content %}
@@ -35,7 +15,7 @@
         {% for result in page.object_list %}
             <!--{{ result.score|floatformat:2}}--> {% include 'activities/list_item.html' with object=result.object %}
         {% empty %}
-            <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" /> No results found!</p>
+            <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" alt="" /> No results found!</p>
         {% endfor %}
 
          {% if page.has_previous or page.has_next %}
@@ -48,7 +28,7 @@
     </div>
 
     {% else %}
-    <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" /> No results found!</p>
+    <p class="notfound"><img src="{% static 'designimages/search_notfound.png' %}" alt="" /> No results found!</p>
     {% endif %}
 
 

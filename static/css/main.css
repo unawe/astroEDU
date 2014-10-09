@@ -421,6 +421,16 @@ button.search_btn {
     cursor: default !important;
     float: left;
 }
+.facet .title_text {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+.facet .content {
+    margin: 10px;
+    font-size: 12px;
+    font-weight: bold;    
+}
 
 /* home */
 .layout_search #search-form {
