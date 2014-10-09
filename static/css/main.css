@@ -73,6 +73,42 @@ body {
 	background-image: url("../designimages/curvy_bg.png"); 
 	background-repeat: no-repeat;
 }
+
+
+/* cookie policy */
+#cookie-policy {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #faaf3f;
+	height: 40px;
+	display: inline-block;
+	z-index: 123456;
+	margin-bottom: -50px;
+}
+#cookie-policy p, #cookie-policy a {
+	color: white !important;
+	font-size: 12px;
+	margin: 12px 0 0 0;
+}
+#cookie-policy a { 
+	text-decoration: underline;
+}
+span.close-btn {
+	border-radius: 50%;
+	height: 13px;
+	width: 9px;
+	background: white;
+	float: right;
+	color: #faaf3f;
+	padding: 4px 7px 5px 6px;
+	margin-top: -3px;
+	font-weight: 900;
+	cursor: pointer !important;
+}
+
+/* grid */
 .body_wrap {
 	min-width: 100%; 
 }
