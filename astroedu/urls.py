@@ -3,7 +3,23 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.contrib import admin
+from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
+from astroedu.activities.models import Activity, Collection
 # import markupmirror.urls
+
+# generate sitemap
+activity_list = {
+    'queryset': Activity.objects.all(),
+    'date_field': 'published',
+}
+collection_list = {
+    'queryset': Collection.objects.all(),
+}
+sitemaps = {
+    'flatpages': FlatPageSitemap,
+    'activities': GenericSitemap(activity_list, priority=0.7),
+    'collections': GenericSitemap(collection_list, priority=0.6),
+}
 
 # enable the admin:
 admin.autodiscover()
@@ -25,6 +41,8 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/history/', include('djangoplicity.adminhistory.urls', namespace="adminhistory_site", app_name="history" )),
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )
 
 if settings.DEBUG:
