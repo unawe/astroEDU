@@ -660,10 +660,11 @@ button.search_btn {
 .admin-toolbar {
 	border: solid thin darkgray;
 	margin: 4px;
-	padding: 2px;
+	padding: 5px;
+	background: white;
 }
 .admin-toolbar .archival {
-	background-color: beige;
+	padding: 5px 0 0 0;
 }
 .admin-toolbar .archival_private {
 	background-color: darksalmon;
