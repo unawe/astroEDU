@@ -1,0 +1,115 @@
+/* admin customisation @goodthngs */
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+td, th, li, dt, dd, form .form-row p, label, a.active.selector-chooseall, a.active.selector-clearall {
+    font-size: 13px !important;
+}
+td, th {
+    padding: 6px 9px !important;
+}
+.addlink, .changelink {
+    padding-left: 20px;
+}
+#header {
+    background: #ebebeb;
+    color: #6c6c70 !important;
+    padding-top: 10px;
+}
+#header .logo {
+    width: 150px;
+    height: auto;
+    margin: 0 10px 0 15px;
+    float:left;
+}
+#header a {
+    color: #000 !important;
+    text-decoration: underline;
+}
+#branding h1 {
+    color: #6c6c70 !important;
+    font-size: 18px;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    padding: 5px 10px !important;
+    background: #6c6c70 !important;
+    color: #faaf3f !important;
+    font-size: 13px !important;
+}
+#content-related .module h2, .selector .selector-available h2 {
+    background: #6c6c70 !important;
+}
+
+a.section:link, a.section:visited {
+    color: #faaf3f !important;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default, .button, input[type=submit], input[type=button], .submit-row input, a.deletelink:link, a.deletelink:visited {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+#user-tools {margin-right: 15px;}
+.submit-row input {
+    margin: 4px 0 0 5px !important;
+}
+a.deletelink:link, a.deletelink:visited {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.submit-row {
+    background: #6c6c70 !important;
+}
+
+#login-form .submit-row {
+    background: white !important; 
+}
+#login-form .submit-row input {
+    background: #faaf3f !important;
+    color: white;
+    margin: 0 !important;
+}
+#login-form .submit-row label {
+    display: none;
+}
+.login .submit-row {
+    margin: 1em 0 0 -10px !important;
+}
+
+input[type=text], input[type=password], textarea, select, .vTextField {
+    min-width: 150px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
