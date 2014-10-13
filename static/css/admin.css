@@ -12,6 +12,7 @@ td, th, li, dt, dd, form .form-row p, label, a.active.selector-chooseall, a.acti
 }
 td, th {
     padding: 6px 9px !important;
+    vertical-align: text-bottom;
 }
 .addlink, .changelink {
     padding-left: 20px;
