@@ -285,7 +285,7 @@ class Collection(ArchivalModel):
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
-        return reverse('activities:collections_detail', args=[self.slug])
+        return reverse('collections:detail', args=[self.slug])
 
     class Meta(ArchivalModel.Meta):
         pass

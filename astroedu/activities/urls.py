@@ -7,7 +7,5 @@ urlpatterns = patterns('',
     url(r'^all/$', views.list, name='list'),
     #url(r'^(?P<activity_slug>\w*\d{4})/epub$', views.epub, name='epub'),
     # url(r'^(?P<collection_slug>\w+)/$', views.collections_detail, name='collections_detail'),  # otherwise --> it's a collection
-    url(r'^collections/$', views.collections_list),
-    url(r'^collections/(?P<collection_slug>[a-zA-Z0-9-]+)/$', views.collections_detail, name='collections_detail'), 
     url(r'^(?P<activity_slug>[a-zA-Z0-9-]+)/$', views.detail, name='detail'),
 )

@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^$', 'astroedu.views.home', name='home'),
     url(r'^tests/', include('astroedu.tests.urls', namespace='tests')),
     url(r'^activities/', include('astroedu.activities.urls', namespace='activities')),
+    url(r'^collections/', include('astroedu.activities.urls_collections', namespace='collections')),
 
 
     # url(r'^search/', include('haystack.urls')),
@@ -49,9 +50,10 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^500/$', TemplateView.as_view(template_name="500.html")),
         (r'^404/$', TemplateView.as_view(template_name="404.html")),
-        # redirects (use nginx.conf for production)
+        # redirects (use nginx rewrite for production)
         url(r'^blog/?$', lambda x: HttpResponseRedirect('http://medium.com/@IAUastroEDU')),
         url(r'^volunteer/?$', lambda x: HttpResponseRedirect('https://unawe.typeform.com/to/UIBI5e')),
+        url(r'^collections/?$', lambda x: HttpResponseRedirect('/activities/')),
     )
 
 
