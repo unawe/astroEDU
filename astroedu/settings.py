@@ -134,6 +134,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -159,6 +160,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
     'django.contrib.sitemaps',
+    'django.contrib.redirects',
 
     'south',
 
@@ -286,7 +288,7 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
+    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
     EMAIL_SUBJECT_PREFIX = '[ASTROEDU_DEV] '
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':

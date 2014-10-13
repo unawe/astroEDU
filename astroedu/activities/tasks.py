@@ -14,12 +14,12 @@ from astroedu.activities import pdfrenderer, utils, markdown_utils
 
 @task()
 def make_thumbnail(obj):
-    if obj.main_visual():
-        filename = obj.main_visual().file.name
+    if obj.main_visual:
+        filename = obj.main_visual.file.name
         # print os.path.basename(filename)
         # print os.path.dirname(filename)
         folder = os.path.join(settings.MEDIA_ROOT, obj.media_key())
-        processimage(filename, obj.slug, folder, obj.media_key())
+        processimage(filename, obj.code, folder, obj.media_key())
 
 @task()
 def zip_attachments(obj):
@@ -40,7 +40,7 @@ def make_epub(obj):
     html = template.render(Context({'object': obj, }))
     html = markdown_utils.markdown_clean(html)
 
-    cover = os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'epubcover', obj.slug + '.jpg')
+    cover = os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'epubcover', obj.code + '.jpg')
     if not os.path.isfile(cover):
         cover = os.path.join(EPUB_ASSETS_ROOT, 'default_cover.jpg')
     doc.files = [('images/cover.jpg', cover, None), ]
@@ -50,12 +50,13 @@ def make_epub(obj):
         doc.files.append((local, full, None))
 
     html = html.replace(settings.MEDIA_URL, '')
-    doc.files.append(('%s.xhtml' % obj.slug, None, html))
+    doc.files.append(('%s.xhtml' % obj.code, None, html))
 
     doc.metadata = {
         'title': obj.title,
         'author': obj.author.name,
-        'book_id': 'http://astroedu.iau.org/activity/%s' % obj.slug,
+        'description': obj.teaser,
+        'book_id': 'http://astroedu.iau.org%s' % obj.get_absolute_url(),
         'book_id_type': 'URI',
         'language': 'en',
     }
@@ -72,5 +73,5 @@ def add(x, y):
     return x + y
 
 def downfile(obj, ext):
-    return os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'download', obj.slug + '.' + ext)
+    return os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'download', obj.download_key() + '.' + ext)
 

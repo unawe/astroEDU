@@ -10,7 +10,7 @@ from astroedu.activities.models import Activity, Collection
 # generate sitemap
 activity_list = {
     'queryset': Activity.objects.all(),
-    'date_field': 'published',
+    # 'date_field': 'published',
 }
 collection_list = {
     'queryset': Collection.objects.all(),

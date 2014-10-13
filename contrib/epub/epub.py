@@ -129,6 +129,7 @@ class Document(object):
         metadata_tpl = u'''    <dc:title>%(title)s</dc:title>
             <dc:identifier id="BookId" opf:scheme="%(book_id_type)s">%(book_id_scheme)s%(book_id)s</dc:identifier>
             <dc:creator opf:role="aut">%(author)s</dc:creator>
+            <dc:description>%(description)s</dc:description>
             <meta name="cover" content="%(cover)s" />
         '''
         metadata_opt = {

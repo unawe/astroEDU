@@ -1,7 +1,7 @@
 {% load i18n %}{% load staticfiles %}
     <div class="featured_item">
         <div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
-        <div class="image"><a href="{{ object.get_absolute_url }}"><img src="/media/collections/thumb/{{object.slug}}.jpg" alt="{{ object.title }}" /></a></div>
+        <div class="image"><a href="{{ object.get_absolute_url }}"><img src="/media/collections/thumb/{{object.code}}.jpg" alt="{{ object.title }}" /></a></div>
         <div class="metadata_bottom">
             <p>{{ object.description }}</p>
             <div class="link_col"><a href="{{ object.get_absolute_url }}"><img src="{% static 'designimages/arrow_next.png' %}" alt="View activity" /></a></div>

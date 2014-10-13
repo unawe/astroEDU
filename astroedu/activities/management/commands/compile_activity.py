@@ -5,7 +5,7 @@ from astroedu.activities.models import Activity
 from astroedu.activities import tasks
 
 class Command(BaseCommand):
-    args = '<activity_slug activity_slug...>'
+    args = '<activity_code activity_code...>'
     option_list = BaseCommand.option_list + (
         make_option('--pdf',
             action='store_true',
@@ -49,20 +49,20 @@ class Command(BaseCommand):
         
         elif len(args) == 1 and args[0] == 'all':
             self.stdout.write('Generating downloads for all activities')
-            for activity in Activity.objects.all():
-                self.stdout.write('Activity "%s"... ' % activity.slug, ending='')
+            for activity in Activity.objects.all_super():
+                self.stdout.write('Activity "%s"... ' % activity.code, ending='')
                 _generate_downloads(activity, options)
                 self.stdout.write('done.')
         
         else:
-            for activity_slug in args:
+            for activity_code in args:
                 try:
-                    activity = Activity.objects.get(slug=activity_slug)
+                    activity = Activity.objects.get(code=activity_code)
                 except Activity.DoesNotExist:
-                    raise CommandError('Activity "%s" does not exist' % activity_slug)
+                    raise CommandError('Activity "%s" does not exist' % activity_code)
 
                 _generate_downloads(activity, options)
-                self.stdout.write('Successfully generated downloads for activity "%s"' % activity_slug)
+                self.stdout.write('Successfully generated downloads for activity "%s"' % activity_code)
 
 
 def _generate_downloads(activity, options):

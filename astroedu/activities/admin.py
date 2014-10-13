@@ -73,11 +73,11 @@ class ActivityAdminForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ActivityAdminForm, self).clean()
-        slug = cleaned_data.get('slug')
+        code = cleaned_data.get('code')
         age = cleaned_data.get('age')
         level = cleaned_data.get('level')
-        if not re.match('^\w*\d{4}$', slug):
-            raise forms.ValidationError(_(u'The slug should be in the format: astroeduYY##'))
+        if not re.match('^\w*\d{4}$', code):
+            raise forms.ValidationError(_(u'The code should be four digits, in the format: YY##'))
         if not age and not level:
             raise forms.ValidationError(_(u'Please fill in at least one of these fields: "Age", "Level"'))
         return cleaned_data
@@ -90,9 +90,10 @@ class ActivityAdmin(CounterAdmin):
     view_link.allow_tags = True
 
     counted_fields = ('teaser', )
-    
+    prepopulated_fields = {"slug": ("title",)}
+
     form = ActivityAdminForm
-    list_display = ('slug', 'title', 'author', 'institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'author', 'institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
@@ -102,7 +103,7 @@ class ActivityAdmin(CounterAdmin):
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
     
     fieldsets = [
-        (None, {'fields': ('slug', 'title', 'author', 'institution', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
+        (None, {'fields': ('code', 'title', 'slug', 'author', 'institution', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
         # ('Publishing', {'fields': ('published', ('release_date', 'embargo_date'), ), }),
@@ -156,6 +157,8 @@ class CollectionAdminForm(forms.ModelForm):
 class CollectionAdmin(admin.ModelAdmin):
     form = CollectionAdminForm
 
+    prepopulated_fields = {"slug": ("title",)}
+
     def view_link(self, obj):
         return u"<a href='%s'>View</a>" % obj.get_absolute_url()
     view_link.short_description = ''
@@ -167,7 +170,7 @@ class CollectionAdmin(admin.ModelAdmin):
     thumb_embed.short_description = 'Thumbnail'
     thumb_embed.allow_tags = True
 
-    list_display = ('slug', 'title', 'thumb_embed', 'view_link', )
+    list_display = ('title', 'slug', 'thumb_embed', 'view_link', )
 
     filter_horizontal = ['activities']
 

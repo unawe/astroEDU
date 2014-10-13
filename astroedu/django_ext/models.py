@@ -97,13 +97,13 @@ class MediaAttachedModel(models.Model):
         return unicode(self._meta.verbose_name_plural)
 
     def thumb(self):
-        if self.main_visual():
-            return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', self.slug + '.jpg')
-            # return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', os.path.basename(self.main_visual().file.file.name))
+        if self.main_visual:
+            return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', self.code + '.jpg')
+            # return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', os.path.basename(self.main_visual.file.file.name))
 
     def media_url(self, resource):
-        if self.main_visual():
-            return os.path.join(settings.MEDIA_URL, self.media_key(), resource, self.slug + '.jpg')
+        if self.main_visual:
+            return os.path.join(settings.MEDIA_URL, self.media_key(), resource, self.code + '.jpg')
 
     class Meta:
         abstract = True

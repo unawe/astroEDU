@@ -3,8 +3,10 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.db.models.signals import post_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
+from django.contrib.redirects.models import Redirect
+from django.contrib.sites.models import Site
 # from tinymce.models import HTMLField
 # from markupfield.fields import MarkupField
 # from markupmirror.fields import MarkupMirrorField
@@ -72,6 +74,7 @@ class Institution(MediaAttachedModel):
     class Meta:
         ordering = ['name']
 
+    @property
     def main_visual(self):
         return self.logo.file if self.logo else None
 
@@ -98,7 +101,8 @@ class Author(models.Model):
 
 class Activity(ArchivalModel, TranslationModel):
 
-    slug = models.SlugField(unique=True, db_index=True, help_text=_(u'Slug identifies the Activity; it is used as part of the URL. Use the following format: astroeduYY## (YY=year, ##=number).'))
+    code = models.CharField(unique=True, max_length=4, help_text=_(u'Slug identifies the Activity; .'))
+    slug = models.SlugField(unique=True, max_length=255, help_text=_(u'The Slug must be unique, and closely match the title for better SEO; it is used as part of the URL.'))
     uuid = UUIDField(editable=False)
 
     title = models.CharField(max_length=255, db_index=True, help_text=_(u'Title is shown in browser window. Use a good informative title, since search engines normally display the title on their result pages.'))
@@ -111,23 +115,14 @@ class Activity(ArchivalModel, TranslationModel):
     doi = models.CharField(blank=True, max_length=50, verbose_name='DOI', help_text=_(u'Digital Object Identifier, in the format XXXX/YYYY. See http://www.doi.org/'))
     ''' Digital Object Identifier '''
 
-    # age = models.CharField(blank=True, max_length=10, help_text=_(u'Use the format min_age > max_age, or min_age+'))
     age = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'age'}, related_name='age+', blank=True, null=True, )
-    # level = models.CharField(blank=True, max_length=10, choices=LEVEL_CHOICES, help_text=_(u'Specify at least one of "Age" and "Level"'))
     level = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'level'}, related_name='level+', blank=True, null=True, help_text=_(u'Specify at least one of "Age" and "Level". '), )
-    # time = models.CharField(blank=False, max_length=10, choices=TIME_CHOICES)
     time = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'time'}, related_name='+', blank=False, null=False, )
-    # group = models.CharField(blank=True, max_length=10, choices=GROUP_CHOICES)
     group = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'group'}, related_name='+', blank=True, null=True, )
-    # supervised = models.CharField(blank=True, max_length=12, choices=SUPERVISED_CHOICES)
     supervised = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'supervised'}, related_name='+', blank=True, null=True, )
-    # cost = models.CharField(blank=True, max_length=10, choices=COST_CHOICES)
     cost = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'cost'}, related_name='+', blank=True, null=True, )
-    # location = models.CharField(blank=True, max_length=10, choices=LOCATION_CHOICES)
     location = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'location'}, related_name='+', blank=True, null=True, )
-    # skills = models.CharField(blank=True, max_length=30, verbose_name=u'core skills', choices=SKILLS_CHOICES)
     skills = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'skills'}, related_name='skills+', blank=True, null=True, verbose_name=u'core skills', )
-    # learning = models.CharField(blank=False, max_length=30, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'), choices=LEARNING_CHOICES)
     learning = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'learning'}, related_name='+', blank=False, null=False, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'), )
 
     theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
@@ -171,6 +166,7 @@ class Activity(ArchivalModel, TranslationModel):
         age_ranges = [obj.title for obj in self.age.all()]
         return utils.beautify_age_range(age_ranges)
 
+    @property
     def main_visual(self):
         images = self.attachment_set.filter(main_visual=True)
         if images:
@@ -197,13 +193,16 @@ class Activity(ArchivalModel, TranslationModel):
         if rtf:
             pass
 
+    def download_key(self):
+        return self.slug + '-astroEDU-' + self.code
+
     # def save(self, *args, **kwargs):
     #     super(Activity, self).save(*args, **kwargs)
     #     tasks.make_thumbnail.delay(self)
     #     self.generate_downloads()
 
     def __unicode__(self):
-        return u'%s - %s' % (self.slug, self.title)
+        return u'%s - %s' % (self.code, self.title)
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
@@ -214,10 +213,31 @@ class Activity(ArchivalModel, TranslationModel):
         verbose_name_plural = 'activities'
 
 
+@receiver(pre_save, sender=Activity)
+def activity_pre_save(sender, instance, **kwargs):
+    if instance.pk:
+        old = Activity.objects.get(pk=instance.pk)
+        redirect_activity(old, instance)
+
 @receiver(post_save, sender=Activity)
 def activity_post_save(sender, instance, **kwargs):
     tasks.make_thumbnail.delay(instance)
     instance.generate_downloads()
+
+def redirect_activity(old, new):
+    if old.slug != new.slug:
+        current_site = Site.objects.get_current()
+
+        # new redirect
+        r = Redirect()
+        r.site = current_site
+        r.old_path = old.get_absolute_url()
+        r.new_path = new.get_absolute_url()
+        r.save()
+
+        #update any old redirects
+        for r in Redirect.objects.filter(new_path=old.get_absolute_url()):
+            r.new_path = new.get_absolute_url()
 
 
 class Attachment(models.Model):
@@ -242,12 +262,17 @@ class Attachment(models.Model):
 
 
 class Collection(ArchivalModel):
-    slug = models.SlugField(unique=True, db_index=True, help_text=_(u'Slug identifies the Collection; it is used as part of the URL. Use only lowercase characters.'))
     title = models.CharField(blank=False, max_length=255)
+    slug = models.SlugField(unique=True, db_index=True, help_text=_(u'Slug identifies the Collection; it is used as part of the URL. Use only lowercase characters.'))
     description = models.TextField(blank=True, verbose_name='brief description', )
     activities = models.ManyToManyField(Activity, related_name='+', blank=True, null=True, )
     image = models.ForeignKey(ManagedFile, null=True)
 
+    @property
+    def code(self):
+        return self.slug
+
+    @property
     def main_visual(self):
         return self.image.file if self.image else None
 

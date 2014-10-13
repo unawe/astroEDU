@@ -10,7 +10,7 @@
 {% block extra_css %}
 <meta property="og:title" content="{{object.title}}" />
 <meta property="og:description" content="{{object.teaser}}" />
-<meta property="og:image" content="http://astroedu.iau.org/media/activities/thumb/{{object.slug}}.jpg" />
+<meta property="og:image" content="http://astroedu.iau.org/media/activities/thumb/{{object.code}}.jpg" />
 {% endblock %}
 
 {% block content %}
@@ -82,16 +82,16 @@
 			{% endfor %}
 			{% if object.attachment_list|length > 1 %}
 			<div class="title_text">All Attachments</div>
-			<div class="content"><img src="{% static 'designimages/attachment_all_icon.png' %}" alt="" /><a href="/media/activities/download/{{object.slug}}.zip" target="_blank">All attachments</a></div>
+			<div class="content"><img src="{% static 'designimages/attachment_all_icon.png' %}" alt="" /><a href="/media/activities/download/{{object.download_key}}.zip" target="_blank">All attachments</a></div>
 			{% endif %}
 		</div>
 		{% endif %}
 		<div class="section_meta_2 orange">
 			<div class="title_text">Downloads</div>
 			<div class="icon">
-				<a href="/media/activities/download/{{object.slug}}.pdf"><img title="PDF" src="{% static 'designimages/sections-orange/file_pdf.png' %}" alt="" /></a>
-				{# <a href="/media/activities/download/{{object.slug}}.rtf"><img title="RTF" src="{% static 'designimages/sections-orange/file_rtf.png' %}" alt="" /></a> #}
-				<a href="/media/activities/download/{{object.slug}}.epub"><img title="ePUB" src="{% static 'designimages/sections-orange/file_epub.png' %}" alt="" /></a>
+				<a href="/media/activities/download/{{object.download_key}}.pdf"><img title="PDF" src="{% static 'designimages/sections-orange/file_pdf.png' %}" alt="" /></a>
+				{# <a href="/media/activities/download/{{object.download_key}}.rtf"><img title="RTF" src="{% static 'designimages/sections-orange/file_rtf.png' %}" alt="" /></a> #}
+				<a href="/media/activities/download/{{object.download_key}}.epub"><img title="ePUB" src="{% static 'designimages/sections-orange/file_epub.png' %}" alt="" /></a>
 			</div>
 		</div>
 		<div class="section_meta_2 grey">
@@ -133,7 +133,7 @@ var addthis_share = {
 		<div class="section_meta_2 grey">
 			<div class="title_text">Citation</div>
 			<div class="icon">
-				{{object.author.citable_name}}, {{object.release_date|date:"Y"}}, <i>{{object.title}}</i>, <a href="{{object.get_absolute_url}}">astroEDU, {{object.slug}}</a>{% if object.doi %}, <a href="http://dx.doi.org/{{object.doi}}"> doi:{{object.doi}}</a>{% endif %}
+				{{object.author.citable_name}}, {{object.release_date|date:"Y"}}, <i>{{object.title}}</i>, <a href="{{object.get_absolute_url}}">astroEDU, {{object.code}}</a>{% if object.doi %}, <a href="http://dx.doi.org/{{object.doi}}"> doi:{{object.doi}}</a>{% endif %}
 			</div>
 		</div>
 

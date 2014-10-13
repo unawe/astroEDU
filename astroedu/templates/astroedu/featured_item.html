@@ -7,7 +7,7 @@
 			<!-- <img src="{% static 'designimages/metaseparator.png' %}"/></a> --><br/>
 			BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
 		</div>
-		<div class="image"><a href="{% url 'activities:detail' object.slug %}"><img src="/media/activities/thumb/{{object.slug}}.jpg" alt="{{ object.title }} Activity" /></a></div>
+		<div class="image"><a href="{% url 'activities:detail' object.slug %}"><img src="/media/activities/thumb/{{object.code}}.jpg" alt="{{ object.title }} Activity" /></a></div>
 
 		<div class="description"><p>{{ object.teaser }}</p></div>
 		<div class="metadata_bottom">
