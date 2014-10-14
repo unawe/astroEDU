@@ -7,8 +7,8 @@ class Command(BaseCommand):
     help = 'Generate thumnails for all activity objects'
 
     def handle(self, *args, **options):
-        for activity in Activity.objects.all():
-            self.stdout.write('Activity "%s"... ' % activity.slug, ending='')
+        for activity in Activity.objects.all_super():
+            self.stdout.write('Activity "%s"... ' % activity.code, ending='')
             tasks.make_thumbnail(activity)
             self.stdout.write('done.')
         for collection in Collection.objects.all():
@@ -19,4 +19,4 @@ class Command(BaseCommand):
             self.stdout.write('Institution "%s"... ' % institution.slug, ending='')
             tasks.make_thumbnail(institution)
             self.stdout.write('done.')
-			
+
