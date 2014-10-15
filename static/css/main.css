@@ -621,6 +621,7 @@ button.search_btn {
 	padding-top: 20px;
 	width: 75%;
 	height: auto;
+	max-height: 120px;
 }
 .contact-content {
 	width: 55%;
