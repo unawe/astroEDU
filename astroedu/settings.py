@@ -185,6 +185,9 @@ INSTALLED_APPS = (
     # Search
     'haystack',
 
+    # Script concatenation
+    'pipeline',
+
     'astroedu',
     'astroedu.tests',
     'astroedu.activities',
@@ -238,6 +241,31 @@ LOGGING = {
 BROKER_URL = 'redis://localhost:6379/0'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+# Pipeline
+PIPELINE_ENABLED = True 
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
+PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
+PIPELINE_CSS = {
+    'styles': {
+        'source_filenames': (
+          'css/main.css',
+        ),
+        'output_filename': 'css/astroedu.min.css',
+        'extra_context': {
+            'media': 'screen',
+        },
+    },
+}
+PIPELINE_JS = {
+    'scripts': {
+        'source_filenames': (
+          'js/jquery.js',
+          'js/scripts.js'
+        ),
+        'output_filename': 'js/astroedu.min.js',
+    }
+}
 
 HAYSTACK_CONNECTIONS = {
     'default': {
