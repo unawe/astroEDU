@@ -1,6 +1,100 @@
 /* astroEDU styles by @goodthngs for goodthingseverywhere.com 10/2014 / Original styles by https://github.com/bruno-rino / Leiden */
 
-@import url("../fonts/gotham-web/font.css");
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamBold.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamBold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamBold.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamBold.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamBold.svg#4b05af1f343b473876284bf412b923ab') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  900;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamBold-Italic.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamBold-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamBold-Italic.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamBold-Italic.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamBold-Italic.svg#bb194a57758ada0a8b047fc8c3107b1c') format('svg'); /* Legacy iOS */
+       
+  font-style:   italic;
+  font-weight:  900;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamBook.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamBook.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamBook.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamBook.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamBook.svg#65526539dec42e535893223c14767f58') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  500;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamBook-Italic.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamBook-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamBook-Italic.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamBook-Italic.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamBook-Italic.svg#9374ccf478135e3fa918b68162615601') format('svg'); /* Legacy iOS */
+       
+  font-style:   italic;
+  font-weight:  500;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamLight.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamLight.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamLight.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamLight.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamLight.svg#0fdc6c734a7ca54436fb28af9ab2f202') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  400;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamLight-Italic.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamLight-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamLight-Italic.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamLight-Italic.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamLight-Italic.svg#7c7b7df3fe0d875efbd8eb215c876786') format('svg'); /* Legacy iOS */
+       
+  font-style:   italic;
+  font-weight:  400;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamMedium.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamMedium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamMedium.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamMedium.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamMedium.svg#0fbe3a09622d8fb1f474f00917396ba1') format('svg'); /* Legacy iOS */
+       
+  font-style:   normal;
+  font-weight:  700;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('../fonts/gotham-web/GothamMedium-Italic.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/gotham-web/GothamMedium-Italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/gotham-web/GothamMedium-Italic.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/gotham-web/GothamMedium-Italic.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/gotham-web/GothamMedium-Italic.svg#7bdc30b0fe874bdf7aea16ca74c4a8fd') format('svg'); /* Legacy iOS */
+       
+  font-style:   italic;
+  font-weight:  700;
+}
 
 /* minified reset */
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
