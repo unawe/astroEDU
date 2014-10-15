@@ -8,7 +8,9 @@ from astroedu.activities.models import Activity, Collection #, Richtext
 
 def list(request):
     # lst = Activity.objects.all()  #.order_by('-pub_date')[:5]
-    lst = get_list_or_404(Activity, user=request.user)
+    lst = get_list_or_404(Activity, user=request.user, order_by='-release_date')
+    #.order_by('-release_date')
+    print type(lst)
     # lst = Activity.objects.featured()  #.order_by('-pub_date')[:5]
     return render(request, 'activities/list.html', {'object_list': lst, })
 
