@@ -209,7 +209,7 @@ class Activity(ArchivalModel, TranslationModel):
         return reverse('activities:detail', args=[self.slug])
 
     class Meta(ArchivalModel.Meta):
-        ordering = ['-slug']
+        ordering = ['-code']
         verbose_name_plural = 'activities'
 
 
