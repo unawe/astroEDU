@@ -242,7 +242,6 @@ BROKER_URL = 'redis://localhost:6379/0'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Pipeline
-PIPELINE_ENABLED = True 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
@@ -325,6 +324,7 @@ elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DATABASES['default']['PASSWORD'] = secrets.DATABASE_PASSWORD_PROD
     STATIC_ROOT = '/home/web/astroEDU_static/'
     MEDIA_ROOT = '/home/web/astroEDU_uploads/'
+    # PIPELINE_ENABLED = True 
 
 else:
     if DJANGO_SETTINGS_CONFIG:
