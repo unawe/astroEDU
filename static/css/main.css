@@ -712,10 +712,9 @@ button.search_btn {
 	border-bottom: 2px solid #fce3c4;
 }
 .contact-thumb img {
-	padding-top: 20px;
-	width: 75%;
-	height: auto;
-	max-height: 120px;
+	padding: 20px 0 0 20px;
+	width: auto !important;
+	height: 120px;
 }
 .contact-content {
 	width: 55%;
@@ -771,8 +770,9 @@ button.search_btn {
 .notfound img {
     padding-left: 20px;
     padding-right: 20px;
-    min-width: 100px;
-	margin-bottom: 10px;
+    width: 100px;
+    margin-bottom: 10px;
+    height: auto !important;
 }
 
 /* media queries */
@@ -795,9 +795,6 @@ button.search_btn {
 	.layout_container > .layout_leftcolumn p img, 	.layout_container > .layout_flatpage p img {
 		width: 100%;
 		height: auto !important;
-	}
-	.layout_container > .layout_leftcolumn p.notfound img {
-		width: inherit !important;
 	}
 	.activity_detail .section .title .title_text {
 		width: 80%;
