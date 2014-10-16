@@ -16,7 +16,7 @@
 {% block content %}
 
 {% if user.is_staff %}
-<div class="admin-toolbar">
+<div class="admin-toolbar{% if not object.is_visible%} unpublished{% endif %}">
     {% if object %}
 	<div class"modeladmin">
 		<a href="{{ object.get_admin_change_url }}">Edit</a> |
@@ -26,7 +26,7 @@
 		<a href="{{ object.get_admin_changelist_url }}">Manage {{ object.get_verbose_name_plural }}</a>
 	</div>
     {% endif %}
-    <div class="archival{% if not object.is_visible%}_private{% endif %}">
+    <div class="archival">
     	is_visible: {{ object.is_visible }} |
     	published: {{ object.published }} |
     	release_date: {{ object.release_date }} |
