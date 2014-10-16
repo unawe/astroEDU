@@ -167,6 +167,9 @@ body {
 	background-image: url("../designimages/curvy_bg.png"); 
 	background-repeat: no-repeat;
 }
+.unpublished {
+  background: repeating-linear-gradient(45deg, #fff, #fff 20px, #eee 20px, #eee 40px) !important;
+}
 
 
 /* cookie policy */
