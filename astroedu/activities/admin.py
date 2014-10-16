@@ -110,7 +110,6 @@ class ActivityAdmin(CounterAdmin):
         ('Description', {'fields': ('theme', 'teaser', 'description', 'keywords', 'materials', 'goals', 'objectives', 'background', )}),
         (None, {'fields': ('fulldesc', )}),
         (None, {'fields': ('conclusion', 'additional_information', 'evaluation', 'curriculum', )}),
-
     ]
     readonly_fields = ('is_visible', )
     # richtext_fields = ('description', 'materials', 'objectives', 'background', 'fulldesc_intro', 'fulldesc_outro', 'additional_information', 'evaluation', 'curriculum', 'credit', )
@@ -172,6 +171,12 @@ class CollectionAdmin(admin.ModelAdmin):
 
     list_display = ('title', 'slug', 'thumb_embed', 'view_link', )
 
+    fieldsets = [
+        (None, {'fields': ('title', 'slug', )}),
+        ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
+        ('Contents', {'fields': ('description', 'image', 'activities', )}),
+
+    ]
     filter_horizontal = ['activities']
 
 
