@@ -394,6 +394,15 @@ span.close-btn img {
 .featured_item:nth-child(3n) {
   margin-right: 0 !important;
 }
+.all_activities a {
+  font-size: 26px;
+  font-weight: 900;
+  margin-top: 80px;
+  display: inline-block;
+}
+.all_activities img {
+  margin-left: 10px;
+}
 .list_item {
   width: 100%;
   margin-bottom: 50px;
