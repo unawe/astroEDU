@@ -3,7 +3,7 @@ import os
 import markdown
 import urllib
 
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 
 from django.conf import settings
 
