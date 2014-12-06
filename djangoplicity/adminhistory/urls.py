@@ -40,7 +40,7 @@ Include in your projects ``urls.py`` as e.g.::
     )
 """
 
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url, patterns
 from djangoplicity.adminhistory.views import adminhistory_view
 
 urlpatterns = patterns( '',

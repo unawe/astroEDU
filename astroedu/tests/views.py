@@ -46,4 +46,7 @@ def debug_request(request):
         json_data = json.loads(request.POST.get('data'))
         result += '\n\n JSON: \n'
         result += pp.pformat(json_data)
-    return HttpResponse(result, mimetype='application/json')
+    return HttpResponse(result, content_type='application/json')
+
+
+    

@@ -72,7 +72,7 @@ def download_csv(modeladmin, request, queryset):
         raise PermissionDenied
     opts = queryset.model._meta
     model = queryset.model
-    response = HttpResponse(mimetype='text/csv')
+    response = HttpResponse(content_type='text/csv')
     # force download.
     response['Content-Disposition'] = 'attachment;filename=export.csv'
     # the csv writer
