@@ -84,6 +84,10 @@ class ActivityAdminForm(forms.ModelForm):
 
 
 class ActivityAdmin(CounterAdmin):
+    def author_institution(self, obj):
+        return u'%s<br/>%s' % (obj.author, obj.institution)
+    author_institution.short_description = 'Author'
+    author_institution.allow_tags = True
     def view_link(self, obj):
         return u"<a href='%s'>View</a>" % obj.get_absolute_url()
     view_link.short_description = ''
@@ -93,11 +97,11 @@ class ActivityAdmin(CounterAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     form = ActivityAdminForm
-    list_display = ('code', 'title', 'author', 'institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
-    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
+    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', 'author', 'institution', )
     actions = (download_csv, )
 
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
@@ -106,7 +110,6 @@ class ActivityAdmin(CounterAdmin):
         (None, {'fields': ('code', 'title', 'slug', 'author', 'institution', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
-        # ('Publishing', {'fields': ('published', ('release_date', 'embargo_date'), ), }),
         ('Description', {'fields': ('theme', 'teaser', 'description', 'keywords', 'materials', 'goals', 'objectives', 'background', )}),
         (None, {'fields': ('fulldesc', )}),
         (None, {'fields': ('conclusion', 'additional_information', 'evaluation', 'curriculum', )}),
