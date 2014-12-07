@@ -1,4 +1,4 @@
-{% load markup %}
+{% load markdown_deux_tags %}
 
 {{ object.title }}
 {{ object.theme }}

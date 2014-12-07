@@ -184,3 +184,7 @@ input[type=text], input[type=password], textarea, select, .vTextField {
 .inline-group .tabular td.original p {
   padding: 9px 40px !important;
 }
+
+#id_age li, #id_level li, #id_time li, #id_group li, #id_supervised li, #id_cost li, #id_location li, #id_skills li, #id_learning li {
+  list-style-type: none;
+}

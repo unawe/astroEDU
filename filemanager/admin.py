@@ -8,6 +8,7 @@ class FolderAdminForm(forms.ModelForm):
     
     class Meta:
         model = Folder
+        fields = ('title', )
 
     def clean(self):
         cleaned_data = super(FolderAdminForm, self).clean()

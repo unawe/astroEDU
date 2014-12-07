@@ -1,34 +1,44 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import django.core.validators
+import filemanager.models
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'File'
-        db.create_table(u'filemanager_file', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('file', self.gf('django.db.models.fields.files.FileField')(max_length=100, blank=True)),
-        ))
-        db.send_create_signal(u'filemanager', ['File'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'File'
-        db.delete_table(u'filemanager_file')
-
-
-    models = {
-        u'filemanager.file': {
-            'Meta': {'ordering': "['title']", 'object_name': 'File'},
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['filemanager']
+    operations = [
+        migrations.CreateModel(
+            name='File',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(help_text=b'Leave blank to use filename', max_length=255, blank=True)),
+                ('file', models.FileField(upload_to=filemanager.models.upload_to)),
+            ],
+            options={
+                'ordering': ['title'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Folder',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(help_text=b'Please use only alphabetic characters, numbers, and "-", "_" and "/"', unique=True, max_length=255, validators=[django.core.validators.RegexValidator(regex=b'^[-a-zA-Z0-9_/]+$')])),
+            ],
+            options={
+                'ordering': ['title'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='file',
+            name='folder',
+            field=models.ForeignKey(blank=True, to='filemanager.Folder', null=True),
+            preserve_default=True,
+        ),
+    ]

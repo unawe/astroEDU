@@ -21,9 +21,6 @@ sitemaps = {
     'collections': GenericSitemap(collection_list, priority=0.6),
 }
 
-# enable the admin:
-admin.autodiscover()
-
 urlpatterns = patterns('',
 
     url(r'^$', 'astroedu.views.home', name='home'),

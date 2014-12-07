@@ -1,9 +1,9 @@
 import re
 import os
-import markdown
+from markdown_deux import markdown
 import urllib
 
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from django.conf import settings
 
@@ -51,7 +51,7 @@ def first_match(matches):
 def markdown_tokenize(text):
     result = []
 
-    html = markdown_clean(markdown.markdown(text))
+    html = markdown_clean(markdown(text))
     html = media_rebase(html)
     soup = BeautifulSoup(html)
 
@@ -90,7 +90,7 @@ def markdown_tokenize_list(node, result, level=1):
 
 
 def markdown_tokenize_0(text):
-    html = markdown_clean(markdown.markdown(text))
+    html = markdown_clean(markdown(text))
     result = []
     list_level = 0
     list_level_next = 0

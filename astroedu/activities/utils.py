@@ -1,7 +1,6 @@
 import os
 import re
 import urllib
-import markdown
 
 from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives, send_mail, BadHeaderError

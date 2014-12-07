@@ -3,11 +3,7 @@ import os
 
 import secrets
 
-
-SETTINGS_DIR = os.path.dirname(__file__)
-# SETTINGS_LOCAL = 'astroedu'
-# PROJECT_DIR = SETTINGS_DIR[:SETTINGS_DIR.find(SETTINGS_LOCAL)]
-PROJECT_DIR = os.path.dirname(SETTINGS_DIR)
+BASE_DIR = os.path.dirname(os.path.dirname(__file__)) # from Django 2.7
 
 ADMINS = (
     ('Bruno Rino', secrets.ADMIN_EMAIL),
@@ -73,7 +69,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(PROJECT_DIR), 'astroEDU_uploads')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'astroEDU_uploads')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -95,7 +91,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -104,17 +100,19 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'pipeline.finders.PipelineFinder',
 )
 
 # Make this unique, and don't share it with anybody.
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '4$oyb$23bj+5$i#csxj=#2pw$tbookqk&c==@2#a*50*0^-db!'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
+# # List of callables that know how to import templates from various sources.
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# #     'django.template.loaders.eggs.Loader',
+# )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -129,14 +127,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'astroedu.urls'
@@ -148,10 +146,11 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -162,10 +161,9 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'django.contrib.redirects',
 
-    'south',
+    # 'south',
 
     # Admin
-    'django.contrib.admin',
     # 'django.contrib.admindocs',
     'djangoplicity.adminhistory',
 
@@ -173,8 +171,8 @@ INSTALLED_APPS = (
     'djcelery',
 
 
-    'django.contrib.markup',
-    
+    # 'django.contrib.markup',
+    'markdown_deux',
     # 'markupmirror',
     # # 'django_markdown',
     # 'pagedown',
@@ -235,7 +233,63 @@ LOGGING = {
     }
 }
 
-# GRAPPELLI_ADMIN_TITLE = 'astroEDU administration'
+# For extras, see https://github.com/trentm/python-markdown2/wiki/Extras
+MARKDOWN_DEUX_STYLES = {
+    'activities': {
+        'extras': {
+            # 'code-friendly': None,  # Disable _ and __ for em and strong
+            'cuddled-lists': None,  # Allow lists to be cuddled to the preceding paragraph
+            'fenced-code-blocks': None,  # Allows a code block to not have to be indented by fencing it with '```' on a line before and after
+            'footnotes': None,  # support footnotes as in use on daringfireball.net
+            'header-ids': None,  # Adds "id" attributes to headers. The id value is a slug of the header text. 
+            # 'link-patterns': None  # Auto-link given regex patterns in text (e.g. bug number references, revision number references).'
+            'metadata': None,  # Extract metadata from a leading '---'-fenced block
+            'smarty-pants': None,  # Fancy quote, em-dash and ellipsis handling
+            'tables': None,  # Tables using the same format as GFM 
+        },
+        'safe_mode': None,
+    },
+    'safe': {
+        'extras': {
+            'code-friendly': None,
+        },
+        'safe_mode': 'escape',
+    },
+    'trusted': {
+        'extras': {
+            'code-friendly': None,
+        },
+        'safe_mode': None,
+    },
+    # # Here is what http://code.activestate.com/recipes/ currently uses.
+    # 'recipe': {
+    #     'extras': {
+    #         'code-friendly': None,
+    #     },
+    #     'safe_mode': 'escape',
+    #     'link_patterns': [
+    #         # Transform 'Recipe 123' in a link.
+    #         (re.compile(r'recipe\s+#?(\d+)\b', re.I),
+    #          r'http://code.activestate.com/recipes/\1/'),
+    #     ],
+    #     'extras': {
+    #         'code-friendly': None,
+    #         'pyshell': None,
+    #         'demote-headers': 3,
+    #         'link-patterns': None,
+    #         # `class` attribute put on `pre` tags to enable using
+    #         # <http://code.google.com/p/google-code-prettify/> for syntax
+    #         # highlighting.
+    #         'html-classes': {'pre': 'prettyprint'},
+    #         'cuddled-lists': None,
+    #         'footnotes': None,
+    #         'header-ids': None,
+    #     },
+    #     'safe_mode': 'escape',
+    # }
+}
+MARKDOWN_DEUX_STYLES['default'] = MARKDOWN_DEUX_STYLES['activities']
+
 
 # Celery
 BROKER_URL = 'redis://localhost:6379/0'
@@ -302,7 +356,7 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     #TIME_ZONE = 'Europe/Dublin'
     DEBUG = True
     TEMPLATE_DEBUG = True
-    # PROJECT_DIR = '/Users/rino/Workspaces/astroEDU/'
+    # BASE_DIR = '/Users/rino/Workspaces/astroEDU/'
     # STATICFILES_DIRS += (MEDIA_ROOT, )
     # debug toolbar
     INTERNAL_IPS = ('127.0.0.1',)

@@ -1,5 +1,5 @@
 {% load i18n %}{% load staticfiles %}
-{# {% load markup %} #}
+{# {% load markdown_deux_tags %} #}
     <div class="list_item{% if not object.is_visible%} unpublished{% endif %}">
 
     	<div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>

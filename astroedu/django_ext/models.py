@@ -14,6 +14,13 @@ class UUIDField(models.CharField):
         #kwargs['default'] = str(uuid.uuid4())
         models.CharField.__init__(self, *args, **kwargs)
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(UUIDField, self).deconstruct()
+        del kwargs['blank']
+        if kwargs['max_length'] == 64:
+            del kwargs['max_length']
+        return name, path, args, kwargs
+
     def pre_save(self, model_instance, add):
         if add:
             value = str(uuid.uuid4())
@@ -22,8 +29,8 @@ class UUIDField(models.CharField):
         else:
             return super(models.CharField, self).pre_save(model_instance, add)
 
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^astroedu\.django_ext\.models\.UUIDField"])
+# from south.modelsinspector import add_introspection_rules
+# add_introspection_rules([], ["^astroedu\.django_ext\.models\.UUIDField"])
 
 
 models.Model._admin_url_name = lambda self, type: 'admin:%s_%s_%s' % (
@@ -64,7 +71,7 @@ class ArchivalQuerySet(query.QuerySet):
 
 
 class ArchivalManager(models.Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         return ArchivalQuerySet(self.model)
 
     def all_super(self):
@@ -82,13 +89,13 @@ class ArchivalManager(models.Manager):
             # q = q & Q(release_date__gte=date) 
             q = q & Q(release_date__lte=now)
             q = q & (Q(embargo_date__isnull=True) | Q(embargo_date__lte=now))
-            return self.get_query_set().filter(q)
+            return self.get_queryset().filter(q)
 
     ## 'import' attributes from ArchivalQuerySet
     # def __getattr__(self, name):  
-    #     return getattr(self.get_query_set(), name)
+    #     return getattr(self.get_queryset(), name)
     def featured(self, *args, **kwargs):
-        # return self.get_query_set().featured(*args, **kwargs)
+        # return self.get_queryset().featured(*args, **kwargs)
         return self.all().featured(*args, **kwargs)
 
 

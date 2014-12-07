@@ -33,7 +33,7 @@ def zip_attachments(obj):
 
 @task()
 def make_epub(obj):
-    EPUB_ASSETS_ROOT = os.path.join(settings.PROJECT_DIR, 'share', 'epub-assets')
+    EPUB_ASSETS_ROOT = os.path.join(settings.BASE_DIR, 'share', 'epub-assets')
     outfile = downfile(obj, 'epub')
     template = get_template('activities/epub.html')
     doc = epub.Document(outfile)

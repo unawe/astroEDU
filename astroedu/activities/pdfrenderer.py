@@ -14,7 +14,7 @@ from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage
 # from astroedu.activities.models import Activity
 
 DESTFOLDER = os.path.join(settings.MEDIA_ROOT, 'activities/download')
-ASSETS_ROOT = os.path.join(settings.PROJECT_DIR, 'share', 'pdf-assets')
+ASSETS_ROOT = os.path.join(settings.BASE_DIR, 'share', 'pdf-assets')
 DEBUG = False
 
 IMAGE_MAX_WIDTH = 13.2*cm
@@ -307,7 +307,7 @@ def append_richtext(rederer, elements, data):
 def process_paragraph_list(text):
     return markdown_utils.markdown_tokenize(text)
 # def process_paragraph_list(text):
-#     html = markdown_clean(markdown.markdown(text))
+#     html = markdown_clean(markdown_deux.markdown(text))
 #     result = []
 #     list_level = 0
 #     list_level_next = 0

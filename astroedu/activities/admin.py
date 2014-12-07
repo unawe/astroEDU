@@ -60,7 +60,7 @@ class RepositoryEntryInline(admin.TabularInline):
 class ActivityAdminForm(forms.ModelForm):
     
     class Meta:
-        model = Activity
+        # model = Activity
         widgets = {
             'time': forms.RadioSelect,
             'group': forms.RadioSelect,
@@ -139,8 +139,8 @@ class ActivityAdmin(CounterAdmin):
 
 
 class CollectionAdminForm(forms.ModelForm):
-    class Meta:
-        model = Collection
+    # class Meta:
+    #     model = Collection
     
     def __init__(self, *args, **kwargs):
         super(CollectionAdminForm, self).__init__(*args, **kwargs)
@@ -184,8 +184,8 @@ class CollectionAdmin(admin.ModelAdmin):
 
 
 class InstitutionAdminForm(forms.ModelForm):
-    class Meta:
-        model = Institution
+    # class Meta:
+    #     model = Institution
     
     def __init__(self, *args, **kwargs):
         super(InstitutionAdminForm, self).__init__(*args, **kwargs)

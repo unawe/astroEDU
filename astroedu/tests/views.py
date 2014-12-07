@@ -30,6 +30,11 @@ def email(request):
         'recipients' : recipients,
     })
 
+def markdown(request):
+    import markdown_deux
+    mtext = '## Boa Tarde\n\n_TTX_\n'
+    htext = markdown_deux.markdown(mtext, 'default')
+    return render(request, 'tests/markdown.html', {'value': htext + '\n\n---\n\n' + mtext})
 
 def error(request):
     raise UnknownError

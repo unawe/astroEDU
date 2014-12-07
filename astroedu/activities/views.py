@@ -42,7 +42,7 @@ def epub(request, activity_slug):
 
 # def test(request):
 #     return HttpResponse(
-#         '<br/> PROJECT_DIR: ' + settings.PROJECT_DIR) 
+#         '<br/> BASE_DIR: ' + settings.BASE_DIR) 
 
 def collections_list(request):
     lst = get_list_or_404(Collection, user=request.user)
