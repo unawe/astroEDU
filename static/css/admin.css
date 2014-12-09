@@ -151,7 +151,7 @@ a.deletelink:link, a.deletelink:visited {
     margin: 1em 0 0 -10px !important;
 }
 
-input[type=text], input[type=password], textarea, select, .vTextField {
+input[type=text], input[type=url], input[type=password], textarea, select, .vTextField, .vUrlField {
     min-width: 100px;
     padding: 6px 12px;
     font-size: 14px;
@@ -166,6 +166,9 @@ input[type=text], input[type=password], textarea, select, .vTextField {
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+select {
+  height: 34px;
 }
 .vTextField {
   width: 85% !important;
@@ -182,9 +185,16 @@ input[type=text], input[type=password], textarea, select, .vTextField {
   line-height: 20px !important;
 }
 .inline-group .tabular td.original p {
-  padding: 9px 40px !important;
+  padding: 7px 41px !important;
+  /*color: #aaa !important;*/
 }
 
 #id_age li, #id_level li, #id_time li, #id_group li, #id_supervised li, #id_cost li, #id_location li, #id_skills li, #id_learning li {
   list-style-type: none;
+}
+#repositoryentry_set-group .original p {
+  display: none;
+}
+#repositoryentry_set-group .vURLField {
+  width: 80%;
 }

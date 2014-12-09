@@ -102,7 +102,7 @@ class Author(models.Model):
 
 class Activity(ArchivalModel, TranslationModel):
 
-    code = models.CharField(unique=True, max_length=4, help_text=_(u'The 4 digit code that identifies the Activity, in the form of "YY##": year, folowed by sequential number.'))
+    code = models.CharField(unique=True, max_length=4, help_text=_(u'The 4 digit code that identifies the Activity, in the format "YY##": year, folowed by sequential number.'))
     slug = models.SlugField(unique=True, max_length=255, help_text=_(u'The Slug must be unique, and closely match the title for better SEO; it is used as part of the URL.'))
     uuid = UUIDField(editable=False)
 
