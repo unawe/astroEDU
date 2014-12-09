@@ -7,6 +7,7 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.redirects.models import Redirect
 from django.contrib.sites.models import Site
+import bleach
 # from tinymce.models import HTMLField
 # from markupfield.fields import MarkupField
 # from markupmirror.fields import MarkupMirrorField
@@ -160,6 +161,22 @@ class Activity(ArchivalModel, TranslationModel):
 
     conclusion = models.TextField(blank=False, )
     ''' '''
+
+    def save(self, *args, **kwargs):
+        ## sanitize markdown
+        self.teaser = bleach_clean(self.teaser)
+        self.description = bleach_clean(self.description)
+        self.keywords = bleach_clean(self.keywords)
+        self.materials = bleach_clean(self.materials)
+        self.goals = bleach_clean(self.goals)
+        self.objectives = bleach_clean(self.objectives)
+        self.background = bleach_clean(self.background)
+        self.fulldesc = bleach_clean(self.fulldesc)
+        self.evaluation = bleach_clean(self.evaluation)
+        self.curriculum = bleach_clean(self.curriculum)
+        self.additional_information = bleach_clean(self.additional_information)
+        self.conclusion = bleach_clean(self.conclusion)
+        super(Activity, self).save(*args, **kwargs)
 
     def age_display(self):
         # return ' '.join(obj.title for obj in self.age.all())
@@ -320,3 +337,5 @@ class RepositoryEntry(models.Model):
         ordering = ['repo']
         verbose_name_plural = 'repository entries'
 
+def bleach_clean(text):
+    return bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=True)

@@ -290,6 +290,10 @@ MARKDOWN_DEUX_STYLES = {
 }
 MARKDOWN_DEUX_STYLES['default'] = MARKDOWN_DEUX_STYLES['activities']
 
+# Bleach
+BLEACH_ALLOWED_TAGS = ('table', 'tr', 'th', 'td', )
+BLEACH_ALLOWED_ATTRIBUTES = {}
+BLEACH_ALLOWED_STYLES = {}
 
 # Celery
 BROKER_URL = 'redis://localhost:6379/0'
@@ -369,7 +373,7 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
+    CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
     EMAIL_SUBJECT_PREFIX = '[ASTROEDU_DEV] '
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':
