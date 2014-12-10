@@ -76,9 +76,14 @@ table {
     color: #000 !important;
     text-decoration: underline;
 }
+#branding {
+  margin-top: 8px;
+}
 #branding h1 {
     color: #6c6c70 !important;
     font-size: 18px;
+    display: inline-block;
+    margin: 0;
 }
 
 .module h2, .module caption, .inline-group h2 {
@@ -185,8 +190,10 @@ select {
   line-height: 20px !important;
 }
 .inline-group .tabular td.original p {
-  padding: 7px 41px !important;
-  /*color: #aaa !important;*/
+  padding: 37px 31px !important;
+  color: #aaa !important;
+  font-weight: normal !important;
+  font-size: 10px !important;
 }
 
 #id_age li, #id_level li, #id_time li, #id_group li, #id_supervised li, #id_cost li, #id_location li, #id_skills li, #id_learning li {
