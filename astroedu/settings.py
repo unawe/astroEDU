@@ -398,7 +398,3 @@ else:
     else:
         raise EnvironmentError(1, 'DJANGO_SETTINGS_CONFIG environment variable not set')
 
-
-import djcelery
-djcelery.setup_loader()
-
