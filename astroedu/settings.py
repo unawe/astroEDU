@@ -1,12 +1,20 @@
 # Django settings for astroedu project.
 import os
 
-import secrets
+import json
+
+SECRETS_FILE = 'secrets.json'
+if os.path.isfile(SECRETS_FILE):
+    fdata = open(SECRETS_FILE)
+    secrets = json.load(fdata)
+    fdata.close()
+else:
+    raise 'No secrets found!'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__)) # from Django 2.7
 
 ADMINS = (
-    ('Bruno Rino', secrets.ADMIN_EMAIL),
+    ('Bruno Rino', secrets['ADMIN_EMAIL']),
 )
 
 MANAGERS = ADMINS
@@ -23,8 +31,8 @@ DATABASES = {
 }
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = secrets.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = secrets.EMAIL_HOST_PASSWORD
+EMAIL_HOST_USER = secrets['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = secrets['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -373,13 +381,13 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
+    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
     EMAIL_SUBJECT_PREFIX = '[ASTROEDU_DEV] '
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DEBUG = False
-    DATABASES['default']['USER'] = secrets.DATABASE_USER_PROD
-    DATABASES['default']['PASSWORD'] = secrets.DATABASE_PASSWORD_PROD
+    DATABASES['default']['USER'] = secrets['DATABASE_USER_PROD']
+    DATABASES['default']['PASSWORD'] = secrets['DATABASE_PASSWORD_PROD']
     STATIC_ROOT = '/home/web/astroEDU_static/'
     MEDIA_ROOT = '/home/web/astroEDU_uploads/'
     # PIPELINE_ENABLED = True 

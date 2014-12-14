@@ -1,4 +1,5 @@
 *.pyc
 .*swp
-secrets.py
 dependencies
+.vagrant
+secrets.json
