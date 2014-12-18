@@ -113,7 +113,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4$oyb$23bj+5$i#csxj=#2pw$tbookqk&c==@2#a*50*0^-db!'
+SECRET_KEY = secrets['SECRET_KEY']
 
 # # List of callables that know how to import templates from various sources.
 # TEMPLATE_LOADERS = (
