@@ -1,4 +1,5 @@
 import os
+import re
 
 from django.conf import settings
 from django.db import models
@@ -338,4 +339,7 @@ class RepositoryEntry(models.Model):
         verbose_name_plural = 'repository entries'
 
 def bleach_clean(text):
-    return bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=True)
+    result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)
+    # bleach escaped too much stuff, let's put it back
+    result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', text)  # automatic links
+    return result
