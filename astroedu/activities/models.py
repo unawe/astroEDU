@@ -340,6 +340,9 @@ class RepositoryEntry(models.Model):
 
 def bleach_clean(text):
     result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)
+
     # bleach escaped too much stuff, let's put it back
-    result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', text)  # automatic links
+    result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', result)  # automatic links
+    result = re.sub(r'</?br\w?/?>', r'<br/>', result)  # we prefer xhtml line breaks
+
     return result
