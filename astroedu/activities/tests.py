@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from models import bleach_clean
+from .models import bleach_clean
 
 
 class BleachTest(TestCase):
