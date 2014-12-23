@@ -3,15 +3,15 @@ import os
 
 import json
 
-SECRETS_FILE = 'secrets.json'
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+SECRETS_FILE = os.path.join(BASE_DIR, 'secrets.json')
 if os.path.isfile(SECRETS_FILE):
     fdata = open(SECRETS_FILE)
     secrets = json.load(fdata)
     fdata.close()
 else:
     raise 'No secrets found!'
-
-BASE_DIR = os.path.dirname(os.path.dirname(__file__)) # from Django 2.7
 
 ADMINS = (
     ('Bruno Rino', secrets['ADMIN_EMAIL']),
