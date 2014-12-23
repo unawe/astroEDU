@@ -21,5 +21,4 @@ def home(request):
     #     # to get proper validation errors.
     #     return HttpResponse('Make sure all fields are entered and valid.')
 
-
     return render(request, 'astroedu/home.html', {'featured': Activity.objects.featured()[0:3], })

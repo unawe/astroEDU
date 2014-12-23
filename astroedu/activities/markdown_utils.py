@@ -55,7 +55,7 @@ def markdown_tokenize(text):
     html = media_rebase(html)
     soup = BeautifulSoup(html)
 
-    for child in soup.children:
+    for child in soup.body.children:
         tag = child.name
         if tag:
             if tag not in ALLOWED_TAGS:
