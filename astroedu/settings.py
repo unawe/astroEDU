@@ -25,8 +25,8 @@ DATABASES = {
         'NAME': 'astroedu',
         'USER': 'root',
         'PASSWORD': '',
-        # 'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        # 'PORT': '',                      # Set to empty string for default.
+        # 'HOST': '',     # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        # 'PORT': '',     # Set to empty string for default.
     }
 }
 
@@ -40,6 +40,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_SUBJECT_PREFIX = '[ASTROEDU] '
 
+# SESSION_COOKIE_AGE = 86400  # 1 day, in seconds
+# SESSION_SAVE_EVERY_REQUEST = False
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -131,7 +133,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     # 'astroedu.context_processors.featured',
-    'astroedu.context_processors.debug',
+    # 'astroedu.context_processors.debug',
 )
 
 MIDDLEWARE_CLASSES = (
