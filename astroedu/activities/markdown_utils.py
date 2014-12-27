@@ -33,9 +33,9 @@ def markdown_clean(text):
 
 def media_rebase(text):
     # re-base media location
-    for m in re.finditer(r'src="/media/(.*?)"', text):
+    for m in re.finditer(r'src="%s(.*?)"' % settings.MEDIA_URL, text):
         imgsrc = os.path.join(settings.MEDIA_ROOT, urllib.unquote(m.group(1)))
-        text = re.sub(r'src="/media/%s"' % m.group(1), r'src="%s"' % imgsrc, text)
+        text = re.sub(r'src="%s%s"' % (settings.MEDIA_URL, m.group(1)), r'src="%s"' % imgsrc, text)
 
     return text
 
