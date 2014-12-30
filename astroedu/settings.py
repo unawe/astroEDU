@@ -3,7 +3,8 @@ import os
 
 import json
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+PARENT_DIR = os.path.dirname(BASE_DIR)
 
 SECRETS_FILE = os.path.join(BASE_DIR, 'secrets.json')
 if os.path.isfile(SECRETS_FILE):
@@ -79,7 +80,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'astroEDU_uploads')
+MEDIA_ROOT = os.path.join(PARENT_DIR, 'astroEDU_uploads')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -225,7 +226,7 @@ LOGGING = {
         'error_log': {
             # 'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/astroedu.log',
+            'filename': os.path.join(PARENT_DIR, 'usr/log/astroedu.log'),
         }
         # 'request_error': {
         #     'level': 'ERROR',
@@ -308,6 +309,8 @@ BLEACH_ALLOWED_STYLES = {}
 # Celery
 BROKER_URL = 'redis://localhost:6379/0'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TASK_SERIALIZER = 'pickle'  # default serializer used by the decorators
+CELERY_ACCEPT_CONTENT = ['pickle']  # serializers accepted by the deamon
 
 # Pipeline
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
@@ -367,11 +370,9 @@ REPOSITORIES = {
 
 DJANGO_SETTINGS_CONFIG = os.environ.get('DJANGO_SETTINGS_CONFIG', None)
 if DJANGO_SETTINGS_CONFIG == 'DEV':
-    #TIME_ZONE = 'Europe/Dublin'
+    TIME_ZONE = 'Europe/Dublin'
     DEBUG = True
     TEMPLATE_DEBUG = True
-    # BASE_DIR = '/Users/rino/Workspaces/astroEDU/'
-    # STATICFILES_DIRS += (MEDIA_ROOT, )
     # debug toolbar
     INTERNAL_IPS = ('127.0.0.1',)
     MIDDLEWARE_CLASSES += (
@@ -390,9 +391,7 @@ elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DEBUG = False
     DATABASES['default']['USER'] = secrets['DATABASE_USER_PROD']
     DATABASES['default']['PASSWORD'] = secrets['DATABASE_PASSWORD_PROD']
-    STATIC_ROOT = '/home/web/astroEDU_static/'
-    MEDIA_ROOT = '/home/web/astroEDU_uploads/'
-    # PIPELINE_ENABLED = True 
+    STATIC_ROOT = os.path.join(PARENT_DIR, 'astroEDU_static')
 
 else:
     if DJANGO_SETTINGS_CONFIG:
