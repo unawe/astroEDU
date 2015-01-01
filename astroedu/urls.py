@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from django.http import HttpResponseRedirect
 from django.contrib import admin
 from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
@@ -48,9 +48,8 @@ if settings.DEBUG:
         (r'^500/$', TemplateView.as_view(template_name="500.html")),
         (r'^404/$', TemplateView.as_view(template_name="404.html")),
         # redirects (use nginx rewrite for production)
-        url(r'^blog/?$', lambda x: HttpResponseRedirect('http://medium.com/@IAUastroEDU')),
-        url(r'^volunteer/?$', lambda x: HttpResponseRedirect('https://unawe.typeform.com/to/UIBI5e')),
-        url(r'^collections/?$', lambda x: HttpResponseRedirect('/activities/')),
+        (r'^blog/?$', RedirectView.as_view(url='http://medium.com/@IAUastroEDU')),
+        (r'^volunteer/?$', RedirectView.as_view(url='https://unawe.typeform.com/to/UIBI5e')),
     )
 
 
@@ -91,9 +90,7 @@ urlpatterns += patterns(
 # serve MEDIA_ROOT (uploaded files) in development
 if settings.DEBUG:
     urlpatterns += patterns('',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-            'document_root': settings.MEDIA_ROOT,
-        }),
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
    )
 
 # Flatpages fallback    
