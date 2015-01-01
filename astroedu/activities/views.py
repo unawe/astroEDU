@@ -1,18 +1,12 @@
 import re 
 
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponsePermanentRedirect
 from django.shortcuts import render
 from astroedu.django_ext.shortcuts import get_object_or_404, get_list_or_404
 from django.conf import settings
 
 from astroedu.activities.models import Activity, Collection #, Richtext
 
-def _get_activity_or_404(user, activity_identifier):
-    if re.match('^\w*\d{4}$', activity_identifier):
-        obj = get_object_or_404(Activity, user=user, code=activity_identifier)
-    else:
-        obj = get_object_or_404(Activity, user=user, slug=activity_identifier)
-    return obj 
 
 def list(request):
     # lst = Activity.objects.all()  #.order_by('-pub_date')[:5]
@@ -31,12 +25,16 @@ def list(request):
     # )
 
 
-def detail(request, activity_identifier):
-    obj = _get_activity_or_404(user=request.user, activity_identifier=activity_identifier)
+def detail(request, activity_slug):
+    obj = get_object_or_404(Activity, user=request.user, slug=activity_slug)
     return render(request, 'activities/detail.html', {'object': obj})
 
-def epub(request, activity_identifier):
-    obj = _get_activity_or_404(user=request.user, activity_identifier=activity_identifier)
+def detail_by_code(request, activity_code):
+    obj = get_object_or_404(Activity, user=request.user, code=activity_code)
+    return HttpResponsePermanentRedirect(obj.get_absolute_url())
+
+def epub(request, activity_code):
+    obj = get_object_or_404(Activity, user=request.user, code=activity_code)
     return render(request, 'activities/epub.html', {'object': obj})
 
 # def rich(request, obj_id):
