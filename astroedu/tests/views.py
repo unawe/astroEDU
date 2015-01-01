@@ -19,7 +19,7 @@ def email(request):
 
             from django.core.mail import send_mail
             result = send_mail(subject, message, sender, recipients)
-            return HttpResponse(str(result), mimetype='text/plain')
+            return HttpResponse(str(result), content_type='text/plain')
             #return HttpResponseRedirect('/')
     else:
         form = MailForm()
