@@ -84,20 +84,28 @@ class ActivityAdminForm(forms.ModelForm):
 
 
 class ActivityAdmin(CounterAdmin):
+    
     def author_institution(self, obj):
         return u'%s<br/>%s' % (obj.author, obj.institution)
     author_institution.short_description = 'Author'
     author_institution.allow_tags = True
+    
     def view_link(self, obj):
-        return u"<a href='%s'>View</a>" % obj.get_absolute_url()
+        return u'<a href="%s">View</a>' % obj.get_absolute_url()
     view_link.short_description = ''
     view_link.allow_tags = True
+
+    def thumb_embed(self, obj):
+        if obj.main_visual:
+            return u'<img src="%s" style="height:50px" />' % obj.thumb()
+    thumb_embed.short_description = 'Thumbnail'
+    thumb_embed.allow_tags = True
 
     counted_fields = ('teaser', )
     prepopulated_fields = {"slug": ("title",)}
 
     form = ActivityAdminForm
-    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
@@ -162,7 +170,7 @@ class CollectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     def view_link(self, obj):
-        return u"<a href='%s'>View</a>" % obj.get_absolute_url()
+        return u'<a href="%s">View</a>' % obj.get_absolute_url()
     view_link.short_description = ''
     view_link.allow_tags = True
 
