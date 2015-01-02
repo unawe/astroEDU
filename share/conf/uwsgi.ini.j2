@@ -2,11 +2,11 @@
 
 # Django-related settings
 # the base directory (full path)
-chdir           = /home/web/astroEDU
+chdir           = {{ BASE_DIR }}
 # Django's wsgi file
 module          = astroedu.wsgi
 # the virtualenv (full path)
-home            = /home/web/.virtualenvs/astroEDU
+home            = {{ VIRTUALENV }}
 
 # process-related settings
 # master
@@ -14,14 +14,14 @@ master          = true
 # maximum number of worker processes
 processes       = 10
 # the socket (use the full path to be safe
-socket          = /tmp/astroEDU.sock
+socket          = /home/web/usr/astroEDU.sock
 # ... with appropriate permissions - may be needed
 chmod-socket    = 664
 # clear environment on exit
 vacuum          = true
 
 # logs
-logto           = /tmp/uwsgi_error.log
+logto           = /home/web/usr/log/uwsgi.log
 logdate         = true
 
 # files created under django (FIXME: does not seem to be working... maybe need to fix in celery?)

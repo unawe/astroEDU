@@ -1,0 +1,12 @@
+[program:elasticsearch]
+environment = ES_HEAP_SIZE="256m",MAX_LOCKED_MEMORY="100000",ES_JAVA_OPTS="-server"
+command = /usr/share/elasticsearch/bin/elasticsearch -Des.default.path.conf=/etc/elasticsearch -Des.config={{ ETC_DIR }}/elasticsearch.yml
+user = web
+
+stdout_logfile = {{ LOG_DIR }}/elasticsearch-stdout.log
+redirect_stderr = true
+
+startsecs = 10
+autostart = true
+; autorestart = true  ; defaults to 'unexpected'
+

@@ -1,4 +1,4 @@
-### DEVELOPMENT SETTINGS ! ###
+
 
 # Unicast Discovery (disable multicast)
 discovery.zen.ping.multicast.enabled: false
@@ -11,9 +11,20 @@ cluster:
 network:
   host: 127.0.0.1
 
+default.path.home: /usr/share/elasticsearch
+
 path:
-  logs: /usr/local/var/log/elasticsearch/
-  data: /usr/local/var/elasticsearch/
+  home: /home/web/usr/elasticsearch
+  logs: /home/web/usr/elasticsearch/log
+  data: /home/web/usr/elasticsearch/data
+  plugins: /home/web/usr/elasticsearch/plugins
+  work: /tmp/elasticsearch 
 
 
 indices.fielddata.cache.size: 30%
+
+# "disable" the distributed features (we have small indices):
+index.number_of_shards: 1
+index.number_of_replicas: 0
+
+# bootstrap.mlockall: true  # incompatible with MAX_LOCKED_MEMORY

@@ -1,8 +1,0 @@
-[Settings]
-backups_dir = /home/web/astroEDU_backups
-archives_dir = /home/web/astroEDU_backup_archives/
-hourly_backup_hour = 23
-weekly_backup_day = 6
-max_weekly_backups = 52
-backup_extensions = ".gz", ".bz2",".jar"
-log_level = ERROR

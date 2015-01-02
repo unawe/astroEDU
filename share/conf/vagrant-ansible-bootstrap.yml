@@ -1,0 +1,13 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+    - name: ensure web user exists
+      user: name=web shell=/bin/bash groups=sudo update_password=on_create password={{ web_crypt_password }}
+    - name: sending ssh public key
+      # lineinfile: dest=/home/web/.ssh/authorized_keys insertafter=EOF line='ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAt7IAKxCWHDXJu+APGYYnSQDfsXrJYvv2RYLNtnOg0DbWf+M92HA6xpiD/iNgMjva5c81ibqD7G1ijdnesUp9Lriq2DRxSceyMRqaPi42sVYHQTNAbG0GsErVn91agtYMcp9bHBcqZxirCCIwQnafSiXFEG7sV81USuIkDXn536Z2OKngSLWnvPeQtjNe9+zNvZeDn9IOKSzUj0KVZ0LXL0occvnfWslEah5aLqueGT995dSZ/5xPzqtf0LLqqMZhwpmaAgSkXTHUctyd1vfwm9EZrZcgAHvvioMMZVOmvvU2B6dLi4jCGu6J6NEYW/vtj7gX0oyTvJ+Tln7I0mLf4Q== rino@aire.local'
+      authorized_key: "user=web key='{{ item }}'"
+      with_file:
+        - /Users/rino/.ssh/id_rsa.pub
+    - name: ensure web user has sudo without password
+      lineinfile: "dest=/etc/sudoers insertafter=EOF line='web ALL=(ALL) NOPASSWD: ALL'"
