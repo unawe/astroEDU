@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
+# deprecation warning: django 1.8 supports UUIDField fields natively!
 class UUIDField(models.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.get('max_length', 64)
@@ -34,7 +35,7 @@ class UUIDField(models.CharField):
 
 
 models.Model._admin_url_name = lambda self, type: 'admin:%s_%s_%s' % (
-    self._meta.app_label, self._meta.module_name, type)
+    self._meta.app_label, self._meta.model_name, type)
 
 
 def get_admin_change_url(self):
@@ -104,9 +105,7 @@ class MediaAttachedModel(models.Model):
         return unicode(self._meta.verbose_name_plural)
 
     def thumb(self):
-        if self.main_visual:
-            return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', self.code + '.jpg')
-            # return os.path.join(settings.MEDIA_URL, self.media_key(), 'thumb', os.path.basename(self.main_visual.file.file.name))
+        return self.media_url('thumb')
 
     def media_url(self, resource):
         if self.main_visual:
@@ -121,14 +120,24 @@ class ArchivalModel(MediaAttachedModel):
     published = models.BooleanField(default=True)
     release_date = models.DateTimeField(blank=False)
     embargo_date = models.DateTimeField(blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=True, null=True)
+    modification_date = models.DateTimeField(auto_now=True, null=True)
 
     objects = ArchivalManager()
 
     def is_visible(self):
         return self.published and self.release_date < now() and (self.embargo_date is None or self.embargo_date < now())
-    # is_visible.verbose_name = u'is visible?'
     is_visible.short_description = u'visible?'
     is_visible.boolean = True
+
+    @classmethod 
+    def sitemap(cls, priority=None):
+        from django.contrib.sitemaps import GenericSitemap
+        object_list = {
+            'queryset': cls.objects.all(),
+            'date_field': 'modification_date',
+        } 
+        return GenericSitemap(object_list, priority=priority)
 
     class Meta:
         abstract = True

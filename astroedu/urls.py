@@ -3,22 +3,14 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView, RedirectView
 from django.http import HttpResponseRedirect
 from django.contrib import admin
-from django.contrib.sitemaps import FlatPageSitemap, GenericSitemap
+from django.contrib.sitemaps import FlatPageSitemap
 from astroedu.activities.models import Activity, Collection
 # import markupmirror.urls
 
-# generate sitemap
-activity_list = {
-    'queryset': Activity.objects.all(),
-    # 'date_field': 'published',
-}
-collection_list = {
-    'queryset': Collection.objects.all(),
-}
 sitemaps = {
     'flatpages': FlatPageSitemap,
-    'activities': GenericSitemap(activity_list, priority=0.7),
-    'collections': GenericSitemap(collection_list, priority=0.6),
+    'activities': Activity.sitemap(priority=0.7),
+    'collections': Collection.sitemap(priority=0.6),
 }
 
 urlpatterns = patterns('',
