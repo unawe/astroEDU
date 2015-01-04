@@ -1,5 +1,5 @@
 [program:elasticsearch]
-environment = ES_HEAP_SIZE="256m",MAX_LOCKED_MEMORY="100000",ES_JAVA_OPTS="-server"
+environment = ES_HEAP_SIZE="128m",MAX_LOCKED_MEMORY="100000",ES_JAVA_OPTS="-server"
 command = /usr/share/elasticsearch/bin/elasticsearch -Des.default.path.conf=/etc/elasticsearch -Des.config={{ ETC_DIR }}/elasticsearch.yml
 user = web
 

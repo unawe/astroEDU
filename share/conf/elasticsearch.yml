@@ -10,8 +10,9 @@ cluster:
 
 network:
   host: 127.0.0.1
+  tcp.block: true
 
-default.path.home: /usr/share/elasticsearch
+# default.path.home: /usr/share/elasticsearch
 
 path:
   home: /home/web/usr/elasticsearch
@@ -26,5 +27,9 @@ indices.fielddata.cache.size: 30%
 # "disable" the distributed features (we have small indices):
 index.number_of_shards: 1
 index.number_of_replicas: 0
+
+# reduce memory usage
+index.term_index_interval: 256
+index.term_index_divisor: 5
 
 # bootstrap.mlockall: true  # incompatible with MAX_LOCKED_MEMORY
