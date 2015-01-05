@@ -9,21 +9,8 @@ from astroedu.activities.models import Activity, Collection #, Richtext
 
 
 def list(request):
-    # lst = Activity.objects.all()  #.order_by('-pub_date')[:5]
     lst = get_list_or_404(Activity, user=request.user, order_by='-release_date')
-    #.order_by('-release_date')
-    print type(lst)
-    # lst = Activity.objects.featured()  #.order_by('-pub_date')[:5]
     return render(request, 'activities/list.html', {'object_list': lst, })
-
-    # from datetime import datetime
-    # from django.utils.timezone import utc, now
-    # return HttpResponse(
-    #     'datetime.now ' + str(datetime.now()) + '<br/>'
-    #     + 'utcnow ' + str(datetime.utcnow().replace(tzinfo=utc)) + '<br/>'
-    #     + 'django.utils.timezone.now ' + str(now()) + '<br/>'
-    # )
-
 
 def detail(request, activity_slug):
     obj = get_object_or_404(Activity, user=request.user, slug=activity_slug)
