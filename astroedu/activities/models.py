@@ -135,7 +135,7 @@ class Activity(ArchivalModel, TranslationModel):
     description = models.TextField(blank=False, verbose_name='brief description', help_text=_(u'Maximum 2 sentences! Maybe what and how?'))
     ''' '''
 
-    keywords = models.TextField(blank=False, help_text=_(u'List of keywords, one per line'))
+    keywords = models.TextField(blank=False, help_text=_(u'List of keywords, separated by commas'))
     ''' '''
 
     materials = models.TextField(blank=True, help_text=_(u'Please indicate costs and/or suppliers if possible'))
