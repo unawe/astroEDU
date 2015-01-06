@@ -30,6 +30,7 @@ def populate_creation_modification(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('contenttypes', '0001_initial'),
         ('activities', '0002_auto_20150103_1848'),
     ]
 
