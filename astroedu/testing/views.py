@@ -24,7 +24,7 @@ def email(request):
     else:
         form = MailForm()
 
-    return render(request, 'tests/email.html', {
+    return render(request, 'testing/email.html', {
         'form': form,
         'sender' : sender, 
         'recipients' : recipients,
@@ -34,7 +34,7 @@ def markdown(request):
     import markdown_deux
     mtext = '## Boa Tarde\n\n_TTX_\n'
     htext = markdown_deux.markdown(mtext, 'default')
-    return render(request, 'tests/markdown.html', {'value': htext + '\n\n---\n\n' + mtext})
+    return render(request, 'testing/markdown.html', {'value': htext + '\n\n---\n\n' + mtext})
 
 def error(request):
     raise UnknownError

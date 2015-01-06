@@ -198,7 +198,7 @@ INSTALLED_APPS = (
     'pipeline',
 
     'astroedu',
-    'astroedu.tests',
+    'astroedu.testing',
     'astroedu.activities',
     'filemanager',
 )
@@ -226,8 +226,11 @@ LOGGING = {
         'error_log': {
             # 'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(PARENT_DIR, 'usr/log/astroedu.log'),
-        }
+            'filename': os.path.join(PARENT_DIR, 'usr/log/astroedu-error.log'),
+        },
+        'default': {
+            'class': 'logging.StreamHandler',
+        },
         # 'request_error': {
         #     'level': 'ERROR',
         #     # 'filters': ['require_debug_false'],
@@ -241,6 +244,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django.db.backends': {
+            'handlers': ['default',],
+            'level': 'INFO',
+        }
     }
 }
 
@@ -300,6 +307,9 @@ MARKDOWN_DEUX_STYLES = {
     # }
 }
 MARKDOWN_DEUX_STYLES['default'] = MARKDOWN_DEUX_STYLES['activities']
+
+# Caching
+USE_ETAGS = True  # Note: disable debug toolbar while testing!
 
 # Bleach
 BLEACH_ALLOWED_TAGS = ('table', 'tr', 'th', 'td', 'sup', 'sub', 'a', 'em', 'it', 'p', 'br', 'tbody', )
@@ -384,7 +394,7 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
+    CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
     EMAIL_SUBJECT_PREFIX = '[ASTROEDU_DEV] '
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':

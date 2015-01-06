@@ -16,7 +16,7 @@ sitemaps = {
 urlpatterns = patterns('',
 
     url(r'^$', 'astroedu.views.home', name='home'),
-    url(r'^tests/', include('astroedu.tests.urls', namespace='tests')),
+    url(r'^testing/', include('astroedu.testing.urls', namespace='testing')),
     url(r'^activities/', include('astroedu.activities.urls', namespace='activities')),
     url(r'^collections/', include('astroedu.activities.urls_collections', namespace='collections')),
 

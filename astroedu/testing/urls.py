@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from astroedu.tests import views
+from . import views
 
 urlpatterns = patterns('',
     # url(r'^$', views.list, name='list'),
