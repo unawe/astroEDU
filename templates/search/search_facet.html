@@ -1,10 +1,10 @@
-        {% if content %}
+        {% if facet %}
         <div class="section_meta"><div class="section_meta_inner">
             <div class="facet">
                 <div class="title_text">{{text}}</div>
-                {% for time in content %}
+                {% for option in facet %}
                 <div class="content">
-                    <a href="{{ request.get_full_path }}&amp;selected_facets={{code}}_exact:{{ time.0|urlencode }}">{{ time.0 }}</a> {# ({{ time.1 }}) #}
+                    <a href="{{ request.get_full_path }}&amp;selected_facets={{code}}_exact:{{ option.0|urlencode }}">{{ option.0 }}</a> {# ({{ option.1 }}) #}
                 </div>
                 {% endfor %}
             </div>
