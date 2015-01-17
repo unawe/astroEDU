@@ -4,9 +4,14 @@
                 <div class="title_text">{{text}}</div>
                 {% for option in facet %}
                 <div class="content">
-                    <a href="{{ request.get_full_path }}&amp;selected_facets={{code}}_exact:{{ option.0|urlencode }}">{{ option.0 }}</a> {# ({{ option.1 }}) #}
+                    <span class="facet_option" onclick="setfacet('{{code}}', '{{ option.0 }}');">{{ option.1 }}<!--  ({{ option.2 }}) --></span>
                 </div>
                 {% endfor %}
+                {% if selected %}
+                <div class="content">
+                    <span class="facet_clear" onclick="unsetfacet('{{code}}');">show all</span>
+                </div>
+                {% endif %}
             </div>
             <div style="clear: both"></div>
         </div></div>

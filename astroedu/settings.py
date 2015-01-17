@@ -191,15 +191,13 @@ INSTALLED_APPS = (
     # # 'multilingual',
     # # 'multilingual.flatpages',
 
-    # Search
-    'haystack',
-
     # Script concatenation
     'pipeline',
 
     'astroedu',
     'astroedu.testing',
     'astroedu.activities',
+    'astroedu.search',
     'filemanager',
 )
 
@@ -347,17 +345,7 @@ PIPELINE_JS = {
     }
 }
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
-    },
-}
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-HAYSTACK_DOCUMENT_FIELD = 'text'
-HAYSTACK_SEARCH_RESULTS_PER_PAGE = 50
-HAYSTACK_LIMIT_TO_REGISTERED_MODELS = False
+WHOOSH_INDEX_PATH = '/tmp/whoosh_index'
 
 THUMBNIZER_SIZES = {
     'thumb': (334, 180, True, ), 
@@ -402,6 +390,7 @@ elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DATABASES['default']['USER'] = secrets['DATABASE_USER_PROD']
     DATABASES['default']['PASSWORD'] = secrets['DATABASE_PASSWORD_PROD']
     STATIC_ROOT = os.path.join(PARENT_DIR, 'astroEDU_static')
+    WHOOSH_INDEX_PATH = '/home/web/usr/whoosh_index'
 
 else:
     if DJANGO_SETTINGS_CONFIG:

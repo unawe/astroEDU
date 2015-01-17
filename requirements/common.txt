@@ -1,10 +1,9 @@
-Django==1.7.1
+Django==1.7.2
 pytz==2014.10
-django-pipeline==1.4.2
+django-pipeline==1.4.3
 MySQL-python==1.2.5
 
-django-haystack==2.3.1
-elasticsearch==1.2.0
+Whoosh==2.6.0
 
 # django-celery-with-redis==3.0
 celery==3.1.17
@@ -13,7 +12,7 @@ django-celery==3.1.16
 flower==0.7.3
 
 django-markdown-deux==1.0.5
-Pillow==2.6.1
-reportlab==3.1.8
+Pillow==2.7.0
+reportlab==3.1.44
 beautifulsoup4==4.3.2
-bleach==1.4
+bleach==1.4.1

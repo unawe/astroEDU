@@ -6,6 +6,7 @@
 <meta name="description" content="astroEDU is an open-access peer-review platform for educators to discover, review, distribute, improve, and remix the best astronomy education activities around the world.">
 <title>{% block site_title %}astroEDU{% endblock %}</title>
 {% load pipeline %}{% stylesheet 'styles' %}
+{% block extra_head %}{% endblock %}
 </head>
 <body>
 <div id="cookie-policy">
@@ -14,32 +15,35 @@
 		<p>This site uses cookies to offer you a better browsing experience. Read about how we use cookies <a href="/cookie-policy/" title="">here</a>.</p>
 	</div>
 </div>
-<div class="body_wrap">{% block top %}
-<div class="layout_top">
-	
-	<div class="layout_container" style="position: relative;">
-	
-		<div class="top_left">
-			<a href="/">
-				<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" alt="astroEDU Logo" />
-			</a>
-		</div>
+<div class="body_wrap">
 
-		<div class="top_right_search">
-			<a href="/volunteer" target="_blank">
-				<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" />
-			</a>
-			<div class="top_search">{% include "astroedu/search_form.html" %} </div>
-		</div>
-		<div style="clear: both"></div>
-		<div class="curvy_bg"></div>
+{% block top %}
+	<div class="layout_top">
+		
+		<div class="layout_container" style="position: relative;">
+		
+			<div class="top_left">
+				<a href="/">
+					<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" alt="astroEDU Logo" />
+				</a>
+			</div>
 
+			<div class="top_right_search">
+				<a href="/volunteer" target="_blank">
+					<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" />
+				</a>
+				<div class="top_search">{% include "astroedu/search_form.html" %} </div>
+			</div>
+			<div style="clear: both"></div>
+			<div class="curvy_bg"></div>
+
+		</div>
 	</div>
-</div>
 
 {% endblock %}
+
 {% block content %}{% endblock %}
- 
+
 	<div class="layout_resources">
 		<div class="layout_container footer_meta">
 		
@@ -132,6 +136,7 @@
 
 </div>
 {% javascript 'scripts' %}
+{% block extra_script %}{% endblock %}
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -140,7 +145,6 @@
 
   ga('create', 'UA-44947668-1', 'iau.org');
   ga('send', 'pageview');
-
 </script>
 </body>
 </html>

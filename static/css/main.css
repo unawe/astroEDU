@@ -534,6 +534,13 @@ button.search_btn {
     font-size: 12px;
     font-weight: bold;    
 }
+.facet_option {
+    cursor: pointer;
+}
+.facet_clear {
+    cursor: pointer;
+    font-style: italic;
+}
 
 /* home */
 .layout_search #search-form {
