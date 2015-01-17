@@ -108,7 +108,7 @@ class ActivityAdmin(CounterAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     form = ActivityAdminForm
-    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'embargo_date', 'is_visible', 'featured', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'doi', 'author_institution', 'published', 'release_date', 'is_visible', 'featured', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
