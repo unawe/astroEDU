@@ -12,16 +12,16 @@ def list(request):
     lst = get_list_or_404(Activity, user=request.user, order_by='-release_date')
     return render(request, 'activities/list.html', {'object_list': lst, })
 
-def detail(request, activity_slug):
-    obj = get_object_or_404(Activity, user=request.user, slug=activity_slug)
+def detail(request, slug):
+    obj = get_object_or_404(Activity, user=request.user, slug=slug)
     return render(request, 'activities/detail.html', {'object': obj})
 
-def detail_by_code(request, activity_code):
-    obj = get_object_or_404(Activity, user=request.user, code=activity_code)
+def detail_by_code(request, code):
+    obj = get_object_or_404(Activity, user=request.user, code=code)
     return HttpResponsePermanentRedirect(obj.get_absolute_url())
 
-def epub(request, activity_code):
-    obj = get_object_or_404(Activity, user=request.user, code=activity_code)
+def epub(request, code):
+    obj = get_object_or_404(Activity, user=request.user, code=code)
     return render(request, 'activities/epub.html', {'object': obj})
 
 # def rich(request, obj_id):
