@@ -84,17 +84,20 @@ class ActivityAdminForm(forms.ModelForm):
 
 
 class ActivityAdmin(CounterAdmin):
-    
-    def author_institution(self, obj):
-        return u'%s<br/>%s' % (obj.author, obj.institution)
-    author_institution.short_description = 'Author'
-    author_institution.allow_tags = True
-    
+
+    def view_on_site(self, obj):
+        return obj.get_absolute_url()
+
     def view_link(self, obj):
         return u'<a href="%s">View</a>' % obj.get_absolute_url()
     view_link.short_description = ''
     view_link.allow_tags = True
 
+    def author_institution(self, obj):
+        return u'%s<br/>%s' % (obj.author, obj.institution)
+    author_institution.short_description = 'Author'
+    author_institution.allow_tags = True
+    
     def thumb_embed(self, obj):
         if obj.main_visual:
             return u'<img src="%s" style="height:50px" />' % obj.thumb()
@@ -115,7 +118,7 @@ class ActivityAdmin(CounterAdmin):
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
     
     fieldsets = [
-        (None, {'fields': ('code', 'title', 'slug', 'author', 'institution', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
+        (None, {'fields': ('code', 'title', 'slug', ('author', 'institution', ), 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
         ('Description', {'fields': ('theme', 'teaser', 'description', 'keywords', 'materials', 'goals', 'objectives', 'background', )}),

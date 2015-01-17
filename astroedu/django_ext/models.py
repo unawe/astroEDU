@@ -17,9 +17,11 @@ class UUIDField(models.CharField):
 
     def deconstruct(self):
         name, path, args, kwargs = super(UUIDField, self).deconstruct()
-        del kwargs['blank']
+        del kwargs['blank']  # this is forcibly set in __init__, so here we delete it
         if kwargs['max_length'] == 64:
-            del kwargs['max_length']
+            del kwargs['max_length']  # we only delete it when the value is set by our __init__
+        # if self.new_field_name != new_kw_arg_default:
+        #     kwargs['new_kw_arg'] = self.new_field_name  # for keyword arguments added by our __init__
         return name, path, args, kwargs
 
     def pre_save(self, model_instance, add):
@@ -76,6 +78,10 @@ class ArchivalManager(models.Manager):
         return ArchivalQuerySet(self.model)
 
     def all_super(self):
+        '''
+        Returns all objects, regardless of being published/visible.
+        Calling `.objects.all_super()` should be equivalento to `._base_manager.all()`
+        '''
         return super(ArchivalManager, self).all()
 
     # def filter(self, *args, **kwargs):
@@ -84,14 +90,14 @@ class ArchivalManager(models.Manager):
     def all(self, user=None):
         '''filter for "visible" items if there is no logged in user'''
         if user and user.is_authenticated():
-            return super(ArchivalManager, self).all()
+            result = self.all_super()
         else:
             q = Q(published=True)
             # q = q & Q(release_date__gte=date) 
             q = q & Q(release_date__lte=now)
             q = q & (Q(embargo_date__isnull=True) | Q(embargo_date__lte=now))
-            return self.get_queryset().filter(q)
-
+            result = self.get_queryset().filter(q)
+        return result
     ## 'import' attributes from ArchivalQuerySet
     # def __getattr__(self, name):  
     #     return getattr(self.get_queryset(), name)
