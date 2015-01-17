@@ -198,17 +198,18 @@ def search(querystring, queryfacets=None):
         # collect facets
         for facet_name in results.facet_names():
             result['facets']['fields'][facet_name] = []
-            for k,v in results.groups(facet_name).iteritems():
-                # filter by query facets
-                if hit_filter:
-                    v = set.intersection(set(v), hit_filter)
-                if v:
-                    if facet_name in queryfacets and queryfacets[facet_name] and queryfacets[facet_name] != k:
-                        # for selected facets, only collect the selected option!
-                        pass
-                    else:
-                        # get facet totals instead of document IDs
-                        result['facets']['fields'][facet_name].append((k, len(v), ))
+            for facet_value,doc_list in results.groups(facet_name).iteritems():
+                if facet_value:
+                    # filter by query facets
+                    if hit_filter:
+                        doc_list = set.intersection(set(doc_list), hit_filter)
+                    if doc_list:
+                        if facet_name in queryfacets and queryfacets[facet_name] and queryfacets[facet_name] != facet_value:
+                            # for selected facets, only collect the selected option!
+                            pass
+                        else:
+                            # get facet totals instead of document IDs
+                            result['facets']['fields'][facet_name].append((facet_value, len(doc_list), ))
 
     return result
 
