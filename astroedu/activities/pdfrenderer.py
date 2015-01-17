@@ -96,7 +96,7 @@ class Renderer(PdfRendererBase):
         result = {}
         result['title'] = obj.title
         result['teaser'] = obj.teaser
-        result['author'] = obj.author.name + ', ' + obj.institution.name
+        result['author'] = obj.author_list()
         result['description'] = process_paragraph_list(obj.description)
         result['materials'] = process_paragraph_list(obj.materials)
         result['goals'] = process_paragraph_list(obj.goals)

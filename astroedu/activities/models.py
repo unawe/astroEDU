@@ -179,10 +179,13 @@ class Activity(ArchivalModel, TranslationModel):
         self.conclusion = bleach_clean(self.conclusion)
         super(Activity, self).save(*args, **kwargs)
 
-    def age_display(self):
+    def age_range(self):
         # return ' '.join(obj.title for obj in self.age.all())
         age_ranges = [obj.title for obj in self.age.all()]
         return utils.beautify_age_range(age_ranges)
+
+    def author_list(self):
+        return self.author.name + ', ' + self.institution.name
 
     @property
     def main_visual(self):

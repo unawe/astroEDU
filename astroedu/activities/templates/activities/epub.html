@@ -16,7 +16,7 @@
 <body>
 	<h1>{{ object.title }}</h1>
 	<div class="summary">{{ object.teaser }}</div>
-	<div class="author">{{ object.author.name }}, {{ object.institution.name }}</div>
+	<div class="author">{{ object.author_list }}</div>
 
 	{% include "activities/epub_section.html" with code="description" text="Brief Description" content=object.description|markdown %}
 	{% include "activities/epub_section.html" with code="goals" text="Goals" content=object.goals|markdown %}

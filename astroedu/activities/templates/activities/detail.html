@@ -43,7 +43,7 @@
 
 	<h1 class="detail">{{ object.title }}</h1>
 	<div class="summary">{{ object.teaser }}</div>
-	<div class="author">{{ object.author.name }}, {{ object.institution.name }}</div>
+	<div class="author">{{ object.author_list }}</div>
 
 	{% include "activities/detail_section.html" with code="description" text="Brief Description" content=object.description|markdown %}
 	{% include "activities/detail_section.html" with code="goals" text="Goals" content=object.goals|markdown %}
@@ -63,7 +63,7 @@
 	<div class="meta">
 		{% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
 		{# {% include "activities/detail_section_meta.html" with code="language" text="Language" content=object.lang %} #}
-		{% include "activities/detail_section_meta.html" with code="age" text="Age" content=object.age_display %}
+		{% include "activities/detail_section_meta.html" with code="age" text="Age" content=object.age_range %}
 		{% include "activities/detail_section_meta_list.html" with code="level" text="Level" content=object.level.all %}
 		{% include "activities/detail_section_meta.html" with code="time" text="Time" content=object.time %}
 		{% include "activities/detail_section_meta.html" with code="group" text="Group" content=object.group %}

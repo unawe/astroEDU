@@ -1,13 +1,12 @@
 {% load i18n %}{% load staticfiles %}
-{# {% load markdown_deux_tags %} #}
     <div class="list_item{% if not object.is_visible%} unpublished{% endif %}">
 
-    	<div class="title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
+    	<div class="title"><a href="{% url 'activities:detail' object.slug %}">{{ object.title }}</a></div>
        
         <div class="metadata">
             DATE: <b style="bold">{{ object.release_date|date:"Y-m-d" }}</b>
             <a href="{% url 'activities:detail' object.slug %}"><img src="{% static 'designimages/metaseparator.png' %}" alt="" /></a>
-            BY:  <b>{{ object.author.name }}, {{ object.institution.name }}</b>
+            BY:  <b>{{ object.author_list }}</b>
         </div>
 
         <div class="description">
@@ -28,7 +27,7 @@
            
             <div class="feat_col">
                 <div class="caption">AGE</div>
-                <div class="value">{{ object.age_display }}</div>
+                <div class="value">{{ object.age_range }}</div>
             </div>
 
             <div class="feat_col">
