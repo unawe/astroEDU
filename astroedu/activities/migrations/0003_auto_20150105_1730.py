@@ -5,10 +5,10 @@ from django.db import models, migrations, connection
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 
-def _populate_creation_modification(cls):
-    content_type = ContentType.objects.get_for_model(cls)  #, for_concrete_model=False
-    update_sql = "UPDATE " + cls._meta.db_table + " SET creation_date=%s, modification_date=%s WHERE id = %s"
-    for obj in cls.objects.all():
+def _populate_creation_modification(klass):
+    content_type = ContentType.objects.get_for_model(klass)  #, for_concrete_model=False
+    update_sql = "UPDATE " + klass._meta.db_table + " SET creation_date=%s, modification_date=%s WHERE id = %s"
+    for obj in klass.objects.all():
         creation_date = LogEntry.objects.filter(
             object_id=obj.id,
             content_type=content_type
