@@ -35,7 +35,7 @@ def zip_attachments(obj):
 @shared_task()
 def make_epub(obj):
     EPUB_ASSETS_ROOT = os.path.join(settings.BASE_DIR, 'share', 'epub-assets')
-    outfile = _downfile(obj, 'epub')
+    outfile = os.path.join(settings.MEDIA_ROOT, obj.epub_url().replace(settings.MEDIA_URL, ''))
     template = get_template('activities/epub.html')
     doc = epub.Document(outfile)
     html = template.render(Context({'object': obj, }))
@@ -72,7 +72,3 @@ def make_pdf(obj):
 @shared_task()
 def add(x, y):
     return x + y
-
-def _downfile(obj, ext):
-    return os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'download', obj.download_key() + '.' + ext)
-

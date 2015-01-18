@@ -10,7 +10,7 @@
         </div>
 
         <div class="description">
-            {% if object.main_visual %}<img src="/media/activities/thumb2/{{object.code}}.jpg" alt="{{object.title}}" />{% endif %}
+            {% if object.main_visual %}<img src="{{ object.thumb2_url }}" alt="{{object.title}}" />{% endif %}
             <div class="list_item_short">{{ object.teaser }}</div>
         </div>
 

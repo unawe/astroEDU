@@ -110,12 +110,14 @@ class MediaAttachedModel(models.Model):
     def media_key(self):
         return unicode(self._meta.verbose_name_plural)
 
-    def thumb(self):
+    def thumb_url(self):
         return self.media_url('thumb')
+    def thumb2_url(self):
+        return self.media_url('thumb2')
 
     def media_url(self, resource):
         if self.main_visual:
-            return os.path.join(settings.MEDIA_URL, self.media_key(), resource, self.code + '.jpg')
+            return os.path.join(settings.MEDIA_URL, self.media_key(), resource, self.code) + '.jpg'
 
     class Meta:
         abstract = True

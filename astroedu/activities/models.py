@@ -189,11 +189,11 @@ class Activity(ArchivalModel, TranslationModel):
 
     @property
     def main_visual(self):
+        result = None
         images = self.attachment_set.filter(main_visual=True)
         if images:
-            return images[0].file
-        else:
-            return None
+            result = images[0].file
+        return result
 
     def attachment_list(self):
         return self.attachment_set.filter(show=True)
@@ -216,6 +216,19 @@ class Activity(ArchivalModel, TranslationModel):
 
     def download_key(self):
         return self.slug + '-astroEDU-' + self.code
+
+    def zip_url(self):
+        return self.download_url('zip')
+    def pdf_url(self):
+        return self.download_url('pdf')
+    def epub_url(self):
+        return self.download_url('epub')
+    def rtf_url(self):
+        return self.download_url('rtf')
+
+    def download_url(self, resource):
+        if self.main_visual:
+            return os.path.join(settings.MEDIA_URL, self.media_key(), 'download', self.download_key() + '.' + resource)
 
     # def save(self, *args, **kwargs):
     #     super(Activity, self).save(*args, **kwargs)

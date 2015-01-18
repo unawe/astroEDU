@@ -100,7 +100,7 @@ class ActivityAdmin(CounterAdmin):
     
     def thumb_embed(self, obj):
         if obj.main_visual:
-            return u'<img src="%s" style="height:50px" />' % obj.thumb()
+            return u'<img src="%s" style="height:50px" />' % obj.thumb_url()
     thumb_embed.short_description = 'Thumbnail'
     thumb_embed.allow_tags = True
 
@@ -108,7 +108,7 @@ class ActivityAdmin(CounterAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     form = ActivityAdminForm
-    list_display = ('code', 'title', 'doi', 'author_institution', 'published', 'release_date', 'is_visible', 'featured', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'is_visible', 'featured', 'doi', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
@@ -179,7 +179,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
     def thumb_embed(self, obj):
         if obj.image:
-            return '<img src="%s" style="height:50px" />' % obj.thumb()
+            return '<img src="%s" style="height:50px" />' % obj.thumb_url()
     thumb_embed.short_description = 'Thumbnail'
     thumb_embed.allow_tags = True
 
