@@ -764,7 +764,7 @@ button.search_btn {
 .section_meta_2 .icon img { width: 50px; height:50px; margin-right: 10px; }
 .section_meta_2 .title_text { font-size: 13px; font-weight: 900; text-transform: uppercase; padding-top: 15px; padding-bottom: 15px; }
 .section_meta_2 .content { font-size: 11px; font-weight: bold; margin-bottom: 5px; }
-.section_meta_2 .content img { margin-left: 10px; margin-right: 10px; margin-top: 2px; }
+.section_meta_2 .content img { margin-left: 10px; margin-right: 10px; margin-top: 2px; vertical-align: middle; }
 .section_meta_2.grey { border-right-color: #6C6C70; background-color: #E8E8E8; }
 .section_meta_2.orange { border-right-color: #F8B132; background-color: #F7EFE2; }
 .section_meta_2.orange .title_text { color: #F8B132; }

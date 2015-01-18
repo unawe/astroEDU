@@ -30,7 +30,8 @@ td, th {
     padding:8px 9px !important;
     vertical-align: text-bottom;
 }
-table thead th .text a {
+table thead th .text a,
+table thead th .text span {
   word-break: break-all;
   max-height: 23px;
   overflow: hidden;

@@ -46,8 +46,27 @@ class MetadataOptionAdmin(admin.ModelAdmin):
         return False
 
 
+class ActivityAttachmentInlineFormset(forms.models.BaseInlineFormSet):
+    def clean(self):
+        # There can be only one "main visual"
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        
+        main_visual_count = 0
+        for form in self.forms:
+            if form.cleaned_data:
+                main_visual = form.cleaned_data['main_visual']
+                if main_visual:
+                    main_visual_count += 1
+
+        if main_visual_count > 1:
+            raise forms.ValidationError('There can be only one "main visual".')
+
+
 class ActivityAttachmentInline(admin.TabularInline):
     model = Attachment
+    formset = ActivityAttachmentInlineFormset
     fields = ('title', 'file', 'main_visual', 'show', 'position', )
 
 
