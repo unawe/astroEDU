@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 
 def _populate_creation_modification(klass):
     content_type = ContentType.objects.get_for_model(klass)  #, for_concrete_model=False
-    update_sql = "UPDATE " + klass._meta.db_table + " SET creation_date=%s, modification_date=%s WHERE id = %s"
+    update_sql = 'UPDATE ' + klass._meta.db_table + ' SET creation_date=%s, modification_date=%s WHERE id = %s'
     for obj in klass.objects.all():
         creation_date = LogEntry.objects.filter(
             object_id=obj.id,
