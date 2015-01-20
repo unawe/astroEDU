@@ -8,6 +8,8 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.redirects.models import Redirect
 from django.contrib.sites.models import Site
+from django.contrib.admin.models import LogEntry
+from django.contrib.contenttypes.models import ContentType
 import bleach
 # from tinymce.models import HTMLField
 # from markupfield.fields import MarkupField
@@ -253,10 +255,17 @@ def activity_pre_save(sender, instance, **kwargs):
         old = Activity.objects.get(pk=instance.pk)
         redirect_activity(old, instance)
 
-@receiver(post_save, sender=Activity)
-def activity_post_save(sender, instance, **kwargs):
-    tasks.make_thumbnail.delay(instance)
-    instance.generate_downloads()
+@receiver(post_save, sender=LogEntry)
+def activity_post_save_delayed(sender, **kwargs):
+    # The normal post_save signal is fired before the dependant objects are saved;
+    # so instead we are listening to LogEntry post_save
+    # In this case, we need the attachments to be up-to-date
+    logentry = kwargs['instance']
+    ct = ContentType.objects.get_for_model(Activity)
+    if ct.id == logentry.content_type.id:
+        instance = logentry.get_edited_object()
+        tasks.make_thumbnail.delay(instance)
+        instance.generate_downloads()
 
 def redirect_activity(old, new):
     if old.slug != new.slug:
@@ -331,7 +340,7 @@ class RepositoryEntry(models.Model):
     activity = models.ForeignKey(Activity)
 
     def repo_title(self):
-        resul = None
+        result = None
         if self.repo:
             result = settings.REPOSITORIES[self.repo][0]
         return result
