@@ -10,7 +10,6 @@ from django.contrib.redirects.models import Redirect
 from django.contrib.sites.models import Site
 from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
-import bleach
 # from tinymce.models import HTMLField
 # from markupfield.fields import MarkupField
 # from markupmirror.fields import MarkupMirrorField
@@ -165,22 +164,6 @@ class Activity(ArchivalModel, TranslationModel):
     conclusion = models.TextField(blank=False, )
     ''' '''
 
-    def save(self, *args, **kwargs):
-        ## sanitize markdown
-        self.teaser = bleach_clean(self.teaser)
-        self.description = bleach_clean(self.description)
-        self.keywords = bleach_clean(self.keywords)
-        self.materials = bleach_clean(self.materials)
-        self.goals = bleach_clean(self.goals)
-        self.objectives = bleach_clean(self.objectives)
-        self.background = bleach_clean(self.background)
-        self.fulldesc = bleach_clean(self.fulldesc)
-        self.evaluation = bleach_clean(self.evaluation)
-        self.curriculum = bleach_clean(self.curriculum)
-        self.additional_information = bleach_clean(self.additional_information)
-        self.conclusion = bleach_clean(self.conclusion)
-        super(Activity, self).save(*args, **kwargs)
-
     def age_range(self):
         # return ' '.join(obj.title for obj in self.age.all())
         age_ranges = [obj.title for obj in self.age.all()]
@@ -208,11 +191,11 @@ class Activity(ArchivalModel, TranslationModel):
 
     def generate_downloads(self, pdf=True, epub=True, rtf=True, zip=True):
         if zip:
-            tasks.zip_attachments.delay(self)
+            tasks.zip_attachments.delay(self, self.download_path('zip'))
         if epub:
-            tasks.make_epub.delay(self)
+            tasks.make_epub.delay(self, self.download_path('epub'))
         if pdf:
-            tasks.make_pdf.delay(self)
+            tasks.make_pdf.delay(self, self.download_path('pdf'))
         if rtf:
             pass
 
@@ -231,6 +214,9 @@ class Activity(ArchivalModel, TranslationModel):
     def download_url(self, resource):
         if self.main_visual:
             return os.path.join(settings.MEDIA_URL, self.media_key(), 'download', self.download_key() + '.' + resource)
+    def download_path(self, resource):
+        if self.main_visual:
+            return os.path.join(settings.MEDIA_ROOT, self.media_key(), 'download', self.download_key() + '.' + resource)
 
     # def save(self, *args, **kwargs):
     #     super(Activity, self).save(*args, **kwargs)
@@ -363,11 +349,3 @@ class RepositoryEntry(models.Model):
         ordering = ['repo']
         verbose_name_plural = 'repository entries'
 
-def bleach_clean(text):
-    result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)
-
-    # bleach escaped too much stuff, let's put it back
-    result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', result)  # automatic links
-    result = re.sub(r'</?br\w?/?>', r'<br/>', result)  # we prefer xhtml line breaks
-
-    return result

@@ -1,10 +1,10 @@
-{% load markdown_deux_tags %}
+{% load markdown %}
 
 {{ object.title }}
 {{ object.theme }}
 {{ object.teaser }}
 {{ object.description|markdown|striptags }}
-{{ object.keywords|markdown|striptags }}
+{{ object.keywords }}
 {{ object.materials|markdown|striptags }}
 {{ object.goals|markdown|striptags }}
 {{ object.objectives|markdown|striptags }}

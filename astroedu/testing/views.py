@@ -31,9 +31,9 @@ def email(request):
     })
 
 def markdown(request):
-    import markdown_deux
+    from django_mistune import markdown
     mtext = '## Boa Tarde\n\n_TTX_\n'
-    htext = markdown_deux.markdown(mtext, 'default')
+    htext = markdown(mtext)
     return render(request, 'testing/markdown.html', {'value': htext + '\n\n---\n\n' + mtext})
 
 def error(request):

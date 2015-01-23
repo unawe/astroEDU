@@ -1,5 +1,7 @@
 import re
 
+from django_mistune import markdown
+
 from django.contrib import admin
 from django import forms
 from django.db import models
@@ -11,7 +13,7 @@ from contrib.adminutils import download_csv
 from astroedu.activities.models import Activity, Attachment, Author, Institution, MetadataOption, Collection, RepositoryEntry
 # from astroedu.activities.models import Richtext
 from filemanager.models import File as ManagedFile
-
+from astroedu.activities.utils import bleach_clean
 
 # class RichtextAdminForm(forms.ModelForm):
 #     from pagedown.widgets import AdminPagedownWidget
@@ -90,15 +92,31 @@ class ActivityAdminForm(forms.ModelForm):
             # 'log': forms.Textarea(attrs={'disabled': True}),
         }
 
-    def clean(self):
-        cleaned_data = super(ActivityAdminForm, self).clean()
-        code = cleaned_data.get('code')
-        age = cleaned_data.get('age')
-        level = cleaned_data.get('level')
+    def clean_code(self):
+        code = self.cleaned_data['code']
         if not re.match('^\w*\d{4}$', code):
             raise forms.ValidationError(_(u'The code should be four digits, in the format: YY##'))
+        return code
+
+    def clean(self):
+        cleaned_data = super(ActivityAdminForm, self).clean()
+
+        age = cleaned_data.get('age')
+        level = cleaned_data.get('level')
         if not age and not level:
             raise forms.ValidationError(_(u'Please fill in at least one of these fields: "Age", "Level"'))
+
+        for fieldname in ('description', 'materials', 'goals', 'objectives', 'background', 'fulldesc', 'evaluation', 'curriculum', 'additional_information', 'conclusion', ):
+            value = cleaned_data[fieldname]
+            value = bleach_clean(value)  # sanitize html embed in markdown
+            cleaned_data[fieldname] = value
+            try:
+                markdown(value)
+            except e:
+                # TODO: test error logging
+                print e
+                self.add_error(fieldname, _(u'Markdown error'))
+
         return cleaned_data
 
 
@@ -137,12 +155,12 @@ class ActivityAdmin(CounterAdmin):
     inlines = [ActivityAttachmentInline, RepositoryEntryInline]
     
     fieldsets = [
-        (None, {'fields': ('code', 'title', 'slug', ('author', 'institution', ), 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',) )}),
+        (None, {'fields': ('code', 'title', 'slug', ('author', 'institution', ), 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',), 'keywords', )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
-        ('Description', {'fields': ('theme', 'teaser', 'description', 'keywords', 'materials', 'goals', 'objectives', 'background', )}),
+        ('Description', {'fields': ('theme', 'teaser', 'description', 'goals', 'objectives', 'evaluation', 'materials', 'background', )}),
         (None, {'fields': ('fulldesc', )}),
-        (None, {'fields': ('conclusion', 'additional_information', 'evaluation', 'curriculum', )}),
+        (None, {'fields': ('curriculum', 'additional_information', 'conclusion', )}),
     ]
     readonly_fields = ('is_visible', )
     # richtext_fields = ('description', 'materials', 'objectives', 'background', 'fulldesc_intro', 'fulldesc_outro', 'additional_information', 'evaluation', 'curriculum', 'credit', )

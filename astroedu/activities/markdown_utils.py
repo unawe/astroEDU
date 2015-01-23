@@ -1,8 +1,8 @@
 import re
 import os
-from markdown_deux import markdown
 import urllib
 
+from django_mistune import markdown
 from bs4 import BeautifulSoup
 
 from django.conf import settings
@@ -130,3 +130,4 @@ def markdown_tokenize_0(text):
         else:
             html = ''
     return result
+

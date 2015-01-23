@@ -1,16 +1,17 @@
 {% spaceless %}
 {% load staticfiles %}
 {% load i18n %}
-{% load markdown_deux_tags %}
+{% load markdown %}
 {% endspaceless %}<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns:epub="http://www.idpf.org/2007/ops" xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{object.lang}}" lang="{{object.lang}}">
 <head>
 	<title>{{object.title}}</title>
 	<style type="text/css">
-	body { font-family: Helvetica, Arial, sans-serif; }
 	.summary { font-style: italic; }
-	h2 img { height: 1em; vertical-align: absmiddle; margin-right: 0.4em;}
+	table{ border-collapse: collapse; border-spacing: 0}
+	td, th { border: solid thin; font-size: 70%; font-family: sans-serif; }
+	th { font-weight: bold; }
 	</style>
 </head>
 <body>

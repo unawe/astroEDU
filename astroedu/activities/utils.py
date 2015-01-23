@@ -2,6 +2,7 @@ import os
 import re
 import urllib
 
+import bleach
 from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives, send_mail, BadHeaderError
 from django.conf import settings
@@ -81,5 +82,13 @@ def send_notification_mail():
     
     return
 
+def bleach_clean(text):
+    result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)
+
+    # bleach escaped too much stuff, let's put it back
+    result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', result)  # automatic links
+    result = re.sub(r'</?br\w?/?>', r'<br/>', result)  # we prefer xhtml line breaks
+
+    return result
 
 

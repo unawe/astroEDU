@@ -183,8 +183,7 @@ INSTALLED_APPS = (
     'djcelery',
 
 
-    # 'django.contrib.markup',
-    'markdown_deux',
+    'django_mistune',
     # 'markupmirror',
     # # 'django_markdown',
     # 'pagedown',
@@ -250,62 +249,16 @@ LOGGING = {
     }
 }
 
-# For extras, see https://github.com/trentm/python-markdown2/wiki/Extras
-MARKDOWN_DEUX_STYLES = {
-    'activities': {
-        'extras': {
-            # 'code-friendly': None,  # Disable _ and __ for em and strong
-            'cuddled-lists': None,  # Allow lists to be cuddled to the preceding paragraph
-            'fenced-code-blocks': None,  # Allows a code block to not have to be indented by fencing it with '```' on a line before and after
-            'footnotes': None,  # support footnotes as in use on daringfireball.net
-            'header-ids': None,  # Adds "id" attributes to headers. The id value is a slug of the header text. 
-            # 'link-patterns': None  # Auto-link given regex patterns in text (e.g. bug number references, revision number references).'
-            'metadata': None,  # Extract metadata from a leading '---'-fenced block
-            'smarty-pants': None,  # Fancy quote, em-dash and ellipsis handling
-            'tables': None,  # Tables using the same format as GFM 
-        },
-        'safe_mode': None,
-    },
-    'safe': {
-        'extras': {
-            'code-friendly': None,
-        },
-        'safe_mode': 'escape',
-    },
-    'trusted': {
-        'extras': {
-            'code-friendly': None,
-        },
-        'safe_mode': None,
-    },
-    # # Here is what http://code.activestate.com/recipes/ currently uses.
-    # 'recipe': {
-    #     'extras': {
-    #         'code-friendly': None,
-    #     },
-    #     'safe_mode': 'escape',
-    #     'link_patterns': [
-    #         # Transform 'Recipe 123' in a link.
-    #         (re.compile(r'recipe\s+#?(\d+)\b', re.I),
-    #          r'http://code.activestate.com/recipes/\1/'),
-    #     ],
-    #     'extras': {
-    #         'code-friendly': None,
-    #         'pyshell': None,
-    #         'demote-headers': 3,
-    #         'link-patterns': None,
-    #         # `class` attribute put on `pre` tags to enable using
-    #         # <http://code.google.com/p/google-code-prettify/> for syntax
-    #         # highlighting.
-    #         'html-classes': {'pre': 'prettyprint'},
-    #         'cuddled-lists': None,
-    #         'footnotes': None,
-    #         'header-ids': None,
-    #     },
-    #     'safe_mode': 'escape',
-    # }
+
+MISTUNE_STYLES = {
+    # 'escape': True,  # all raw html tags will be escaped.
+    # 'hard_wrap': True,  # it will has GFM line breaks feature.
+    'use_xhtml': True, # all tags will be in xhtml, for example: <hr />.
+    # 'parse_html': True,  # parse text in block level html.
+    # 'skip_style': True,
+    # 'skip_html': True,
 }
-MARKDOWN_DEUX_STYLES['default'] = MARKDOWN_DEUX_STYLES['activities']
+
 
 # Caching
 USE_ETAGS = True  # Note: disable debug toolbar while testing!

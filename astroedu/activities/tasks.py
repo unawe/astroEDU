@@ -23,19 +23,17 @@ def make_thumbnail(obj):
         processimage(filename, obj.code, folder, obj.media_key())
 
 @shared_task()
-def zip_attachments(obj):
+def zip_attachments(obj, outfile):
     result = 0
     zipoptions = '-jX'
-    outfile = _downfile(obj, 'zip')
     subprocess.call(['rm', '-f', outfile])
     for f in obj.attachment_list():
         result += subprocess.call(['zip', zipoptions, outfile, f.file.path])    
     return result
 
 @shared_task()
-def make_epub(obj):
+def make_epub(obj, outfile):
     EPUB_ASSETS_ROOT = os.path.join(settings.BASE_DIR, 'share', 'epub-assets')
-    outfile = os.path.join(settings.MEDIA_ROOT, obj.epub_url().replace(settings.MEDIA_URL, ''))
     template = get_template('activities/epub.html')
     doc = epub.Document(outfile)
     html = template.render(Context({'object': obj, }))
@@ -54,7 +52,7 @@ def make_epub(obj):
     doc.files.append(('%s.xhtml' % obj.code, None, html))
 
     doc.metadata = {
-        'title': obj.title,
+        'title': obj.title + ' - astroEDU Activity',
         'author': obj.author.name,
         'description': obj.teaser,
         'book_id': 'http://astroedu.iau.org%s' % obj.get_absolute_url(),
@@ -65,8 +63,7 @@ def make_epub(obj):
     doc.compile()
 
 @shared_task()
-def make_pdf(obj):
-    outfile = _downfile(obj, 'pdf')
+def make_pdf(obj, outfile):
     pdfrenderer.Renderer().generate_one(obj, outfile)
 
 @shared_task()
