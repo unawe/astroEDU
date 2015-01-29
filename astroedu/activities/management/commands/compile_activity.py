@@ -66,10 +66,13 @@ class Command(BaseCommand):
 
 
 def _generate_downloads(activity, options):
-    print options
-    if options['thumb'] or options['all']:
+    if options['all'] or options['thumb']:
         tasks.make_thumbnail(activity)
-    if options['all']:
-        activity.generate_downloads()
-    else:
-        activity.generate_downloads(pdf=options['pdf'], epub=options['epub'], rtf=options['rtf'], zip=options['zip'], )
+    if options['all'] or options['zip']:
+        tasks.zip_attachments(activity)
+    if options['all'] or options['epub']:
+        tasks.make_epub(activity)
+    if options['all'] or options['pdf']:
+        tasks.make_pdf(activity)
+    # if options['all'] or options['rtf']:
+    #     tasks.make_rtf(activity)

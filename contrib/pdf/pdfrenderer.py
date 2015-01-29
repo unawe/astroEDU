@@ -10,16 +10,25 @@ from reportlab.lib.units import cm
 from reportlab.platypus import BaseDocTemplate, Frame, Image, Paragraph, NextPageTemplate, PageBreak, PageTemplate, FrameBreak
 from reportlab.platypus.flowables import Flowable
 # from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import StyleSheet1 # , ParagraphStyle
 # from reportlab.rl_config import defaultPageSize
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
 
-class Styles(dict):
+class Styles(StyleSheet1):
     lang = 'en'
+    font_overrides = {}
+    
+    def add(self, style):
+        if self.lang in self.font_overrides:
+            style.fontName = self.font_overrides[self.lang]
+        if self.lang in ['ja', 'zh', 'ko']:
+            style.wordWrap = 'CJK'
+        StyleSheet1.add(self, style)  # StyleSheet1 is an old-style class, can't use super()
 
 
-class PdfRendererBase():
+class PdfRendererBase(object):
     def __init__(self, pagesize=A4, ppi=150, assets_root=''):
         self.pagesize = pagesize
         self.page_width = self.pagesize[0]
@@ -27,8 +36,7 @@ class PdfRendererBase():
         self.ppi = ppi
         self.image_scale = 72./self.ppi
         self.assets_root = assets_root
-        self.styles = Styles()  # getSampleStyleSheet()
-        self.font_overrides = {}
+        self.styles = Styles()
 
     def onPageStartOne(self, canvas, doc):
         pass
@@ -167,14 +175,6 @@ class PdfRendererBase():
         f = open(path, 'w')
         self.render(obj, f)
         f.close()
-        print obj.id
-
-    def add_style(self, style):
-        if self.lang in self.font_overrides:
-            style.fontName = self.font_overrides[self.lang]
-        if self.lang in ['ja', 'zh', 'ko']:
-            style.wordWrap = 'CJK'
-        self.styles[style.name] = style
 
     def register_font(self, name, normal=None, bold=None, italic=None, boldItalic=None, langs=[]):
 

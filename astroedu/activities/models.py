@@ -189,16 +189,6 @@ class Activity(ArchivalModel, TranslationModel):
     #     else:
     #         tasks.make_thumbnail.delay(self)
 
-    def generate_downloads(self, pdf=True, epub=True, rtf=True, zip=True):
-        if zip:
-            tasks.zip_attachments.delay(self, self.download_path('zip'))
-        if epub:
-            tasks.make_epub.delay(self, self.download_path('epub'))
-        if pdf:
-            tasks.make_pdf.delay(self, self.download_path('pdf'))
-        if rtf:
-            pass
-
     def download_key(self):
         return self.slug + '-astroEDU-' + self.code
 
@@ -217,11 +207,6 @@ class Activity(ArchivalModel, TranslationModel):
     def download_path(self, resource):
         if self.main_visual:
             return os.path.join(settings.MEDIA_ROOT, self.media_key(), 'download', self.download_key() + '.' + resource)
-
-    # def save(self, *args, **kwargs):
-    #     super(Activity, self).save(*args, **kwargs)
-    #     tasks.make_thumbnail.delay(self)
-    #     self.generate_downloads()
 
     def __unicode__(self):
         return u'%s - %s' % (self.code, self.title)
@@ -251,7 +236,10 @@ def activity_post_save_delayed(sender, **kwargs):
     if ct.id == logentry.content_type.id:
         instance = logentry.get_edited_object()
         tasks.make_thumbnail.delay(instance)
-        instance.generate_downloads()
+        tasks.zip_attachments.delay(instance)
+        tasks.make_epub.delay(instance)
+        tasks.make_pdf.delay(instance)
+        # tasks.make_rtf.delay(instance)
 
 def redirect_activity(old, new):
     if old.slug != new.slug:

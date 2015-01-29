@@ -112,8 +112,10 @@ class ActivityAdminForm(forms.ModelForm):
             cleaned_data[fieldname] = value
             try:
                 markdown(value)
-            except e:
+            except:
                 # TODO: test error logging
+                import sys
+                e = sys.exc_info()[0]
                 print e
                 self.add_error(fieldname, _(u'Markdown error'))
 
