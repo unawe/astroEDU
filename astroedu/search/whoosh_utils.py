@@ -26,6 +26,7 @@ def _get_schema():
                     author_list = STORED(),
                     code = STORED(),
                     main_visual = STORED(),
+                    thumb2_url = STORED(),
 
                     age = KEYWORD(commas=True, sortable=RefBytesColumn()),
                     level = KEYWORD(commas=True, sortable=RefBytesColumn()),
@@ -106,6 +107,7 @@ def _update_activity(obj, writer):
                            author_list = obj.author_list(),
                            code = obj.code,
                            main_visual = True if obj.main_visual else False,
+                           thumb2_url = obj.thumb2_url(),
                            
                            age = u','.join([x.code for x in obj.age.all()]),
                            level = u','.join([x.code for x in obj.level.all()]),
