@@ -13,6 +13,8 @@ def initStyleSheet(stylesheet):
         spaceBefore = 11,
         spaceAfter = 11,
         #   leftIndent = 12,
+        allowWidows = 0,
+        allowOrphans = 0,
         alignment = TA_JUSTIFY,
         ))
 

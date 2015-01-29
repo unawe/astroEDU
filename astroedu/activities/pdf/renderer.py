@@ -138,45 +138,51 @@ class Renderer(PdfRendererBase):
         for section_code, section_title in sections:
             data = markdown_pdfcommand(getattr(obj, section_code))
             if data:
-                elements.append(SectionHeader(self, section_title, styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/%s.png' % section_code)))
-                self.append_richtext(elements, data)
+                header = SectionHeader(self, section_title, styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/%s.png' % section_code))
+                body = self.append_richtext(data)
+                # elements.append(header)
+                # elements += body
+                elements.append(KeepTogether([header, body[0]]))
+                elements += body[1:]
 
         doc.build(elements)
 
-    def append_richtext(renderer, elements, data):
+    def append_richtext(self, data):
+        result = []
         for name, content in data:
             if name == 'image':
                 image_name = content[len(settings.MEDIA_URL):]
                 image_path = os.path.join(settings.MEDIA_ROOT, urllib.unquote(image_name))
-                elements.append(AweImage(renderer, image_path, maxwidth=IMAGE_MAX_WIDTH))
+                result.append(AweImage(self, image_path, maxwidth=IMAGE_MAX_WIDTH))
             elif name.startswith('list_item'):
                 list_level = name[len('list_item_'):]
-                elements.append(Paragraph(content, renderer.styles['List'+list_level], bulletText=u'\u2022'))
+                result.append(Paragraph(content, self.styles['List'+list_level], bulletText=u'\u2022'))
             elif name.startswith('header'):
                 header_level = name[len('header_'):]
-                elements.append(Paragraph(content, renderer.styles['Heading'+header_level]))
+                result.append(Paragraph(content, self.styles['Heading'+header_level]))
             elif name == 'paragraph':
-                elements.append(Paragraph(content, renderer.styles['Normal']))
+                result.append(Paragraph(content, self.styles['Normal']))
             elif name == 'table':
                 for i, row in enumerate(content):
                     for j, cell in enumerate(row):
                         fmt = cell[1]
                         if fmt['header']:
-                            style = renderer.styles['TableHeader']
+                            style = self.styles['TableHeader']
                         elif fmt['align']:
-                            style = renderer.styles['TableCell-' + fmt['align']]
+                            style = self.styles['TableCell-' + fmt['align']]
                         else:
-                            style = renderer.styles['TableCell']
+                            style = self.styles['TableCell']
                         content[i][j] = Paragraph(cell[0], style)
                 table_style = TableStyle([
-                        ('INNERGRID', (0,0), (-1,-1), 0.25, renderer.normalizeRGB(colors.TEXT_COLOR)),
-                        ('BOX', (0,0), (-1,-1), .5, renderer.normalizeRGB(colors.TEXT_COLOR)),
+                        ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
+                        ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
                         ('BOTTOMPADDING', (0,0), (-1,-1), 1),
                     ])
-                elements.append(KeepTogether(Table(content, style=table_style)))
-                elements.append(Spacer(.5*cm, .5*cm))
+                result.append(KeepTogether(Table(content, style=table_style)))
+                result.append(Spacer(.5*cm, .5*cm))
             else:
                 raise Exception('Unexpected command: ', name)
+        return result
 
 
 if __name__ == '__main__':
