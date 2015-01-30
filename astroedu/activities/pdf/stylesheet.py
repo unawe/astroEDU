@@ -67,6 +67,8 @@ def initStyleSheet(stylesheet):
     stylesheet.add(ParagraphStyle(name='Heading3', parent=stylesheet['Heading1'],
         fontName = 'Normal',
         fontSize = 16,
+        spaceBefore = 22,
+        spaceAfter = 22,
         ))
 
     stylesheet.add(ParagraphStyle(name='Heading4', parent=stylesheet['Heading1'],

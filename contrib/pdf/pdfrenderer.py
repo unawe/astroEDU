@@ -78,24 +78,9 @@ class PdfRendererBase(object):
         canvas.drawImage(image, 0, 0, self.page_width, self.page_height)
 
     def paint_image(self, image, x, y, canvas, **kwargs):
-        
-        if 'scale' in kwargs:
-            scale = kwargs['scale']
-            del kwargs['scale']
-        else:
-            scale = 1
-
-        if 'surfaceHeight' in kwargs:
-            surfaceHeight = kwargs['surfaceHeight']
-            del kwargs['surfaceHeight']
-        else:
-            surfaceHeight = self.page_height
-
-        # if 'origin' in kwargs:
-        #   origin = kwargs['origin']
-        #   del kwargs['origin']
-        # else:
-        #   origin = BOTTOM_LEFT_ORIGIN
+        scale = kwargs.pop('scale', 1)
+        surfaceHeight = kwargs.pop('surfaceHeight', self.page_height)
+        # origin = kwargs.pop('origin', BOTTOM_LEFT_ORIGIN)
 
         # print image
         image = self.get_dependent_image(image)
