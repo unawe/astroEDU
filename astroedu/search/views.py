@@ -3,7 +3,7 @@ from operator import itemgetter
 from django.shortcuts import render
 
 from . import whoosh_utils
-from astroedu.activities.models import MetadataOption
+from astroedu.activities.models import Activity, MetadataOption
 from .forms import SearchForm
 
 def _pimp_facets(facets):
@@ -46,4 +46,8 @@ def search(request):
             'request': request,
             'form': form,
         }
+
+    if not 'page' in context or not context['page']['object_list']:
+        context['featured'] = Activity.objects.featured()[0:3]
+
     return render(request, 'search/search.html', context)

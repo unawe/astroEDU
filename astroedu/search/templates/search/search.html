@@ -39,7 +39,7 @@ page.next_page_number
     </div>
 
     {% else %}
-    <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> No results found!</p>
+    <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> Sorry, no results found that match your query.</p> 
     {% endif %}
 
 
@@ -64,6 +64,13 @@ page.next_page_number
 
 </div><div style="clear: both;">
 </div></div></div>
+
+{% if featured %}
+    {% include "astroedu/featured.html" %}
+{% endif %}
+
+
+
 
 {% endblock %}
 
