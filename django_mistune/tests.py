@@ -5,6 +5,11 @@ from unittest import TestCase
 
 from .utils import markdown, markdown_pdfcommand
 
+'''
+How to run:
+python -m unittest django_mistune.tests
+'''
+
 root = os.path.dirname(__file__)
 
 

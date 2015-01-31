@@ -10,14 +10,6 @@ col1 | col2
 ---|:---:
 **1** | 2 | ~~3~~
 '''
-# sample_md = '''
-# - 1
-#     - 1.1
-#     - 1.2
-# - 2
-#     - 2.1
-#     - 2.2
-# '''
 
 def _markdown(text, renderer=None, inline=None, block=None):
     my_settings = settings.MISTUNE_STYLES if hasattr(settings, 'MISTUNE_STYLES') else {}
@@ -38,24 +30,11 @@ def markdown_pdfcommand(text, inline=None, block=None):
     # pp.pprint(tree)
 
     # # import pdb; pdb.set_trace()
-    result = TreeParser().parse(tree)
+    result = PdfTreeParser().parse(tree)
     return result
 
 
-# class RendererForPdf(mistune.Renderer):
-#     renderer_html = mistune.Renderer()
-
-#     def default_output(self):
-#         return []
-
-#     def placeholder(self, *args, **kwargs):
-#         return self.default_output()
-
-#     def paragraph(self, text):
-#         return [('paragraph', {'text': text})]
-
-
-class TreeParser(object):
+class PdfTreeParser(object):
     '''Parses a tree into a list of commands for the reportlab-based PdfRenderer'''
     list_level = 0
     supported_tags = ['sub', 'sup', 'br']
