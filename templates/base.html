@@ -61,7 +61,21 @@
 
 		</div>
 		
-		<div class="meta_action alignright">
+		<div class="meta_action">
+			
+			<div class="action_icon">
+				<a href="{% url 'activities:list' %}"><img src="{% static 'designimages/bigicon_activities.png' %}" alt="See all activities" /></a>
+			</div>
+			
+			<div class="orange_gray_button">
+				<a href="{% url 'activities:list' %}">
+					See All Activities
+				</a>
+			</div>
+
+		</div>
+		
+		<div class="meta_action">
 			
 			<div class="action_icon">
 				<a href="/submission/">

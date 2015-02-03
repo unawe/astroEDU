@@ -1,0 +1,40 @@
+@media (max-width: 600px) {
+    #cookie-policy { 
+        height: 50px;
+    }
+    #cookie-policy p, #cookie-policy a {
+        max-width: 85%;
+        margin: 10px 0 0 0;
+        font-size:12px;
+    }
+    span.close-btn img {
+        width: 30px; 
+    }
+    .top_left {
+        text-align: center;
+    }
+    .top_right_search .search_textbox {
+        width: 43%;
+    }
+    .home_slogan {
+        padding-top: 30px;
+        width: 90%;
+        margin: 0 auto;
+        font-size: 16px;
+        line-height:22px;
+    }
+    .meta_action img {
+      transform: scale(0.5);
+      -webkit-transform: scale(0.5);
+      -moz-transform: scale(0.5);
+      -o-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+    }
+    .sponsor-list li {
+        margin-left: 10px;
+    }
+    .sponsor-list li img {
+        height: 50px;
+        width: auto;
+    }
+}

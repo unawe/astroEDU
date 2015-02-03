@@ -281,7 +281,15 @@ PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE_CSS = {
     'styles': {
         'source_filenames': (
-          'css/main.css',
+            'css/fonts.css',
+            'css/reset.css',
+            'css/main.css',
+            'css/media_1280.css',
+            'css/media_1080.css',
+            'css/media_992.css',
+            'css/media_768.css',
+            'css/media_1600.css',
+            'css/media_480.css',
         ),
         'output_filename': 'css/astroedu.min.css',
         'extra_context': {
@@ -292,8 +300,8 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'scripts': {
         'source_filenames': (
-          'js/jquery.js',
-          'js/scripts.js'
+            'js/jquery.js',
+            'js/scripts.js'
         ),
         'output_filename': 'js/astroedu.min.js',
     }

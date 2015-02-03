@@ -1,0 +1,91 @@
+/* media queries */
+@media (max-width:1080px) {
+    .layout_container > .layout_flatpage p {
+        width: 60%;
+    }
+    .layout_container > .layout_flatpage ul, .layout_container > .layout_flatpage ol {
+        width: 55%;
+    }
+    .layout_container > .layout_leftcolumn, .comments {
+        width: 60%;
+        float: left;
+    }
+    .layout_container > .layout_leftcolumn p img,   .layout_container > .layout_flatpage p img {
+        width: 100%;
+        height: auto !important;
+    }
+    .activity_detail .section .title .title_text {
+        width: 80%;
+    }
+    .layout_container > .layout_rightcolumn {
+        width: 35%;
+        margin-left: 0;
+        float: right;
+    }
+    .section_meta .text {
+        width: 55%;
+    }
+    .layout_container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .top_right img {
+       transform: scale(0.85);
+      -webkit-transform: scale(0.85);
+      -moz-transform: scale(0.85);
+      -o-transform: scale(0.85);
+      -ms-transform: scale(0.85);
+    }
+    .top_search {
+        float: right; margin-top: 38px;
+    }
+    .top_right_search a {
+        float: right; padding-left: 30px; margin-top: 28px;
+    } 
+    .top_right_search .search_textbox {
+        width: 220px;
+        font-size: 18px;
+    }
+    .top_right_search button.search_btn {
+        font-size: 17px;
+    }
+    .featured_item {
+        width: 31.2%;
+    }
+    .featured_item {
+        margin-right: 3.2% !important;
+    }
+    .featured_item:last-child {
+        margin-right: 0 !important;
+    }
+    .featured_item:nth-child(3n) {
+        margin-right: 0 !important;
+    }
+    .featured_item .image, .featured_item img {
+        width: 100%;
+        height: auto !important;
+    }
+    .featured_item .title a {
+        font-size: 36px;
+    }
+    .footer_meta {
+        width: 90%;
+    }
+    .meta_action img {
+        max-width: 185px;
+        transform: scale(0.7);
+        -webkit-transform: scale(0.7);
+        -moz-transform: scale(0.7);
+        -o-transform: scale(0.7);
+        -ms-transform: scale(0.7);
+    }
+    .meta_action {
+        width: 23%;
+        text-align: center;
+    }
+    .action_icon {
+        margin-bottom: 20px;
+    }
+
+}
+
