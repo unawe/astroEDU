@@ -11,7 +11,6 @@ from reportlab.platypus import BaseDocTemplate, Frame, Image, Paragraph, Table, 
 
 from django_mistune.utils import markdown_pdfcommand
 from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage
-# from astroedu.activities.models import Activity
 
 from . import colors
 from .stylesheet import initStyleSheet
@@ -122,20 +121,8 @@ class Renderer(PdfRendererBase):
         elements.append(NextPageTemplate('PageNormal'))
         elements.append(FrameBreak())
 
-        sections = [
-            ('description', 'Brief Description'),
-            ('goals', 'Goals'),
-            ('objectives', 'Learning Objectives'),
-            ('evaluation', 'Evaluation'),
-            ('materials', 'Materials'),
-            ('background', 'Background Information'),
-            ('fulldesc', 'Full Activity Description'),
-            ('curriculum', 'Curriculum'),
-            ('additional_information', 'Additional Information'),
-            ('conclusion', 'Conclusion'),
-        ]
-
-        for section_code, section_title in sections:
+        from astroedu.activities.models import ACTIVITY_SECTIONS, ACTIVITY_METADATA
+        for section_code, section_title in ACTIVITY_SECTIONS:
             data = markdown_pdfcommand(getattr(obj, section_code))
             if data:
                 header = SectionHeader(self, section_title, styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/%s.png' % section_code))

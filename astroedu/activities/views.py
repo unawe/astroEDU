@@ -5,7 +5,7 @@ from django.shortcuts import render
 from astroedu.django_ext.shortcuts import get_object_or_404, get_list_or_404
 from django.conf import settings
 
-from astroedu.activities.models import Activity, Collection #, Richtext
+from astroedu.activities.models import Activity, Collection, ACTIVITY_SECTIONS, ACTIVITY_METADATA #, Richtext
 
 
 def list(request):
@@ -14,7 +14,7 @@ def list(request):
 
 def detail(request, slug):
     obj = get_object_or_404(Activity, user=request.user, slug=slug)
-    return render(request, 'activities/detail.html', {'object': obj})
+    return render(request, 'activities/detail.html', {'object': obj, 'sections': ACTIVITY_SECTIONS, 'sections_meta': ACTIVITY_METADATA, })
 
 def detail_by_code(request, code):
     obj = get_object_or_404(Activity, user=request.user, code=code)

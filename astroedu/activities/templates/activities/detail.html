@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load markdown %}
-
+{% load getattribute %}
 
 {% block site_title %}{{ object.title }} | astroEDU {% endblock %}
 
@@ -45,17 +45,9 @@
 	<div class="summary">{{ object.teaser }}</div>
 	<div class="author">{{ object.author_list }}</div>
 
-	{% include "activities/detail_section.html" with code="description" text="Brief Description" content=object.description|markdown %}
-	{% include "activities/detail_section.html" with code="goals" text="Goals" content=object.goals|markdown %}
-	{% include "activities/detail_section.html" with code="objectives" text="Learning Objectives" content=object.objectives|markdown %}
-	{% include "activities/detail_section.html" with code="evaluation" text="Evaluation" content=object.evaluation|markdown %}
-	{% include "activities/detail_section.html" with code="materials" text="Materials" content=object.materials|markdown %}
-	{% include "activities/detail_section.html" with code="background" text="Background Information" content=object.background|markdown %}
-	{% include "activities/detail_section.html" with code="fulldesc" text="Full Activity Description" content=object.fulldesc|markdown %}
-	{% include "activities/detail_section.html" with code="curriculum" text="Curriculum" content=object.curriculum|markdown %}
-	{% include "activities/detail_section.html" with code="additional_information" text="Additional Information" content=object.additional_information|markdown %}
-	{% include "activities/detail_section.html" with code="conclusion" text="Conclusion" content=object.conclusion|markdown %}
-  
+	{% for section in sections %}
+		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown %}
+	{% endfor %}
 
 </div>
 <div class="layout_rightcolumn">
@@ -63,15 +55,14 @@
 	<div class="meta">
 		{% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
 		{# {% include "activities/detail_section_meta.html" with code="language" text="Language" content=object.lang %} #}
-		{% include "activities/detail_section_meta.html" with code="age" text="Age" content=object.age_range %}
-		{% include "activities/detail_section_meta_list.html" with code="level" text="Level" content=object.level.all %}
-		{% include "activities/detail_section_meta.html" with code="time" text="Time" content=object.time %}
-		{% include "activities/detail_section_meta.html" with code="group" text="Group" content=object.group %}
-		{% include "activities/detail_section_meta.html" with code="supervised" text="Supervised" content=object.supervised %}
-		{% include "activities/detail_section_meta.html" with code="cost" text="Cost" content=object.cost %}
-		{% include "activities/detail_section_meta.html" with code="location" text="Location" content=object.location %}
-		{% include "activities/detail_section_meta_list.html" with code="skills" text="Core skills" content=object.skills.all %}
-		{% include "activities/detail_section_meta.html" with code="learning" text="Type of learning activity" content=object.learning %}
+
+		{% for section in sections_meta %}
+			{% if section.2.multiple %}
+				{% include "activities/detail_section_meta_list.html" with code=section.0 text=section.1 content=object|getattribute:section.0|getattribute:'all' %}
+			{% else %}
+				{% include "activities/detail_section_meta.html" with code=section.0 text=section.1 content=object|getattribute:section.2.display %}
+			{% endif %}
+		{% endfor %}
 
 		<div style="margin-top: 20px;"></div>
 		{% if object.attachment_list %}

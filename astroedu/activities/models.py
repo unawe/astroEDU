@@ -37,17 +37,55 @@ def get_file_path_step(instance, filename):
 #         return reverse('activities:rich', args=[self.id])
 
 
-METADATA_OPTION_CHOICES = (
-    ('age', u'Age'),
-    ('time', u'Time'),
-    ('level', u'Level'),
-    ('group', u'Group'),
-    ('supervised', u'Supervised'),
-    ('cost', u'Cost'),
-    ('location', u'Location'),
-    ('skills', u'Core skills'),
-    ('learning', u'Type of learning activity'),
+
+ACTIVITY_SECTIONS = (
+    ('description', u'Brief Description'),
+    ('goals', u'Goals'),
+    ('objectives', u'Learning Objectives'),
+    ('evaluation', u'Evaluation'),
+    ('materials', u'Materials'),
+    ('background', u'Background Information'),
+    ('fulldesc', u'Full Activity Description'),
+    ('curriculum', u'Curriculum'),
+    ('additional_information', u'Additional Information'),
+    ('conclusion', u'Conclusion'),
 )
+
+ACTIVITY_METADATA = (
+    ('age', u'Age', 
+            {'display': 'age_range', }),
+    ('level', u'Level', 
+            {'multiple': True, }),
+    ('time', u'Time',
+            {'display': 'time', }),
+    ('group', u'Group',
+            {'display': 'group', }),
+    ('supervised', u'Supervised',
+            {'display': 'supervised', }),
+    ('cost', u'Cost',
+            {'display': 'cost', }),
+    ('location', u'Location',
+            {'display': 'location', }),
+    ('skills', u'Core skills', 
+            {'multiple': True, }),
+    ('learning', u'Type of learning activity',
+            {'display': 'learning', }),
+)
+
+METADATA_OPTION_CHOICES = [(x[0], x[1]) for x in ACTIVITY_METADATA]
+
+        # {% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
+        # {# {% include "activities/detail_section_meta.html" with code="language" text="Language" content=object.lang %} #}
+        # {% include "activities/detail_section_meta.html" with code="age" text="Age" content=object.age_range %}
+        # {% include "activities/detail_section_meta_list.html" with code="level" text="Level" content=object.level.all %}
+        # {% include "activities/detail_section_meta.html" with code="time" text="Time" content=object.time %}
+        # {% include "activities/detail_section_meta.html" with code="group" text="Group" content=object.group %}
+        # {% include "activities/detail_section_meta.html" with code="supervised" text="Supervised" content=object.supervised %}
+        # {% include "activities/detail_section_meta.html" with code="cost" text="Cost" content=object.cost %}
+        # {% include "activities/detail_section_meta.html" with code="location" text="Location" content=object.location %}
+        # {% include "activities/detail_section_meta_list.html" with code="skills" text="Core skills" content=object.skills.all %}
+        # {% include "activities/detail_section_meta.html" with code="learning" text="Type of learning activity" content=object.learning %}
+
 
 class MetadataOption(models.Model):
     group = models.CharField(max_length=50, blank=False, choices=METADATA_OPTION_CHOICES)
@@ -107,16 +145,16 @@ class Activity(ArchivalModel, TranslationModel):
     code = models.CharField(unique=True, max_length=4, help_text=_(u'The 4 digit code that identifies the Activity, in the format "YY##": year, folowed by sequential number.'))
     slug = models.SlugField(unique=True, max_length=255, help_text=_(u'The Slug must be unique, and closely match the title for better SEO; it is used as part of the URL.'))
     uuid = UUIDField(editable=False)
+    doi = models.CharField(blank=True, max_length=50, verbose_name='DOI', help_text=_(u'Digital Object Identifier, in the format XXXX/YYYY. See http://www.doi.org/'))
 
     title = models.CharField(max_length=255, db_index=True, help_text=_(u'Title is shown in browser window. Use a good informative title, since search engines normally display the title on their result pages.'))
-    ''' Title of of the activity '''
+    teaser = models.TextField(blank=False, max_length=140, help_text=_(u'Maximum 140 characters'))
+    theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
+    keywords = models.TextField(blank=False, help_text=_(u'List of keywords, separated by commas'))
 
     author = models.ForeignKey(Author)
     institution = models.ForeignKey(Institution)
     acknowledgement = models.CharField(blank=True, max_length=255)
-
-    doi = models.CharField(blank=True, max_length=50, verbose_name='DOI', help_text=_(u'Digital Object Identifier, in the format XXXX/YYYY. See http://www.doi.org/'))
-    ''' Digital Object Identifier '''
 
     age = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'age'}, related_name='age+', blank=True, null=True, )
     level = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'level'}, related_name='level+', blank=True, null=True, help_text=_(u'Specify at least one of "Age" and "Level". '), )
@@ -128,41 +166,16 @@ class Activity(ArchivalModel, TranslationModel):
     skills = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'skills'}, related_name='skills+', blank=True, null=True, verbose_name=u'core skills', )
     learning = models.ForeignKey(MetadataOption, limit_choices_to={'group': 'learning'}, related_name='+', blank=False, null=False, verbose_name=u'type of learning activity', help_text=_(u'Enquiry-based learning model'), )
 
-    theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
-
-    teaser = models.TextField(blank=False, max_length=140, help_text=_(u'Maximum 140 characters'))
-    ''' '''
-
     description = models.TextField(blank=False, verbose_name='brief description', help_text=_(u'Maximum 2 sentences! Maybe what and how?'))
-    ''' '''
-
-    keywords = models.TextField(blank=False, help_text=_(u'List of keywords, separated by commas'))
-    ''' '''
-
-    materials = models.TextField(blank=True, help_text=_(u'Please indicate costs and/or suppliers if possible'))
-    '''  '''
-
     goals = models.TextField(blank=False, )
-    ''' '''
-
     objectives = models.TextField(blank=False, verbose_name='Learning Objectives', )
-    ''' '''
-
-    background = models.TextField(blank=False, verbose_name='Background Information', )
-    ''' '''
-
-    fulldesc = models.TextField(blank=False, verbose_name=u'Full Activity Description')
-    ''' '''
-
     evaluation = models.TextField(blank=True, help_text=_(u'If the teacher/educator wants to evaluate the impact of the activity, how can she/he do it?'))
-
+    materials = models.TextField(blank=True, help_text=_(u'Please indicate costs and/or suppliers if possible'))
+    background = models.TextField(blank=False, verbose_name='Background Information', )
+    fulldesc = models.TextField(blank=False, verbose_name=u'Full Activity Description')
     curriculum = models.TextField(blank=True, verbose_name='Connection to school curriculum', help_text=_(u'Please indicate which country'))
-
     additional_information = models.TextField(blank=True, help_text=_(u'Notes, Tips, Resources, Follow-up, Questions, Safety Requirements, Variations'))
-    ''' '''
-
     conclusion = models.TextField(blank=False, )
-    ''' '''
 
     def age_range(self):
         # return ' '.join(obj.title for obj in self.age.all())
@@ -239,7 +252,7 @@ def activity_post_save_delayed(sender, **kwargs):
         tasks.zip_attachments.delay(instance)
         tasks.make_epub.delay(instance)
         tasks.make_pdf.delay(instance)
-        # tasks.make_rtf.delay(instance)
+        tasks.make_rtf.delay(instance)
 
 def redirect_activity(old, new):
     if old.slug != new.slug:
