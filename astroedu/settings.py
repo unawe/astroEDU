@@ -322,9 +322,9 @@ THUMBNIZER_KEYS = {
 }
 
 REPOSITORIES = {
-    'Scientix': ('Scientix', 'http://www.scientix.eu/', ),
-    'OER': ('OER Commons', 'http://www.oercommons.org/', ),
-    'TES': ('tes connect', 'http://www.tes.co.uk/', ),
+    'Scientix': ('Scientix', 'https?://www.scientix.eu/', ),
+    'OER': ('OER Commons', 'https?://www.oercommons.org/', ),
+    'TES': ('tes connect', 'https?://www.tes.co.uk/', ),
 }
 
 

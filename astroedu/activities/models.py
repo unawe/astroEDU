@@ -4,6 +4,7 @@ import re
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.core.exceptions import ValidationError
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.redirects.models import Redirect
@@ -322,26 +323,22 @@ class Collection(ArchivalModel):
 
 
 class RepositoryEntry(models.Model):
-    repo = models.CharField(max_length=50, blank=True)
+    repo = models.CharField(max_length=50, blank=False)
     url = models.URLField(blank=False, max_length=255, )
     activity = models.ForeignKey(Activity)
 
     def repo_title(self):
-        result = None
-        if self.repo:
-            result = settings.REPOSITORIES[self.repo][0]
+        result = settings.REPOSITORIES[self.repo][0]
         return result
 
-    def save(self, *args, **kwargs):
-        self.repo = self.get_repository_name()
-        super(RepositoryEntry, self).save(*args, **kwargs)
-
-    def get_repository_name(self):
-        result = None
+    def clean(self, *args, **kwargs):
         for name, value in settings.REPOSITORIES.items():
-            if self.url.startswith(value[1]):
-                result = name
-        return result
+            url_pattern = value[1]
+            if re.match(url_pattern, self.url):
+                self.repo = name
+        if not self.repo:
+            raise ValidationError('Unknown repository URL')
+        # super(RepositoryEntry, self).clean(*args, **kwargs)
 
     def __unicode__(self):
         return unicode(self.url)
