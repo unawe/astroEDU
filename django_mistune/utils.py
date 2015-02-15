@@ -5,10 +5,31 @@ import mistune
 from django.conf import settings
 
 # python -c 'from django_mistune.utils import markdown_pdfcommand, sample_md; print markdown_pdfcommand(sample_md)'
+# python -c 'from django_mistune.utils import markdown_rtfcommand, sample_md; print markdown_rtfcommand(sample_md)'
 sample_md = '''
-col1 | col2
----|:---:
-**1** | 2 | ~~3~~
+- 1
+    - 2
+
+ | A | B
+--- | ---
+x | y | z
+'''
+sample_md = '''
+- 1
+
+ | A | B
+--- | ---
+x | y | z
+'''
+
+sample_md = '''
+## Hello
+
+- one
+- two
+  - and a half
+
+Lalala
 '''
 
 def _markdown(text, renderer=None, inline=None, block=None):
@@ -21,21 +42,24 @@ def markdown(text, inline=None, block=None):
     return _markdown(text, MyRenderer(), inline, block)
 
 def markdown_pdfcommand(text, inline=None, block=None):
-    renderer = TreeRenderer()
-    
-    tree = _markdown(text, renderer, inline, block)
+    tree = _markdown(text, TreeRenderer(), inline, block)
 
     # import pprint
     # pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(tree)
 
     # # import pdb; pdb.set_trace()
-    result = PdfTreeParser().parse(tree)
+    result = PdfFlattener().parse(tree)
+    return result
+
+def markdown_rtfcommand(text, inline=None, block=None):
+    tree = _markdown(text, TreeRenderer(), inline, block)
+    result = RtfFlattener().parse(tree)
     return result
 
 
-class PdfTreeParser(object):
-    '''Parses a tree into a list of commands for the reportlab-based PdfRenderer'''
+
+class Flattener(object):
     list_level = 0
     supported_tags = ['sub', 'sup', 'br']
 
@@ -47,7 +71,7 @@ class PdfTreeParser(object):
         pp = pprint.PrettyPrinter(indent=4)
 
         rules = []
-        value = ''
+        value = self.inline()
         for item in tree:
             name = item[0]
             contents = item[1]
@@ -115,56 +139,111 @@ class PdfTreeParser(object):
                 is_email = item[1][1]
                 if is_email:
                     link = 'mailto:%s' % link
-                value += '<a href="%s">%s</a>' % (link, contents[0])
+                value += self.link(link, contents[0])
             
             elif name == 'codespan':
                 # text
                 print 'Found codespan in markdown: ',  _snippet(contents[0])
-                value += ''
+                # value += ''
             
             elif name == 'double_emphasis':
                 # text
-                value += '<strong>%s</strong>' % self._parse(contents[0])[1]
+                value += self.double_emphasis(self._parse(contents[0])[1])
             
             elif name == 'emphasis':
                 # text
-                value += '<em>%s</em>' % self._parse(contents[0])[1]
+                value += self.emphasis(self._parse(contents[0])[1])
             
             elif name == 'linebreak':
                 print 'Found linebreak in markdown'
-                value += '<br/>'
+                value += self.inline('<br/>')
             
             elif name == 'newline':
                 print 'Found newline in markdown'
-                value += ''
+                value += self.inline('')
             
             elif name == 'link':
                 # link, title, content
                 link = contents[0]
                 text = item[1][2]
-                value += '<a href="%s">%s</a>' % (link, self._parse(text)[1])
+                value += self.link(link, self._parse(text)[1])
             
             elif name == 'tag':
                 # html
                 html = contents[0]
                 if re.search('</?(.*?)/?>', html).group(1) in self.supported_tags:
-                    value += html
+                    value += self.inline(str(html))
                 else:
-                    print 'Found tag in markdown: ', html
+                    print 'Found unsupported tag in markdown: ', html
             
             elif name == 'strikethrough':
                 # text
-                value += '<del>%s</del>' % self._parse(contents[0])[1]
+                value += self.strikethrough(self._parse(contents[0])[1])
             
             elif name == 'text':
                 # text
-                value += contents[0]
+                value += self.inline(contents[0])
             
             else:
                 print 'Found unexpected element in parse tree: %s' % name
                 raise Error(name)
 
         return rules, value
+
+
+class PdfFlattener(Flattener):
+
+    # def empty_inline(self):
+    #     return ''
+
+    def inline(self, text=None):
+        return '' if text is None else text
+
+    def double_emphasis(self, content):
+        return '<strong>%s</strong>' % content
+            
+    def emphasis(self, content):
+        return '<em>%s</em>' % content
+
+    def strikethrough(self, content):
+        return '<del>%s</del>' % content
+            
+    def link(self, link, content):
+        return '<a href="%s">%s</a>' % (link, content)
+
+
+class RtfFlattener(Flattener):
+
+    def inline(self, text=None):
+        return [] if text is None else [text]
+
+    def double_emphasis(self, content):
+        result = []
+        result.append('\\b ')
+        result += content
+        result.append('\\b0 ')
+        return result
+            
+    def emphasis(self, content):
+        result = []
+        result.append('\\i ')
+        result += content
+        result.append('\\i0 ')
+        return result
+
+    def strikethrough(self, content):
+        result = []
+        result.append('\\strike ')
+        result += content
+        result.append('\\strike0 ')
+        return result
+            
+    def link(self, link, content):
+        result = []
+        result.append('{\\field{\\*\\fldinst HYPERLINK "%s"}{\\fldrslt ' % str(link))
+        result += content
+        result.append('}}')
+        return result
 
 
 def _snippet(text):
@@ -179,7 +258,7 @@ def _snippet(text):
         result += '...'
     return result
 
-# fix for uneven tables; can be removed in next version of mistune
+# fix for uneven tables; can be removed in next version of mistune (0.5+)
 class MyMarkdown(mistune.Markdown):
     def output_table(self):
         aligns = self.token['align']
@@ -209,6 +288,7 @@ class MyMarkdown(mistune.Markdown):
 
 
 class MyRenderer(mistune.Renderer):
+    '''Markdown HTML rederer that adds target="blank" to links.'''
     def _link_add_target(self, text):
         return text.replace('<a ', '<a target="blank" ')
 
@@ -224,11 +304,9 @@ class MyRenderer(mistune.Renderer):
 
 
 class TreeRenderer(mistune.Renderer):
-    def default_output(self):
-        return []
 
-    def placeholder(self, *args, **kwargs):
-        return self.default_output()
+    def placeholder(self):
+        return []
 
     def __getattribute__(self, name):
         """Saves the arguments to each Markdown handling method."""
@@ -236,6 +314,8 @@ class TreeRenderer(mistune.Renderer):
         if found:
             return object.__getattribute__(self, name)
         def fake_method(*args, **kwargs):
+            # print name, args, kwargs
             return [(name, args, kwargs)]
         return fake_method
+
 

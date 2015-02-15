@@ -12,6 +12,7 @@ from reportlab.platypus import BaseDocTemplate, Frame, Image, Paragraph, Table, 
 from django_mistune.utils import markdown_pdfcommand
 from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage
 
+from astroedu.activities import utils
 from . import colors
 from .stylesheet import initStyleSheet
 
@@ -137,18 +138,17 @@ class Renderer(PdfRendererBase):
     def append_richtext(self, data):
         result = []
         for name, content in data:
-            if name == 'image':
-                image_name = content[len(settings.MEDIA_URL):]
-                image_path = os.path.join(settings.MEDIA_ROOT, urllib.unquote(image_name))
-                result.append(AweImage(self, image_path, maxwidth=IMAGE_MAX_WIDTH))
-            elif name.startswith('list_item'):
-                list_level = name[len('list_item_'):]
-                result.append(Paragraph(content, self.styles['List'+list_level], bulletText=u'\u2022'))
+            if name == 'paragraph':
+                result.append(Paragraph(content, self.styles['Normal']))
             elif name.startswith('header'):
                 header_level = name[len('header_'):]
                 result.append(Paragraph(content, self.styles['Heading'+header_level]))
-            elif name == 'paragraph':
-                result.append(Paragraph(content, self.styles['Normal']))
+            elif name.startswith('list_item'):
+                list_level = name[len('list_item_'):]
+                result.append(Paragraph(content, self.styles['List'+list_level], bulletText=u'\u2022'))
+            elif name == 'image':
+                image_full_path, image_local_path = utils.local_resource(urllib.unquote(content))
+                result.append(AweImage(self, image_full_path, maxwidth=IMAGE_MAX_WIDTH))
             elif name == 'table':
                 for i, row in enumerate(content):
                     for j, cell in enumerate(row):

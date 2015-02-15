@@ -206,15 +206,29 @@ def MakeDefaultStyleSheet( ) :
 						 NormalText.Copy() )
 	result.ParagraphStyles.append( ps )
 
-	NormalText.TextPropertySet.SetSize( 32 )
+	NormalText.TextPropertySet.SetSize( 36 ).SetBold( True )
 	ps = ParagraphStyle( 'Heading 1',
 						 NormalText.Copy(),
 						 ParagraphPropertySet( space_before = 240,
 											   space_after  = 60 ) )
 	result.ParagraphStyles.append( ps )
 
-	NormalText.TextPropertySet.SetSize( 24 ).SetBold( True )
+	NormalText.TextPropertySet.SetSize( 32 ).SetBold( False )
 	ps = ParagraphStyle( 'Heading 2',
+						 NormalText.Copy(),
+						 ParagraphPropertySet( space_before = 240,
+											   space_after  = 60 ) )
+	result.ParagraphStyles.append( ps )
+
+	NormalText.TextPropertySet.SetSize( 28 )
+	ps = ParagraphStyle( 'Heading 3',
+						 NormalText.Copy(),
+						 ParagraphPropertySet( space_before = 240,
+											   space_after  = 60 ) )
+	result.ParagraphStyles.append( ps )
+
+	NormalText.TextPropertySet.SetSize( 24 ).SetBold( True )
+	ps = ParagraphStyle( 'Heading 4',
 						 NormalText.Copy(),
 						 ParagraphPropertySet( space_before = 240,
 											   space_after  = 60 ) )
@@ -237,17 +251,59 @@ def MakeDefaultStyleSheet( ) :
 	result.ParagraphStyles.append( normal_numbered2 )
 
 	## LIST STYLES
-	for idx, indent in [ (1, TabPS.DEFAULT_WIDTH    ),
-						 (2, TabPS.DEFAULT_WIDTH * 2),
-						 (3, TabPS.DEFAULT_WIDTH * 3) ] :
-		indent = TabPropertySet.DEFAULT_WIDTH
+	list_indent_size = 450
+	list_hanging = 140
+	print TabPropertySet.DEFAULT_WIDTH
+	for idx, indent in [ (1, TabPropertySet.DEFAULT_WIDTH * 0),
+						 (2, TabPropertySet.DEFAULT_WIDTH * 1),
+						 (3, TabPropertySet.DEFAULT_WIDTH * 2),
+						 (4, TabPropertySet.DEFAULT_WIDTH * 3),
+						  ] :
+		# indent = TabPropertySet.DEFAULT_WIDTH
+		indent = (idx-1) * list_indent_size
 		ps = ParagraphStyle( 'List %s' % idx,
 							 TextStyle( TextPropertySet( result.Fonts.Arial, 22 ) ),
 							 ParagraphPropertySet( space_before = 60,
 												   space_after  = 60,
-												   first_line_indent = -indent,
-												   left_indent       = indent) )
+												   first_line_indent = -list_hanging,
+												   left_indent       = indent + list_hanging))
 		result.ParagraphStyles.append( ps )
+
+	TableCellText = TextStyle( TextPropertySet( result.Fonts.Arial, 22 ) )
+	ps = ParagraphStyle( 'TableCell',
+						 TableCellText.Copy(),
+						 ParagraphPropertySet( space_before = 60,
+											   space_after  = 60 ) )
+	result.ParagraphStyles.append( ps )
+
+	ps = ParagraphStyle( 'TableCell Left',
+						 TableCellText.Copy(),
+						 ParagraphPropertySet( space_before = 60,
+											   space_after  = 60,
+											   alignment = ParagraphPropertySet.LEFT ) )
+	result.ParagraphStyles.append( ps )
+
+	ps = ParagraphStyle( 'TableCell Center',
+						 TableCellText.Copy(),
+						 ParagraphPropertySet( space_before = 60,
+											   space_after  = 60,
+											   alignment = ParagraphPropertySet.CENTER ) )
+	result.ParagraphStyles.append( ps )
+
+	ps = ParagraphStyle( 'TableCell Right',
+						 TableCellText.Copy(),
+						 ParagraphPropertySet( space_before = 60,
+											   space_after  = 60,
+											   alignment = ParagraphPropertySet.RIGHT ) )
+	result.ParagraphStyles.append( ps )
+
+	TableCellText.TextPropertySet.SetBold( True )
+	ps = ParagraphStyle( 'TableHeader',
+						 TableCellText.Copy(),
+						 ParagraphPropertySet( space_before = 60,
+											   space_after  = 60,
+											   alignment = ParagraphPropertySet.CENTER ) )
+	result.ParagraphStyles.append( ps )
 
 	return result
 
@@ -520,7 +576,7 @@ class Table :
 		#  make sure all of the spans add up to the number of columns
 		#  otherwise the table will get corrupted
 		if self.ColumnCount != sum( [ cell.Span for cell in cells ] ) :
-			raise Exception( 'ColumnCount != the total of this row\'s cell.Spans.' )
+			raise Exception( 'ColumnCount %d != the total of this row\'s cell.Spans %d.' % (self.ColumnCount, sum( [ cell.Span for cell in cells ] )) , )
 
 		self.Rows.append( ( height, cells ) )
 

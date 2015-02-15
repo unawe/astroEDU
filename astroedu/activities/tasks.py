@@ -13,6 +13,7 @@ from contrib.thumbnizer import processimage
 from contrib.epub import epub
 from astroedu.activities import utils
 from astroedu.activities.pdf import renderer as pdfrenderer
+from astroedu.activities.rtf import renderer as rtfrenderer
 
 @shared_task()
 def make_thumbnail(obj):
@@ -67,4 +68,8 @@ def make_epub(obj):
 @shared_task()
 def make_pdf(obj):
     pdfrenderer.Renderer().generate_one(obj, obj.download_path('pdf'))
+
+@shared_task()
+def make_rtf(obj):
+    rtfrenderer.render(obj, obj.download_path('rtf'))
 

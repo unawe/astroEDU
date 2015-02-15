@@ -61,26 +61,26 @@ def local_resource(uri):
     # return path
     return urllib.unquote(path), urllib.unquote(local)
 
-def send_notification_mail():
-    # import logging
-    # logger = logging.getLogger(__name__)
-
-    from_email = settings.DEFAULT_FROM_EMAIL
-    to = 'rinoo7@gmail.com'
-    
-    subject = 'test email'
-    html_body = '<b>test</b> email'
-    text_body = strip_tags( html_body )
-    
-    # Send
-
-    if subject and html_body and from_email and to:
-        #logger.info(settings.EMAIL_HOST)
-        msg = EmailMultiAlternatives( subject, text_body, from_email, [to] )
-        msg.attach_alternative( html_body, 'text/html' )
-        msg.send()
-    
-    return
+# def send_notification_mail():
+#     # import logging
+#     # logger = logging.getLogger(__name__)
+#
+#     from_email = settings.DEFAULT_FROM_EMAIL
+#     to = 'rinoo7@gmail.com'
+#    
+#     subject = 'test email'
+#     html_body = '<b>test</b> email'
+#     text_body = strip_tags( html_body )
+#    
+#     # Send
+#
+#     if subject and html_body and from_email and to:
+#         #logger.info(settings.EMAIL_HOST)
+#         msg = EmailMultiAlternatives( subject, text_body, from_email, [to] )
+#         msg.attach_alternative( html_body, 'text/html' )
+#         msg.send()
+#    
+#     return
 
 def bleach_clean(text):
     result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)

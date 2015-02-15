@@ -45,12 +45,3 @@ class BleachTest(TestCase):
         for text, expected in texts:
             self.assertEqual(expected, bleach_clean(text))
 
-class HtmlRebaseTest(TestCase):
-    def test_rebase(self):
-        """
-        Tests the change in path of images needed for epub
-        """
-        img_tpl = '<img src="%sactivities/attach/xxx/image.jpg"/>'
-        text = img_tpl % settings.MEDIA_URL
-        expected = img_tpl % (settings.MEDIA_ROOT + '/')
-        self.assertEqual(expected, markdown_utils.media_rebase(text))

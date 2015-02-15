@@ -16,3 +16,4 @@ reportlab==3.1.44
 beautifulsoup4==4.3.2
 bleach==1.4.1
 mistune==0.5
+rtfunicode==1.0

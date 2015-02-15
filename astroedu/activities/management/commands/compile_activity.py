@@ -74,5 +74,5 @@ def _generate_downloads(activity, options):
         tasks.make_epub(activity)
     if options['all'] or options['pdf']:
         tasks.make_pdf(activity)
-    # if options['all'] or options['rtf']:
-    #     tasks.make_rtf(activity)
+    if options['all'] or options['rtf']:
+        tasks.make_rtf(activity)
