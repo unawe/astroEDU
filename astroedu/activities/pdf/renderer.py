@@ -9,7 +9,8 @@ from django.conf import settings
 from reportlab.lib.units import cm
 from reportlab.platypus import BaseDocTemplate, Frame, Image, Paragraph, Table, NextPageTemplate, PageBreak, PageTemplate, FrameBreak, TableStyle, KeepTogether, Spacer 
 
-from django_mistune.utils import markdown_pdfcommand
+from django_mistune import markdown
+from django_mistune.utils import Flattener, TreeRenderer
 from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage
 
 from astroedu.activities import utils
@@ -31,6 +32,33 @@ def test():
     a = Activity.objects.get(code='0000')
     tasks.make_pdf(a)
 # import django; django.setup(); from astroedu.activities.pdf.renderer import test; test()
+
+
+class PdfFlattener(Flattener):
+
+    # def empty_inline(self):
+    #     return ''
+
+    def inline(self, text=None):
+        return '' if text is None else text
+
+    def double_emphasis(self, content):
+        return '<strong>%s</strong>' % content
+            
+    def emphasis(self, content):
+        return '<em>%s</em>' % content
+
+    def strikethrough(self, content):
+        return '<del>%s</del>' % content
+            
+    def link(self, link, content):
+        return '<a href="%s">%s</a>' % (link, content)
+
+
+def markdown_pdfcommand(text, inline=None, block=None):
+    tree = markdown(text, TreeRenderer(), inline, block)
+    result = PdfFlattener().parse(tree)
+    return result
 
 
 #### FLOWABLES ####

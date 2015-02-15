@@ -1,5 +1,47 @@
 from contrib.pitufo import *
-from django_mistune.utils import markdown_rtfcommand
+from django_mistune import markdown
+from django_mistune.utils import Flattener, TreeRenderer
+
+
+class RtfFlattener(Flattener):
+
+    def inline(self, text=None):
+        return [] if text is None else [text]
+
+    def double_emphasis(self, content):
+        result = []
+        result.append('\\b ')
+        result += content
+        result.append('\\b0 ')
+        return result
+            
+    def emphasis(self, content):
+        result = []
+        result.append('\\i ')
+        result += content
+        result.append('\\i0 ')
+        return result
+
+    def strikethrough(self, content):
+        result = []
+        result.append('\\strike ')
+        result += content
+        result.append('\\strike0 ')
+        return result
+            
+    def link(self, link, content):
+        result = []
+        result.append('{\\field{\\*\\fldinst HYPERLINK "%s"}{\\fldrslt ' % str(link))
+        result += content
+        result.append('}}')
+        return result
+
+
+def markdown_rtfcommand(text, inline=None, block=None):
+    tree = markdown(text, TreeRenderer(), inline, block)
+    result = RtfFlattener().parse(tree)
+    return result
+
 
 def render(obj, filename):
     doc = Document()

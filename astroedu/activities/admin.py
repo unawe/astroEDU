@@ -113,7 +113,7 @@ class ActivityAdminForm(forms.ModelForm):
             try:
                 markdown(value)
             except:
-                # TODO: test error logging
+                # TODO: test error logging!
                 import sys
                 e = sys.exc_info()[0]
                 print e
@@ -167,7 +167,6 @@ class ActivityAdmin(CounterAdmin):
     readonly_fields = ('is_visible', )
     # richtext_fields = ('description', 'materials', 'objectives', 'background', 'fulldesc_intro', 'fulldesc_outro', 'additional_information', 'evaluation', 'curriculum', 'credit', )
     formfield_overrides = {
-        models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
 

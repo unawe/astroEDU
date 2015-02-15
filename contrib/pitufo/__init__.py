@@ -167,8 +167,7 @@ def _render_image(filepath) :
         else:
             raise Exception('unkown image type: '+ extension)
 
-        # goal_factor = min(GOAL_FACTOR, PAGE_MAX_WITH/(width*GOAL_FACTOR))
-        print width, PAGE_MAX_WITH/width
+        # issue preamble, with image type and dimensoins
         goal_factor = min(GOAL_FACTOR, 1.0*PAGE_MAX_WITH/width)
         preamble = '\\{img_type}\\picw{0}\\pich{1}\\picwgoal{2}\\pichgoal{3}'.format(
             width, height, int(width*goal_factor), int(height*goal_factor), img_type=img_type)

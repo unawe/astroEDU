@@ -32,31 +32,13 @@ sample_md = '''
 Lalala
 '''
 
-def _markdown(text, renderer=None, inline=None, block=None):
+def markdown(text, renderer=None, inline=None, block=None):
+    if not renderer:
+        renderer = MyRenderer()
     my_settings = settings.MISTUNE_STYLES if hasattr(settings, 'MISTUNE_STYLES') else {}
     md = MyMarkdown(renderer, inline, block, **my_settings)
     result = md.render(text)
     return result
-
-def markdown(text, inline=None, block=None):
-    return _markdown(text, MyRenderer(), inline, block)
-
-def markdown_pdfcommand(text, inline=None, block=None):
-    tree = _markdown(text, TreeRenderer(), inline, block)
-
-    # import pprint
-    # pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(tree)
-
-    # # import pdb; pdb.set_trace()
-    result = PdfFlattener().parse(tree)
-    return result
-
-def markdown_rtfcommand(text, inline=None, block=None):
-    tree = _markdown(text, TreeRenderer(), inline, block)
-    result = RtfFlattener().parse(tree)
-    return result
-
 
 
 class Flattener(object):
@@ -189,61 +171,6 @@ class Flattener(object):
                 raise Error(name)
 
         return rules, value
-
-
-class PdfFlattener(Flattener):
-
-    # def empty_inline(self):
-    #     return ''
-
-    def inline(self, text=None):
-        return '' if text is None else text
-
-    def double_emphasis(self, content):
-        return '<strong>%s</strong>' % content
-            
-    def emphasis(self, content):
-        return '<em>%s</em>' % content
-
-    def strikethrough(self, content):
-        return '<del>%s</del>' % content
-            
-    def link(self, link, content):
-        return '<a href="%s">%s</a>' % (link, content)
-
-
-class RtfFlattener(Flattener):
-
-    def inline(self, text=None):
-        return [] if text is None else [text]
-
-    def double_emphasis(self, content):
-        result = []
-        result.append('\\b ')
-        result += content
-        result.append('\\b0 ')
-        return result
-            
-    def emphasis(self, content):
-        result = []
-        result.append('\\i ')
-        result += content
-        result.append('\\i0 ')
-        return result
-
-    def strikethrough(self, content):
-        result = []
-        result.append('\\strike ')
-        result += content
-        result.append('\\strike0 ')
-        return result
-            
-    def link(self, link, content):
-        result = []
-        result.append('{\\field{\\*\\fldinst HYPERLINK "%s"}{\\fldrslt ' % str(link))
-        result += content
-        result.append('}}')
-        return result
 
 
 def _snippet(text):
