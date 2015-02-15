@@ -26,12 +26,12 @@ IMAGE_MAX_WIDTH = 13.2*cm
 # IMAGE_SCALE = 72./PPI
 
 
-def test():
-    from astroedu.activities.models import Activity
-    from astroedu.activities import tasks
-    a = Activity.objects.get(code='0000')
-    tasks.make_pdf(a)
-# import django; django.setup(); from astroedu.activities.pdf.renderer import test; test()
+# def test():
+#     from astroedu.activities.models import Activity
+#     from astroedu.activities import tasks
+#     a = Activity.objects.get(code='0000')
+#     tasks.make_pdf(a)
+# # import django; django.setup(); from astroedu.activities.pdf.renderer import test; test()
 
 
 class PdfFlattener(Flattener):
