@@ -75,19 +75,6 @@ ACTIVITY_METADATA = (
 
 METADATA_OPTION_CHOICES = [(x[0], x[1]) for x in ACTIVITY_METADATA]
 
-        # {% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
-        # {# {% include "activities/detail_section_meta.html" with code="language" text="Language" content=object.lang %} #}
-        # {% include "activities/detail_section_meta.html" with code="age" text="Age" content=object.age_range %}
-        # {% include "activities/detail_section_meta_list.html" with code="level" text="Level" content=object.level.all %}
-        # {% include "activities/detail_section_meta.html" with code="time" text="Time" content=object.time %}
-        # {% include "activities/detail_section_meta.html" with code="group" text="Group" content=object.group %}
-        # {% include "activities/detail_section_meta.html" with code="supervised" text="Supervised" content=object.supervised %}
-        # {% include "activities/detail_section_meta.html" with code="cost" text="Cost" content=object.cost %}
-        # {% include "activities/detail_section_meta.html" with code="location" text="Location" content=object.location %}
-        # {% include "activities/detail_section_meta_list.html" with code="skills" text="Core skills" content=object.skills.all %}
-        # {% include "activities/detail_section_meta.html" with code="learning" text="Type of learning activity" content=object.learning %}
-
-
 class MetadataOption(models.Model):
     group = models.CharField(max_length=50, blank=False, choices=METADATA_OPTION_CHOICES)
     code = models.CharField(max_length=50, blank=False)
@@ -216,11 +203,9 @@ class Activity(ArchivalModel, TranslationModel):
         return self.download_url('rtf')
 
     def download_url(self, resource):
-        if self.main_visual:
-            return os.path.join(settings.MEDIA_URL, self.media_key(), 'download', self.download_key() + '.' + resource)
+        return os.path.join(settings.MEDIA_URL, self.media_key(), 'download', self.download_key() + '.' + resource)
     def download_path(self, resource):
-        if self.main_visual:
-            return os.path.join(settings.MEDIA_ROOT, self.media_key(), 'download', self.download_key() + '.' + resource)
+        return os.path.join(settings.MEDIA_ROOT, self.media_key(), 'download', self.download_key() + '.' + resource)
 
     def __unicode__(self):
         return u'%s - %s' % (self.code, self.title)
