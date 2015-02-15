@@ -49,8 +49,8 @@ class Flattener(object):
         return self._parse(tree)[0]
 
     def _parse(self, tree):
-        import pprint
-        pp = pprint.PrettyPrinter(indent=4)
+        # import pprint
+        # pp = pprint.PrettyPrinter(indent=4)
 
         rules = []
         value = self.inline()
@@ -74,6 +74,9 @@ class Flattener(object):
             elif name == 'list_item':
                 # text
                 myrules, myval = self._parse(contents[0])
+                if not myval and len(myrules) > 0 and  myrules[0][0] == 'paragraph':
+                    myval = myrules[0][1]
+                    del myrules[0]
                 rules += [(name + '_%d' % self.list_level, myval)]
                 rules += myrules
             
