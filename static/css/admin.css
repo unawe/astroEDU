@@ -56,8 +56,8 @@ table > tbody > tr > td {
 table {
   border: 0;
 }
-.field-box label {
-  padding: 2px 0 !important;
+.field-box ul {
+  padding-left: 38px !important;
 }
 .addlink, .changelink {
     padding-left: 20px;
