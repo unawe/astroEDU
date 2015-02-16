@@ -10,7 +10,7 @@ from django.utils.translation import ugettext as _
 from contrib.remainingcharacters.admin import CounterAdmin
 from contrib.adminutils import download_csv
 
-from astroedu.activities.models import Activity, Attachment, Author, Institution, MetadataOption, Collection, RepositoryEntry
+from astroedu.activities.models import Activity, Attachment, Author, Institution, AuthorInstitution, MetadataOption, Collection, RepositoryEntry
 # from astroedu.activities.models import Richtext
 from filemanager.models import File as ManagedFile
 from astroedu.activities.utils import bleach_clean
@@ -64,6 +64,14 @@ class ActivityAttachmentInlineFormset(forms.models.BaseInlineFormSet):
 
         if main_visual_count > 1:
             raise forms.ValidationError('There can be only one "main visual".')
+
+
+class AuthorInstitutionInline(admin.TabularInline):
+    model = AuthorInstitution
+    verbose_name = 'author'
+    verbose_name_plural = 'authors'
+    min_num = 1
+    extra = 1
 
 
 class ActivityAttachmentInline(admin.TabularInline):
@@ -132,11 +140,6 @@ class ActivityAdmin(CounterAdmin):
     view_link.short_description = ''
     view_link.allow_tags = True
 
-    def author_institution(self, obj):
-        return u'%s<br/>%s' % (obj.author, obj.institution)
-    author_institution.short_description = 'Author'
-    author_institution.allow_tags = True
-    
     def thumb_embed(self, obj):
         if obj.main_visual:
             return u'<img src="%s" style="height:50px" />' % obj.thumb_url()
@@ -147,17 +150,17 @@ class ActivityAdmin(CounterAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     form = ActivityAdminForm
-    list_display = ('code', 'title', 'author_institution', 'published', 'release_date', 'is_visible', 'featured', 'doi', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
+    list_display = ('code', 'title', 'author_list', 'published', 'release_date', 'is_visible', 'featured', 'doi', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))
     list_editable = ('title', 'published', 'featured', )
     ordering = ('-release_date', )
     date_hierarchy = 'release_date'
-    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', 'author', 'institution', )
+    list_filter = ('age', 'level', 'time', 'group', 'supervised', 'cost', 'location', )
     actions = (download_csv, )
 
-    inlines = [ActivityAttachmentInline, RepositoryEntryInline]
+    inlines = [AuthorInstitutionInline, ActivityAttachmentInline, RepositoryEntryInline, ]
     
     fieldsets = [
-        (None, {'fields': ('code', 'title', 'slug', ('author', 'institution', ), 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',), 'keywords', )}),
+        (None, {'fields': ('code', 'title', 'slug', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',), 'keywords', )}),
         # ('Language', {'fields': ('lang',)}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
         ('Description', {'fields': ('theme', 'teaser', 'description', 'goals', 'objectives', 'evaluation', 'materials', 'background', )}),
@@ -178,13 +181,6 @@ class ActivityAdmin(CounterAdmin):
             # '/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
             # '/static/grappelli/tinymce_setup/tinymce_setup.js',
         ]
-
-    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #     if db_field.name == 'institution':
-    #         # kwargs['queryset'] = Institution.objects.all()
-    #         kwargs['initial'] = Author.objects.get(kwargs['author']).affiliation
-    #         return db_field.formfield(**kwargs)
-    #     return super(ActivityAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs) 
 
 
 class CollectionAdminForm(forms.ModelForm):

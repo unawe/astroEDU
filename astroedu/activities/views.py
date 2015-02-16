@@ -9,7 +9,7 @@ from astroedu.activities.models import Activity, Collection, ACTIVITY_SECTIONS, 
 
 
 def list(request):
-    lst = get_list_or_404(Activity, user=request.user, select_related=('author', 'institution'), order_by='-release_date')
+    lst = get_list_or_404(Activity, user=request.user, select_related=('authors'), order_by='-release_date')
     return render(request, 'activities/list.html', {'object_list': lst, })
 
 def detail(request, slug):

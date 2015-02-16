@@ -140,8 +140,6 @@ class Activity(ArchivalModel, TranslationModel):
     theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
     keywords = models.TextField(blank=False, help_text=_(u'List of keywords, separated by commas'))
 
-    author = models.ForeignKey(Author)
-    institution = models.ForeignKey(Institution)
     acknowledgement = models.CharField(blank=True, max_length=255)
 
     age = models.ManyToManyField(MetadataOption, limit_choices_to={'group': 'age'}, related_name='age+', blank=True, null=True, )
@@ -171,7 +169,16 @@ class Activity(ArchivalModel, TranslationModel):
         return utils.beautify_age_range(age_ranges)
 
     def author_list(self):
-        return self.author.name + ', ' + self.institution.name
+        result = []
+        for item in self.authors.all():
+            result.append(item.display_name())
+        return '; '.join(result)
+
+    def citable_author_list(self):
+        result = []
+        for item in self.authors.all():
+            result.append(item.author.citable_name)
+        return '; '.join(result)
 
     @property
     def main_visual(self):
@@ -254,6 +261,18 @@ def redirect_activity(old, new):
         #update any old redirects
         for r in Redirect.objects.filter(new_path=old.get_absolute_url()):
             r.new_path = new.get_absolute_url()
+
+
+class AuthorInstitution(models.Model):
+    activity = models.ForeignKey(Activity, related_name='authors', )
+    author = models.ForeignKey(Author)
+    institution = models.ForeignKey(Institution)
+
+    def display_name(self):
+        return self.author.name + ', ' + self.institution.name
+
+    def __unicode__(self):
+        return unicode(self.display_name())
 
 
 class Attachment(models.Model):

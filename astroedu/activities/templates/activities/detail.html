@@ -43,7 +43,7 @@
 
 	<h1 class="detail">{{ object.title }}</h1>
 	<div class="summary">{{ object.teaser }}</div>
-	<div class="author">{{ object.author_list }}</div>
+	<div class="authors">{{ object.author_list }}</div>
 
 	{% for section in sections %}
 		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown %}
@@ -124,7 +124,7 @@ var addthis_share = {
 		<div class="section_meta_2 grey">
 			<div class="title_text">Citation</div>
 			<div class="icon">
-				{{object.author.citable_name}}, {{object.release_date|date:"Y"}}, <i>{{object.title}}</i>, <a href="{{object.get_absolute_url}}">astroEDU, {{object.code}}</a>{% if object.doi %}, <a href="http://dx.doi.org/{{object.doi}}"> doi:{{object.doi}}</a>{% endif %}
+				{{object.citable_author_list}}, {{object.release_date|date:"Y"}}, <i>{{object.title}}</i>, <a href="{{object.get_absolute_url}}">astroEDU, {{object.code}}</a>{% if object.doi %}, <a href="http://dx.doi.org/{{object.doi}}"> doi:{{object.doi}}</a>{% endif %}
 			</div>
 		</div>
 

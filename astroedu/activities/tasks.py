@@ -56,7 +56,7 @@ def make_epub(obj):
 
     doc.metadata = {
         'title': obj.title + ' - astroEDU Activity',
-        'author': obj.author.name,
+        'author': obj.author_list(),
         'description': obj.teaser,
         'book_id': 'http://astroedu.iau.org%s' % obj.get_absolute_url(),
         'book_id_type': 'URI',

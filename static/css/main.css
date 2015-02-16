@@ -487,7 +487,7 @@ button.search_btn {
 }
 
 .activity_detail h1.detail { margin-top: 0px; margin-bottom: 28px; }
-.activity_detail .author { font-size: 13px; margin-top: 13px; }
+.activity_detail .authors { font-size: 13px; margin-top: 13px; }
 
 .activity_detail .section .title { padding-top: 50px; }
 .activity_detail .section .title .icon { width: 50px; height: 52px; border-bottom: solid 1px #F8B132; padding: 8px; margin-right: 20px; float: left; }
