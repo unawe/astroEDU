@@ -214,6 +214,13 @@ class Activity(ArchivalModel, TranslationModel):
     def download_path(self, resource):
         return os.path.join(settings.MEDIA_ROOT, self.media_key(), 'download', self.download_key() + '.' + resource)
 
+    def attachment_url(self, filename):
+        if filename.startswith('http') or filename.startswith('/'):
+            result = filename
+        else:
+            result = os.path.join(settings.MEDIA_URL, self.media_key(), 'attach', self.uuid, filename)
+        return result
+
     def __unicode__(self):
         return u'%s - %s' % (self.code, self.title)
 

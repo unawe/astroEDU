@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load markdown %}
 {% load getattribute %}
+{% load relativise_img_src %}
 
 {% block site_title %}{{ object.title }} | astroEDU {% endblock %}
 
@@ -46,7 +47,7 @@
 	<div class="authors">{{ object.author_list }}</div>
 
 	{% for section in sections %}
-		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown %}
+		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
 	{% endfor %}
 
 </div>

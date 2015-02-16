@@ -115,6 +115,7 @@ class Renderer(PdfRendererBase):
         self.paint_image(os.path.join(ASSETS_ROOT, 'astroedu_logo.png'), 5.5*cm, 1.1*cm, canvas, mask='auto', scale=0.6)
 
     def render(self, obj, file):
+        self.relativise_img_src = obj.attachment_url
 
         initStyleSheet(self.styles)
 
@@ -175,7 +176,7 @@ class Renderer(PdfRendererBase):
                 list_level = name[len('list_item_'):]
                 result.append(Paragraph(content, self.styles['List'+list_level], bulletText=u'\u2022'))
             elif name == 'image':
-                image_full_path, image_local_path = utils.local_resource(urllib.unquote(content))
+                image_full_path, image_local_path = utils.local_resource(urllib.unquote(self.relativise_img_src(content)))
                 result.append(AweImage(self, image_full_path, maxwidth=IMAGE_MAX_WIDTH))
             elif name == 'table':
                 for i, row in enumerate(content):

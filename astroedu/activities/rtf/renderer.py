@@ -77,7 +77,7 @@ def render(obj, filename):
                 elif name == 'image':
                     from astroedu.activities import utils
                     import urllib
-                    image_full_path, image_local_path = utils.local_resource(urllib.unquote(content))
+                    image_full_path, image_local_path = utils.local_resource(urllib.unquote(obj.attachment_url(content)))
                     doc.append(Image(image_full_path))
                 elif name == 'table':
                     table = Table()

@@ -79,6 +79,18 @@ class PdfTest(TestCase):
         result = markdown_pdfcommand(text)
         self.assertEqual(rules, result)
 
+    def test_lists_spaced_2(self):
+        text = '''
+
+- 1
+
+    - 2
+    - 3
+'''
+        rules = [('list_item_1', '1'), ('list_item_2', '2'), ('list_item_2', '3'), ]
+        result = markdown_pdfcommand(text)
+        self.assertEqual(rules, result)
+
 
     def test_table(self):
         text = '''

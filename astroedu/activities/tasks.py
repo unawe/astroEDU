@@ -48,7 +48,7 @@ def make_epub(obj):
     doc.files = [('images/cover.jpg', cover, None), ]
 
     for m in re.finditer(r'''<img[^>]*src=['"]([^"']*)['"][^>]*>''', html):
-        full, local = utils.local_resource(m.group(1))
+        full, local = utils.local_resource(obj.attachment_url(m.group(1)))
         doc.files.append((local, full, None))
 
     html = html.replace(settings.MEDIA_URL, '')

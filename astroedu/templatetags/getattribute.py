@@ -1,6 +1,4 @@
-
 from django import template
-from django.utils.safestring import mark_safe
 from django.conf import settings
 
 register = template.Library()
