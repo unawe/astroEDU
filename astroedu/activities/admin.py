@@ -173,6 +173,8 @@ class ActivityAdmin(CounterAdmin):
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
 
+    fieldsets_and_inlines_order = ('f', 'i', )  # order of fields: first fieldset, then first inline, then everything else as usual
+
     class Media:
         js = [
             # '/static/js/jquery-1.7.2.min',
