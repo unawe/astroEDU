@@ -19,4 +19,8 @@ class Migration(migrations.Migration):
             model_name='activity',
             name='institution',
         ),
+        migrations.RemoveField(
+            model_name='author',
+            name='affiliation',
+        ),
     ]

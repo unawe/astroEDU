@@ -119,7 +119,6 @@ class Author(models.Model):
     name = models.CharField(blank=False, max_length=255, )
     citable_name = models.CharField(blank=False, max_length=255, )
     email = models.EmailField(blank=False, max_length=255, )
-    affiliation = models.ForeignKey(Institution)
 
     class Meta:
         ordering = ['name']

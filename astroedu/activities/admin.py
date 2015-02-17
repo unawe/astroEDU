@@ -160,9 +160,10 @@ class ActivityAdmin(CounterAdmin):
     inlines = [AuthorInstitutionInline, ActivityAttachmentInline, RepositoryEntryInline, ]
     
     fieldsets = [
-        (None, {'fields': ('code', 'title', 'slug', 'acknowledgement', 'doi', ('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',), 'keywords', )}),
-        # ('Language', {'fields': ('lang',)}),
+        (None, {'fields': ('code', 'title', 'slug', 'acknowledgement', 'doi', )}),
         ('Publishing', {'fields': ('published', 'featured', ('release_date', 'embargo_date'), ), }),
+        (None, {'fields': (('age', 'level', ), ('time', 'group', 'supervised', 'cost',), ('location', 'skills', 'learning',), 'keywords', )}),
+        # ('Language', {'fields': ('lang',)}),
         ('Description', {'fields': ('theme', 'teaser', 'description', 'goals', 'objectives', 'evaluation', 'materials', 'background', )}),
         (None, {'fields': ('fulldesc', )}),
         (None, {'fields': ('curriculum', 'additional_information', 'conclusion', )}),
@@ -173,7 +174,7 @@ class ActivityAdmin(CounterAdmin):
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
 
-    fieldsets_and_inlines_order = ('f', 'i', )  # order of fields: first fieldset, then first inline, then everything else as usual
+    fieldsets_and_inlines_order = ('f', 'f', 'i', )  # order of fields: first fieldset, then first inline, then everything else as usual
 
     class Media:
         js = [
