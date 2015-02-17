@@ -4,6 +4,7 @@ import mistune
 
 from django.conf import settings
 
+# python -c 'from django_mistune.utils import markdown, sample_md; print markdown(sample_md)'
 # python -c 'from django_mistune.utils import markdown_pdfcommand, sample_md; print markdown_pdfcommand(sample_md)'
 # python -c 'from django_mistune.utils import markdown_rtfcommand, sample_md; print markdown_rtfcommand(sample_md)'
 sample_md = '''
@@ -37,6 +38,7 @@ def markdown(text, renderer=None, inline=None, block=None):
         renderer = MyRenderer()
     my_settings = settings.MISTUNE_STYLES if hasattr(settings, 'MISTUNE_STYLES') else {}
     md = MyMarkdown(renderer, inline, block, **my_settings)
+    renderer.options.update(my_settings)  # should be fixed when PR 36 is merged https://github.com/lepture/mistune/pull/36
     result = md.render(text)
     return result
 
@@ -188,8 +190,10 @@ def _snippet(text):
         result += '...'
     return result
 
-# fix for uneven tables; can be removed in next version of mistune (0.5+)
+
 class MyMarkdown(mistune.Markdown):
+    '''Fix for uneven tables; can be removed in next version of mistune (0.5+)'''
+
     def output_table(self):
         aligns = self.token['align']
         aligns_length = len(aligns)
@@ -219,6 +223,7 @@ class MyMarkdown(mistune.Markdown):
 
 class MyRenderer(mistune.Renderer):
     '''Markdown HTML rederer that adds target="blank" to links.'''
+
     def _link_add_target(self, text):
         return text.replace('<a ', '<a target="blank" ')
 
@@ -234,13 +239,14 @@ class MyRenderer(mistune.Renderer):
 
 
 class TreeRenderer(mistune.Renderer):
+    options = {}
 
     def placeholder(self):
         return []
 
     def __getattribute__(self, name):
-        """Saves the arguments to each Markdown handling method."""
-        found = TreeRenderer.__dict__.get(name)
+        '''Saves the arguments to each Markdown handling method.'''
+        found = TreeRenderer.__dict__.has_key(name)
         if found:
             return object.__getattribute__(self, name)
         def fake_method(*args, **kwargs):
