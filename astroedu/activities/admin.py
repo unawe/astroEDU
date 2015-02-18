@@ -184,9 +184,7 @@ class ActivityAdmin(CounterAdmin):
             # '/static/grappelli/tinymce/jscripts/tiny_mce/tiny_mce.js',
             # '/static/grappelli/tinymce_setup/tinymce_setup.js',
         ]
-        css = {
-            'all': ('/static/css/admin.css', ),
-        }
+
 
 class CollectionAdminForm(forms.ModelForm):
     # class Meta:

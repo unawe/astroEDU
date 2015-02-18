@@ -3,6 +3,10 @@
 
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}" />
+{% endblock %}
+
 {% block branding %}
 <div><img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" alt="astroEDU Logo" />
 <h1 id="site-name"> {% trans 'Administration' %}</h1></div>
