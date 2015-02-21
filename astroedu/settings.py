@@ -288,7 +288,7 @@ PIPELINE_CSS = {
             'css/media_1080.css',
             'css/media_992.css',
             'css/media_768.css',
-            'css/media_1600.css',
+            'css/media_600.css',
             'css/media_480.css',
         ),
         'output_filename': 'css/astroedu.min.css',
