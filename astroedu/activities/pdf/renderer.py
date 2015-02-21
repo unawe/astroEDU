@@ -202,7 +202,8 @@ class Renderer(PdfRendererBase):
                             style = self.styles['TableCell-' + fmt['align']]
                         else:
                             style = self.styles['TableCell']
-                        content[i][j] = Paragraph(cell[0], style)
+                        value = cell[0] if cell[0] else u'\u00A0' # a non-breaking space makes sure an empty row has enough height
+                        content[i][j] = Paragraph(value, style)
                 table_style = TableStyle([
                         ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
                         ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
