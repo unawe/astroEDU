@@ -103,24 +103,25 @@ class Table(list):
         result = '\\pard\\plain\\par\n'
         for row in self:
             result += row_format
-            result += row.render()
+            result += row.render(cols=num_cols)
             result += '\\intbl\\row\n'
         return result
 
 
 class TableRow(list):
 
-    def render(self):
+    def render(self, cols=0):
         result = ''
-        for cell in self:
+        padding = [TableCell([''])] * (cols - len(self))
+        for cell in self + padding:
             result += cell.render()
         return result
 
 
 class TableCell(Paragraph):
 
-    def __init__(self, *args, **kwargs):
-        super(TableCell, self).__init__(*args, **kwargs)
+    def __init__(self, content, style='Table Cell'):
+        super(TableCell, self).__init__(content, style=style)
         self.START = '\\intbl' + self.START
         self.END = '\\cell\n'
 

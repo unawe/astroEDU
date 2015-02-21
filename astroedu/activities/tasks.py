@@ -36,10 +36,11 @@ def zip_attachments(obj):
 
 @shared_task()
 def make_epub(obj):
+    from astroedu.activities.models import ACTIVITY_SECTIONS
     EPUB_ASSETS_ROOT = os.path.join(settings.BASE_DIR, 'share', 'epub-assets')
     template = get_template('activities/epub.html')
     doc = epub.Document(obj.download_path('epub'))
-    html = template.render(Context({'object': obj, }))
+    html = template.render(Context({'object': obj, 'sections': ACTIVITY_SECTIONS, }))
     # html = markdown_utils.markdown_clean(html)
 
     cover = os.path.join(settings.MEDIA_ROOT, obj.media_key(), 'epubcover', obj.code + '.jpg')

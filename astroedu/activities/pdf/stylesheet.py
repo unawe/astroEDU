@@ -26,8 +26,8 @@ def initStyleSheet(stylesheet):
         fontName = 'Normal-Bold',
         textColor = colors.TEXT_COLOR,
         fontSize = 33,
-        spaceAfter = 40,
         leading = 46,
+        spaceAfter = 40,
         ))
 
     stylesheet.add(ParagraphStyle(name='Subtitle',
@@ -117,6 +117,7 @@ def initStyleSheet(stylesheet):
         fontName = 'Normal',
         textColor = colors.TEXT_COLOR,
         fontSize = 7,
+        leading = 9,
         ))
 
     stylesheet.add(ParagraphStyle(name='TableHeader', parent=stylesheet['TableCell'],

@@ -190,11 +190,26 @@ class Activity(ArchivalModel, TranslationModel):
     def attachment_list(self):
         return self.attachment_set.filter(show=True)
 
-    # def generate_thumbnails(self, blocking=False):
-    #     if blocking:
-    #         tasks.make_thumbnail(self)
-    #     else:
-    #         tasks.make_thumbnail.delay(self)
+    def metadata_aslist(self):
+        result = []
+        for meta_code, meta_title, meta_options in ACTIVITY_METADATA:
+            value = None
+            if meta_options.get('multiple', False):
+                values = [value.title for value in getattr(self, meta_code).all()]
+                value = ', '.join(values)
+            else:
+                display_name = meta_options.get('display', meta_code)
+                display = getattr(self, display_name)
+                if callable(display):
+                    value = display()
+                elif isinstance(display, MetadataOption):
+                    value = display.title
+                elif display:
+                    value = unicode(display)
+
+            if value:
+                result.append((meta_code, meta_title, value))
+        return result
 
     def download_key(self):
         return self.slug + '-astroEDU-' + self.code

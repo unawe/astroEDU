@@ -24,7 +24,7 @@ DEBUG = False
 IMAGE_MAX_WIDTH = 13.2*cm
 # PPI = 150
 # IMAGE_SCALE = 72./PPI
-
+ACTIVITY_METADATA_COLS = 3
 
 # def test():
 #     from astroedu.activities.models import Activity
@@ -115,6 +115,8 @@ class Renderer(PdfRendererBase):
         self.paint_image(os.path.join(ASSETS_ROOT, 'astroedu_logo.png'), 5.5*cm, 1.1*cm, canvas, mask='auto', scale=0.6)
 
     def render(self, obj, file):
+        from astroedu.activities.models import ACTIVITY_SECTIONS
+
         self.relativise_img_src = obj.attachment_url
 
         initStyleSheet(self.styles)
@@ -144,6 +146,7 @@ class Renderer(PdfRendererBase):
         styles = self.styles
         elements = []
 
+        ## COVER PAGE
         elements.append(Paragraph(obj.title, styles['Title']))
         elements.append(Paragraph(obj.teaser, styles['Subtitle']))
         elements.append(Paragraph(obj.author_list(), styles['Author']))
@@ -151,12 +154,23 @@ class Renderer(PdfRendererBase):
         elements.append(NextPageTemplate('PageNormal'))
         elements.append(FrameBreak())
 
-        from astroedu.activities.models import ACTIVITY_SECTIONS, ACTIVITY_METADATA
+        ## SECOND PAGE
+        meta_table_data = self._build_meta_table(obj)
+        meta_table_style = TableStyle([
+                # ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
+                # ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
+                ('VALIGN', (0,0), (-1,-1), 'TOP'),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 1),
+            ])
+        # elements.append(Spacer(.5*cm, .5*cm))
+        elements.append(KeepTogether(Table(meta_table_data, style=meta_table_style)))
+        elements.append(Spacer(.5*cm, .5*cm))
+
         for section_code, section_title in ACTIVITY_SECTIONS:
             data = markdown_pdfcommand(getattr(obj, section_code))
             if data:
                 header = SectionHeader(self, section_title, styles['Heading1'], icon=os.path.join(ASSETS_ROOT, 'sections-orange/%s.png' % section_code))
-                body = self.append_richtext(data)
+                body = self._append_richtext(data)
                 # elements.append(header)
                 # elements += body
                 elements.append(KeepTogether([header, body[0]]))
@@ -164,7 +178,7 @@ class Renderer(PdfRendererBase):
 
         doc.build(elements)
 
-    def append_richtext(self, data):
+    def _append_richtext(self, data):
         result = []
         for name, content in data:
             if name == 'paragraph':
@@ -198,6 +212,19 @@ class Renderer(PdfRendererBase):
                 result.append(Spacer(.5*cm, .5*cm))
             else:
                 raise Exception('Unexpected command: ', name)
+        return result
+
+    def _build_meta_table(self, obj):
+        result = []
+        for i, (code, title, value) in enumerate(obj.metadata_aslist()):
+            if i % ACTIVITY_METADATA_COLS == 0:
+                row = []
+                result.append(row)
+            row.append([
+                    Paragraph('<b>%s</b>' % title, self.styles['TableCell']), 
+                    Paragraph(value, self.styles['TableCell']), 
+            ])
+
         return result
 
 

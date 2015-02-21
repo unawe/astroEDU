@@ -3,6 +3,9 @@ from django_mistune import markdown
 from django_mistune.utils import Flattener, TreeRenderer
 
 
+ACTIVITY_METADATA_COLS = 3
+
+
 class RtfFlattener(Flattener):
 
     def inline(self, text=None):
@@ -59,7 +62,17 @@ def render(obj, filename):
     doc.append(Paragraph([obj.author_list()]))
     doc.append(Paragraph([]))
 
+
     from astroedu.activities.models import ACTIVITY_SECTIONS, ACTIVITY_METADATA
+
+    table = Table()
+    for i, (code, title, value) in enumerate(obj.metadata_aslist()):
+        if i % ACTIVITY_METADATA_COLS == 0:
+            table_row = TableRow()
+            table.append(table_row)
+        table_row.append(TableCell(['\\b ', title, '\\b0\line\n', value], style='Table Cell'))
+    doc.append(table)
+
     for section_code, section_title in ACTIVITY_SECTIONS:
         commands = markdown_rtfcommand(getattr(obj, section_code))
         if commands:
