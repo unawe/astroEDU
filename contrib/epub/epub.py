@@ -3,7 +3,10 @@ import re
 import zipfile
 import mimetypes
 
-from . import utils
+if __name__ == '__main__':
+    import utils
+else:
+    from . import utils
 
 BUILD_TOC = True
 
@@ -58,6 +61,9 @@ class Document(object):
                     spine = '    <itemref idref="%s" />\n' % file_id + spine
                 else:
                     spine += '    <itemref idref="%s" />\n' % file_id
+                if fullpath and not content:
+                    with open(fullpath) as f:
+                        content = unicode(f.read(), 'utf-8')
                 title, level = utils.extract_title(content)
                 #merged += extract_body(content)
                 if title:
@@ -209,4 +215,46 @@ class Document(object):
             self.write_file('OEBPS/toc.xhtml', toc_html, 'utf-8')
         
         
+if __name__ == '__main__':
+    import sys
+    import os
+
+    src_folder = '.'
+    out_file = None
+    if len(sys.argv) > 1:
+        src_folder = sys.argv[1]
+    if len(sys.argv) > 2:
+        out_file = sys.argv[2]
+
+    src_folder = os.path.abspath(src_folder)
+    if not out_file:
+        out_file = os.path.dirname(src_folder) + '.epub'
+
+    print src_folder
+    print out_file
+
+    doc = Document(out_file)
+
+    for root, dirs, files in os.walk(src_folder):
+        # print root, files
+        for name in files:
+            if not name.startswith('.'):
+                full = os.path.join(root, name)
+                local = os.path.relpath(full, start=src_folder)
+                doc.files.append((local, full, None))
+
+    doc.metadata = {
+        'title': 'Hotel on the Corner of Bitter and Sweet',
+        'author': 'Jamie Ford',  # opf:file-as="Ford, Jamie"
+        # <dc:creator opf:file-as="Ford, Jamie" opf:role="aut">Jamie Ford</dc:creator>
+        'description': '',
+        'book_id': '978-0-345-51250-5',
+        'book_id_type': 'ISBN',
+        'language': 'en',
+        # <dc:publisher>Random House Publishing Group</dc:publisher>
+        # <dc:date opf:event="publication">2009</dc:date>
+    }
+
+    doc.compile()
+
 

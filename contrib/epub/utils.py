@@ -1,20 +1,21 @@
 import re
 
-def extract_title(file):
+def extract_title(content):
 	title = None
 	level = 0
-	#f = open(file)
+	#f = open(content)
 	#html = f.read().decode('utf8')
 	#f.close()
 	#m = re.search('<h[123]>(.*)</h([123])>', html)
-	m = re.search('<h[123]>(.*)</h([123])>', file)
+	m = re.search('<h[123].*?>(.*)</h([123])>', content)
 	if m:
 		title = m.group(1)
 		level = m.group(2)
 		title = title.replace('<br/><br/>', ' - ')
 		title = title.replace('<br/>', ' ')
-		title = re.sub('<a[^>]*>[^<]*</a>', '', title)
-		title = re.sub('</?i>', '', title)
+		title = re.sub('<.*?>', '', title)
+		# title = re.sub('<a[^>]*>[^<]*</a>', '', title)
+		# title = re.sub('</?i>', '', title)
 
 	return title, level
 
