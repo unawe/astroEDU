@@ -125,7 +125,7 @@ span.close-btn img {
     float: right; 
     margin-top: 28px;
 }
-.top_right a:last-child {
+.top_right a {
     padding-left: 30px;
 }
 .top_left {
@@ -512,6 +512,7 @@ button.search_btn {
     padding-left: 4px; padding-right: 4px;
     padding-top: 4px; padding-bottom: 4px;
     font-size: 85%;
+    height: 12px;
 }
 #disqus_thread { margin-top: 80px; }
 

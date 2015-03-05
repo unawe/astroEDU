@@ -29,18 +29,18 @@
         -o-transform: scale(0.7);
         -ms-transform: scale(0.7);
     }
-    .layout_top a {
+    .top_left a {
         width: 240px;
     }
-    .layout_top .top_right_search a {
+    .top_right_search a {
         width: auto;
     }
     .top_right {
         margin-top:25px;
     }
-    .top_right a:last-child {
-        padding-left: 0;
-        width: 120px;
+    .top_right a {
+        padding-left: 10px;
+        /*width: 120px;*/
     }
     img.logo {
         width: 240px; 

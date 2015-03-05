@@ -13,6 +13,9 @@
     .top_left {
         text-align: center;
     }
+    .top_right img {
+        height: 45px;
+    }
     .top_right_search .search_textbox {
         width: 43%;
     }

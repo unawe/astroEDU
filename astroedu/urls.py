@@ -38,6 +38,7 @@ if settings.DEBUG:
         (r'^500/$', TemplateView.as_view(template_name="500.html")),
         (r'^404/$', TemplateView.as_view(template_name="404.html")),
         # redirects (use nginx rewrite for production)
+        (r'^favicon.ico/?$', RedirectView.as_view(url='/static/favicon.ico')),
         (r'^blog/?$', RedirectView.as_view(url='http://medium.com/@IAUastroEDU')),
         (r'^volunteer/?$', RedirectView.as_view(url='https://unawe.typeform.com/to/UIBI5e')),
     )

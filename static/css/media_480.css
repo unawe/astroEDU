@@ -12,6 +12,9 @@
     img.logo {
         width: 220px;
     }
+    .top_right a:first-child { /* hide Scientix award logo */
+        display: none;
+    }
     .top_right img {
         height: 37px;
     }
