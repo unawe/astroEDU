@@ -519,10 +519,13 @@ button.search_btn {
 
 /* footer */
 .layout_footer {
+    background-image: url("../designimages/footer_grey_bg.png");
+    background-color: #616265; /* using the HTML color code doesn't work on some colour managed displays */
+}
+.layout_footer .layout_container {
     background-image: url("../designimages/footer_bg.png");
     background-position: center bottom;
     background-repeat: no-repeat;
-    background-color: #606265;
     padding-top: 60px;
     height: 506px;
     color: #F6F6F6;
@@ -682,6 +685,6 @@ button.search_btn {
 }
 
 .award_badge {
-    display: block;
+    display: block; 
     margin-bottom: 40px;
 }
