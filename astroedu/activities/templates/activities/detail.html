@@ -43,8 +43,11 @@
 	<div class="layout_leftcolumn">
 
 	<h1 class="detail">{{ object.title }}</h1>
+
 	<div class="summary">{{ object.teaser }}</div>
 	<div class="authors">{{ object.author_list }}</div>
+
+    {% if object.code == '1302' %} <!-- Scientix Award --> <div><a href="https://medium.com/@iauastroedu/iau-astroedu-honoured-with-science-education-award-95437e356d50" class="award_badge" target="_blank"><img src="{% static 'designimages/award_badge.png' %}" alt="Scientix Award" /></a></div>{% endif %}
 
 	{% for section in sections %}
 		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}

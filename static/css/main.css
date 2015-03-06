@@ -681,3 +681,7 @@ button.search_btn {
     height: auto !important;
 }
 
+.award_badge {
+    display: block;
+    margin-bottom: 40px;
+}
