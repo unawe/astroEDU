@@ -56,6 +56,7 @@ def initStyleSheet(stylesheet):
         fontName = 'Normal-Bold',
         textColor = colors.HEADER_COLOR,
         fontSize = 18,
+        leading = 21,
         spaceBefore = 36,
         spaceAfter = 36,
         ))
@@ -67,6 +68,7 @@ def initStyleSheet(stylesheet):
     stylesheet.add(ParagraphStyle(name='Heading3', parent=stylesheet['Heading1'],
         fontName = 'Normal',
         fontSize = 16,
+        leading = 18,
         spaceBefore = 22,
         spaceAfter = 22,
         ))
@@ -75,6 +77,7 @@ def initStyleSheet(stylesheet):
         fontName = 'Normal-Bold',
         textColor = colors.TEXT_COLOR,
         fontSize = 11,
+        leading = 13,
         spaceBefore = 11,
         spaceAfter = 11,
         ))
