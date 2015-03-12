@@ -52,6 +52,8 @@ class PdfFlattener(Flattener):
         return '<del>%s</del>' % content
             
     def link(self, link, content):
+        if link != content:
+            content += ' (%s)' % link
         return '<a href="%s">%s</a>' % (link, content)
 
 
