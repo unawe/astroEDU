@@ -556,11 +556,11 @@ button.search_btn {
 }
 .footer_left {
     float: left; 
-    width: 45%;
+    width: 35%;
 }
 .footer_right {
     float: right;
-    width: 55%;
+    width: 65%;
 }
 .footer_nav {
     float: left; 
