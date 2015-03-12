@@ -10,7 +10,8 @@ h4 { font-size: 13px; font-weight: 900; }
 
 a { color: #F8B132; text-decoration: none; }
 a:hover { text-decoration: underline; }
-sub, sup { font-size: 70%; }
+sup { font-size: 70%; vertical-align: super; }
+sub { font-size: 70%; vertical-align: sub; }
 ul { list-style-image: url("../designimages/listbullet.png"); margin-left: 35px; }
 ol { margin-left: 35px; }
 .unbulleted { list-style: none; }
