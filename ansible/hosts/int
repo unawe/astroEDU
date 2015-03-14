@@ -1,0 +1,2 @@
+# ansible 'hosts' file for int (staging)
+int-vagrant      ansible_connection=ssh      ansible_ssh_user=web      ansible_ssh_host=astroedu.local  # 10.10.10.10

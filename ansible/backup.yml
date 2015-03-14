@@ -1,0 +1,46 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+    BASE_DIR: /home/web/astroEDU
+    BASE_DIR_LOCAL: /Users/rino/dev/astroEDU
+    VIRTUALENV: /home/web/.virtualenvs/astroEDU
+    REPO: https://github.com/unawe/astroEDU.git
+    LOG_DIR: /home/web/usr/log
+    ETC_DIR: /home/web/usr/etc
+    backup_path: /home/web/backup
+    backup_archives_path: /home/web/backup/archives
+    backup_database_user: backmeup
+    backup_database_password: jesussaves
+  tasks:
+
+    - name: create mysql backup user
+      mysql_user: 
+        name: "{{ backup_database_user }}"
+        password: "{{ backup_database_password }}"
+        host: localhost
+        login_user: "{{ DATABASE_USER_PROD }}"
+        login_password: "{{ DATABASE_PASSWORD_PROD }}"
+        priv: "*.*:SELECT,SHOW VIEW,RELOAD,LOCK TABLES"
+    - name: ensure backup folders exist
+      file: path={{ item }} state=directory
+      with_items:
+        - "{{ backup_path }}"
+        - "{{ backup_archives_path }}"
+
+    - name: ensure backup rotation script exists
+      copy: src={{ BASE_DIR_LOCAL }}/share/rotate-backups.py dest=/home/web/usr/bin/rotate-backups.py mode="a+x"
+    - name: ensure backup rotation script configuration exists
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/rotate-backupsrc.j2 dest=/home/web/.rotate-backupsrc
+
+    # - name: backup database
+    - cron:
+        name: backup database
+        job: "mysqldump -u{{ backup_database_user }} -p{{ backup_database_password }} astroedu | gzip > {{ backup_path }}/astroedu-db.sql.gz"
+        minute: 48
+    # - name: rotate backups
+    - cron:
+        name: rotate backups
+        job: /home/web/usr/bin/rotate-backups.py > /dev/null
+        minute: 51
+

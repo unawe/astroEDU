@@ -1,0 +1,120 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+    BASE_DIR: /home/web/astroEDU
+    BASE_DIR_LOCAL: /Users/rino/dev/astroEDU
+    VIRTUALENV: /home/web/.virtualenvs/astroEDU
+    REPO: https://github.com/unawe/astroEDU.git
+    LOG_DIR: /home/web/usr/log
+    ETC_DIR: /home/web/usr/etc
+  tasks:
+
+    ## MySQL
+    # TODO: move the mysql stuff to provisioning.yml?
+    - name: ensure database exists
+      mysql_db: 
+        name: astroedu
+        encoding: utf8
+        collation: utf8_unicode_ci
+        login_user: "{{ DATABASE_USER_PROD }}"
+        login_password: "{{ DATABASE_PASSWORD_PROD }}"
+
+    # Django
+    - name: copy astroEDU source files
+      synchronize:
+        src: "{{ BASE_DIR_LOCAL }}/"
+        dest: "{{ BASE_DIR }}"
+    # - name: ensure git repository is up-to-date
+    #   git: repo={{ REPO }} dest={{ BASE_DIR }} depth=1
+    #   # register: result
+    # # - debug: var=result
+    - name: ensure secrets file is present
+      copy: src={{ BASE_DIR_LOCAL }}/secrets.json dest={{ BASE_DIR }}/secrets.json
+    # - name: ensure python dependencies are present (to avoid hitting PyPi)
+    #   copy: src=../dependencies dest={{ BASE_DIR }}
+    - name: ensure django uploaded directory exists
+      file: path={{ BASE_DIR }}_uploads state=directory group=www-data mode="g+w" recurse=no
+    # - name: ensure perms for log file
+    #   file: path=/tmp/astroedu.log state=touch group=www-data mode="g+w" 
+    - name: install python dependencies in virtualenv
+      pip: 
+        requirements: "{{ BASE_DIR }}/requirements.txt"
+        virtualenv: "{{ VIRTUALENV }}"
+        # extra_args: "-i ../dependencies"
+
+    ## NGINX
+    - name: ensure default nginx configuration is not present
+      sudo: yes
+      file: path=/etc/nginx/sites-enabled/default state=absent
+    - name: ensure nginx 'available' configuration is present
+      sudo: yes
+      copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-available/astroedu
+      notify:
+        - restart nginx
+    - name: ensure nginx 'enabled' configuration is present
+      sudo: yes
+      file: src=/etc/nginx/sites-available/astroedu path=/etc/nginx/sites-enabled/astroedu state=link
+      # copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-enabled/astroedu
+      notify:
+        - restart nginx
+
+
+    ## uWSGI
+    - name: ensure uwsgi configuration is present
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/uwsgi.ini.j2 dest={{ ETC_DIR }}/uwsgi.ini
+      notify:
+        - restart uwsgi
+    - name: ensure uwsgi-supervisor configuration is present
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/uwsgi.conf.j2 dest={{ ETC_DIR }}/supervisor/uwsgi.conf
+      notify:
+        - restart uwsgi
+
+    ## Celery
+    - name: ensure celery-supervisor configuration is present
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/celery.conf.j2 dest={{ ETC_DIR }}/supervisor/celery.conf
+      notify:
+        - restart celery
+    - name: ensure flower-supervisor configuration is present
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/flower.conf.j2 dest={{ ETC_DIR }}/supervisor/flower.conf
+      notify:
+        - restart flower
+
+    ## elasticsearch
+    - name: ensure elasticsearch configuration is present
+      copy: src={{ BASE_DIR_LOCAL }}/share/conf/elasticsearch.yml dest={{ ETC_DIR }}/elasticsearch.yml
+      notify:
+        - restart elasticsearch
+    - name: ensure elasticsearch-supervisor configuration is present
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/elasticsearch.conf.j2 dest={{ ETC_DIR }}/supervisor/elasticsearch.conf
+      notify:
+        - restart elasticsearch
+
+
+
+  handlers:
+    - include: handlers/handlers.yml
+
+- hosts: all
+  gather_facts: False
+  vars:
+    BASE_DIR: /home/web/astroEDU
+    BASE_DIR_LOCAL: /Users/rino/dev/astroEDU
+    VIRTUALENV: /home/web/.virtualenvs/astroEDU
+    REPO: https://github.com/unawe/astroEDU.git
+    LOG_DIR: /home/web/usr/log
+    ETC_DIR: /home/web/usr/etc
+  tasks:
+
+    - name: running django deploy tasks
+      django_manage:
+        command: "{{ item }}"
+        app_path: "{{ BASE_DIR }}"
+        virtualenv: "{{ VIRTUALENV }}"
+      with_items:
+        - migrate
+        - collectstatic
+        # - rebuild_index --noinput
+        - rebuild_index
+      environment:
+        DJANGO_SETTINGS_CONFIG: PROD

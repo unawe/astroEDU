@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-sudo useradd --create-home --shell /bin/bash --groups sudo test4
+sudo useradd --create-home --shell /bin/bash --groups sudo web
 
-sudo mkdir /home/test4/.ssh
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAt7IAKxCWHDXJu+APGYYnSQDfsXrJYvv2RYLNtnOg0DbWf+M92HA6xpiD/iNgMjva5c81ibqD7G1ijdnesUp9Lriq2DRxSceyMRqaPi42sVYHQTNAbG0GsErVn91agtYMcp9bHBcqZxirCCIwQnafSiXFEG7sV81USuIkDXn536Z2OKngSLWnvPeQtjNe9+zNvZeDn9IOKSzUj0KVZ0LXL0occvnfWslEah5aLqueGT995dSZ/5xPzqtf0LLqqMZhwpmaAgSkXTHUctyd1vfwm9EZrZcgAHvvioMMZVOmvvU2B6dLi4jCGu6J6NEYW/vtj7gX0oyTvJ+Tln7I0mLf4Q== rino@aire.local" | sudo tee -a /home/test4/.ssh/authorized_keys >/dev/null
-sudo chmod 700 /home/test4/.ssh
-sudo chown test4 /home/test4/.ssh
-sudo chmod 600 /home/test4/.ssh/authorized_keys
-sudo chown test4 /home/test4/.ssh/authorized_keys
+sudo mkdir /home/web/.ssh
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAt7IAKxCWHDXJu+APGYYnSQDfsXrJYvv2RYLNtnOg0DbWf+M92HA6xpiD/iNgMjva5c81ibqD7G1ijdnesUp9Lriq2DRxSceyMRqaPi42sVYHQTNAbG0GsErVn91agtYMcp9bHBcqZxirCCIwQnafSiXFEG7sV81USuIkDXn536Z2OKngSLWnvPeQtjNe9+zNvZeDn9IOKSzUj0KVZ0LXL0occvnfWslEah5aLqueGT995dSZ/5xPzqtf0LLqqMZhwpmaAgSkXTHUctyd1vfwm9EZrZcgAHvvioMMZVOmvvU2B6dLi4jCGu6J6NEYW/vtj7gX0oyTvJ+Tln7I0mLf4Q== rino@aire.local" | sudo tee -a /home/web/.ssh/authorized_keys >/dev/null
+sudo chmod 700 /home/web/.ssh
+sudo chown web /home/web/.ssh
+sudo chmod 600 /home/web/.ssh/authorized_keys
+sudo chown web /home/web/.ssh/authorized_keys
 
 # don't ask for password! by adding the following line to /etc/sudoers:
-echo "test4 ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers >/dev/null
+echo "web ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers >/dev/null
 
 
 

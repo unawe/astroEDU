@@ -1,0 +1,126 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+    - name: add an Apt signing key
+      apt_key: id=D88E42B4 url=https://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+    - name: add Apt repositories
+      apt_repository: "repo='deb {{ item }}' state=present"
+      with_items:
+        - "http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main"  # elasticsearch
+
+    - name: ensure system packages are installed
+      apt: name={{ item }} update_cache=yes cache_valid_time=3600 state=present
+      with_items:
+        - zip
+        - python-dev
+        - python-pip
+        - supervisor
+        - openjdk-7-jre-headless  # required by elasticsearch/lucene
+        - git
+        - nginx
+        - monit
+        - apache2-utils  # for ab (apache benchmark)
+        - ghostscript
+        - imagemagick
+        - libjpeg62
+        - libjpeg62-dev
+        # - python-lockfile
+        # - memcached
+        - redis-server
+        - libmysqlclient-dev
+        - mysql-server
+        - python-mysqldb  # required by the mysql_user ansible module
+        - nodejs
+        - nodejs-legacy  # so that "/usr/bin/env node" works; needed for npm ansible task
+        - npm
+        - elasticsearch
+    - name: ensure system-wide python packages are installed
+      pip: name={{ item }} state=present
+      with_items:
+        - virtualenv
+        - uwsgi
+    - name: ensure npm packages are installed
+      npm: name={{ item }} global=yes state=present
+      with_items:
+        - yuglify
+
+    - name: ensure web user is in the required groups
+      user: name=web group=www-data groups=sudo,mysql
+
+    ## create work dirs
+    - file: path=/home/web/usr/etc state=directory owner=web group=www-data
+    - file: path=/home/web/usr/etc/supervisor state=directory owner=web group=www-data
+    - file: path=/home/web/usr/log state=directory owner=web group=www-data
+    - file: path=/home/web/usr/log/elasticsearch state=directory owner=web group=www-data
+    - file: path=/home/web/usr/bin state=directory owner=web group=www-data
+
+    ## supervisor
+    - name: configure supervisor
+      ini_file: dest=/etc/supervisor/supervisord.conf section=include option=files value=/home/web/usr/etc/supervisor/*.conf
+
+    ## MySQL
+    - name: ensure mysql is configured to use MyISAM
+      ini_file: dest=/etc/mysql/my.cnf section=mysqld option=default-storage-engine value=MyISAM
+    - name: ensure mysql user exists
+      user: name=mysql group=mysql
+    - name: ensure services are running (and started on boot)
+      service: name={{ item }} state=started enabled=true
+      with_items:
+        - nginx
+        - mysql
+        - redis-server
+    - name: update mysql root password for all root accounts
+      mysql_user: 
+        name: "{{ DATABASE_USER_PROD }}"
+        password: "{{ DATABASE_PASSWORD_PROD }}"
+        host: "{{ item }}" 
+        login_user: root
+        login_password: "{{ DATABASE_PASSWORD_PROD }}"
+        check_implicit_admin: yes  # tries to login first as root without password
+        priv: "*.*:ALL,GRANT"
+      with_items:
+        - "{{ ansible_hostname }}"
+        - 127.0.0.1  # local IP
+        - ::1        # local IPv6
+        - localhost  # socket
+        # - 10.10.10.1 # vagrant/virtualbox host IP
+    - name: Load MySQL time zone tables
+      shell: "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u {{ DATABASE_USER_PROD }} --password='{{ DATABASE_PASSWORD_PROD }}' mysql && touch .mysql_tzinfo_to_sql_done"
+      args:
+        chdir: /home/web/
+        creates: .mysql_tzinfo_to_sql_done
+
+    ## Elasticsearch
+    - name: ensure no init.d script exist for elasticsearch  
+      file: path=/etc/init.d/elasticsearch state=absent
+    - name: configure elasticsearch, step 1
+      lineinfile: dest=/etc/security/limits.conf regexp='^elasticsearch' line='elasticsearch    hard    memlock         100000'
+    # - name: configure elasticsearch, step 2
+    #   lineinfile: "dest=/etc/default/elasticsearch regexp='{{ item.regexp }}' line='{{ item.line }}'"
+    #   with_items:
+    #     - { regexp: '^ES_HEAP_SIZE', line: 'ES_HEAP_SIZE=256m' }
+    #     - { regexp: '^MAX_LOCKED_MEMORY', line: 'MAX_LOCKED_MEMORY=100000' }
+    #     - { regexp: '^ES_JAVA_OPTS', line: 'ES_JAVA_OPTS=-server' }
+    # - name: configure elasticsearch, step 3
+    #   lineinfile: "dest=/etc/elasticsearch/elasticsearch.yml regexp='{{ item.regexp }}' line='{{ item.line }}'"
+    #   with_items:
+    #     - { regexp: '^index.number_of_shards', line: 'index.number_of_shards: 1' }
+    #     - { regexp: '^index.number_of_replicas', line: 'index.number_of_replicas: 0' }
+
+    ## Redis
+    - name: configure redis
+      lineinfile: dest=/etc/redis/redis.conf regexp='^maxmemory' line='maxmemory 50mb'
+      notify:
+        - restart redis
+
+
+    - name: trying to improve elasticsearch stability 1
+      apt: name=execstack update_cache=yes cache_valid_time=3600 state=present
+    - name: trying to improve elasticsearch stability 2
+      shell: "sudo execstack -c /usr/share/elasticsearch/lib/sigar/libsigar-x86-linux.so"
+
+
+
+  handlers:
+    - include: handlers/handlers.yml
