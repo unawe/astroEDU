@@ -8,10 +8,11 @@ from django.conf import settings
 
 from reportlab.lib.units import cm
 from reportlab.platypus import BaseDocTemplate, Frame, Image, Paragraph, Table, NextPageTemplate, PageBreak, PageTemplate, FrameBreak, TableStyle, KeepTogether, Spacer 
+from reportlab.platypus.flowables import Flowable
 
 from django_mistune import markdown
 from django_mistune.utils import Flattener, TreeRenderer
-from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage
+from contrib.pdf.pdfrenderer import PdfRendererBase, AweImage, normalizeRGB
 
 from astroedu.activities import utils
 from . import colors
@@ -76,6 +77,26 @@ class SectionHeader(Paragraph):
         Paragraph.draw(self)
         self.renderer.paint_image(self.icon, -3.5*cm, -0.7*cm, canvas, mask='auto', scale=0.8)
 
+
+class HorizontalRuler(Flowable):
+
+    def wrap(self, availWidth, availHeight):
+        self.availWidth = availWidth
+        return (availWidth, .5*cm)
+
+    def split(self, availWidth, availHeight):
+        return []
+
+    def draw(self):
+        canvas = self.canv
+
+        canvas.saveState()
+        canvas.setLineWidth(.02*cm)
+        canvas.setStrokeColorRGB(*normalizeRGB(colors.HEADER_COLOR))
+        canvas.line(0, 0, self.availWidth, 0)
+        canvas.restoreState()
+
+
 #### END FLOWABLES ####
 
 
@@ -109,9 +130,9 @@ class Renderer(PdfRendererBase):
         self.footer(canvas, doc)
         canvas.saveState()
         canvas.setLineWidth(.02*cm)
-        canvas.setStrokeColorRGB(*self.normalizeRGB(colors.HEADER_COLOR))
+        canvas.setStrokeColorRGB(*normalizeRGB(colors.HEADER_COLOR))
         canvas.line(5.5*cm, 28.2*cm, 5.5*cm, 30*cm)
-        canvas.setStrokeColorRGB(*self.normalizeRGB(colors.FOOTER_LINE_COLOR))
+        canvas.setStrokeColorRGB(*normalizeRGB(colors.FOOTER_LINE_COLOR))
         canvas.line(5.5*cm, 2.2*cm, self.page_width, 2.2*cm)
         canvas.restoreState()
         self.paint_image(os.path.join(ASSETS_ROOT, 'astroedu_logo.png'), 5.5*cm, 1.1*cm, canvas, mask='auto', scale=0.6)
@@ -159,13 +180,14 @@ class Renderer(PdfRendererBase):
         ## SECOND PAGE
         meta_table_data = self._build_meta_table(obj)
         meta_table_style = TableStyle([
-                # ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
-                # ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
+                # ('INNERGRID', (0,0), (-1,-1), 0.25, normalizeRGB(colors.TEXT_COLOR)),
+                # ('BOX', (0,0), (-1,-1), .5, normalizeRGB(colors.TEXT_COLOR)),
                 ('VALIGN', (0,0), (-1,-1), 'TOP'),
                 ('BOTTOMPADDING', (0,0), (-1,-1), 1),
             ])
         # elements.append(Spacer(.5*cm, .5*cm))
         elements.append(KeepTogether(Table(meta_table_data, style=meta_table_style)))
+        elements.append(HorizontalRuler())
         elements.append(Spacer(.5*cm, .5*cm))
 
         for section_code, section_title in ACTIVITY_SECTIONS:
@@ -208,8 +230,8 @@ class Renderer(PdfRendererBase):
                         content[i][j] = Paragraph(value, style)
                 table_style = TableStyle([
                         ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                        ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
-                        ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
+                        ('INNERGRID', (0,0), (-1,-1), 0.25, normalizeRGB(colors.TEXT_COLOR)),
+                        ('BOX', (0,0), (-1,-1), .5, normalizeRGB(colors.TEXT_COLOR)),
                         ('BOTTOMPADDING', (0,0), (-1,-1), 1),
                     ])
                 result.append(KeepTogether(Table(content, style=table_style)))
@@ -225,8 +247,8 @@ class Renderer(PdfRendererBase):
                 row = []
                 result.append(row)
             row.append([
-                    Paragraph('<b>%s</b>' % title, self.styles['TableCell']), 
-                    Paragraph(value, self.styles['TableCell']), 
+                    Paragraph('<b>%s</b>' % title, self.styles['MetaTableCell']), 
+                    Paragraph(value, self.styles['MetaTableCell']), 
             ])
 
         return result

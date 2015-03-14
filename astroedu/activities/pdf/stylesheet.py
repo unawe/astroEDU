@@ -140,3 +140,8 @@ def initStyleSheet(stylesheet):
         alignment = TA_RIGHT,
         ))
 
+
+    stylesheet.add(ParagraphStyle(name='MetaTableCell', parent=stylesheet['TableCell'],
+        leading = 12,
+        spaceAfter = 2,
+        ))
