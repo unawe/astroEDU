@@ -31,7 +31,9 @@ def zip_attachments(obj):
     outfile = obj.download_path('zip')
     subprocess.call(['rm', '-f', outfile])
     for f in obj.attachment_list():
-        result += subprocess.call(['zip', zipoptions, outfile, f.file.path])    
+        if f.file:
+            # skip missing files
+            result += subprocess.call(['zip', zipoptions, outfile, f.file.path])    
     return result
 
 @shared_task()

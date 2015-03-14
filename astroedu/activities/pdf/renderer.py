@@ -207,6 +207,7 @@ class Renderer(PdfRendererBase):
                         value = cell[0] if cell[0] else u'\u00A0' # a non-breaking space makes sure an empty row has enough height
                         content[i][j] = Paragraph(value, style)
                 table_style = TableStyle([
+                        ('VALIGN', (0,0), (-1,-1), 'TOP'),
                         ('INNERGRID', (0,0), (-1,-1), 0.25, self.normalizeRGB(colors.TEXT_COLOR)),
                         ('BOX', (0,0), (-1,-1), .5, self.normalizeRGB(colors.TEXT_COLOR)),
                         ('BOTTOMPADDING', (0,0), (-1,-1), 1),

@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.conf import settings
 
 from astroedu.activities.utils import bleach_clean
-import markdown_utils
 
 class BleachTest(TestCase):
     def test_white_listed(self):

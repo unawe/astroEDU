@@ -88,6 +88,10 @@ def bleach_clean(text):
     # bleach escaped too much stuff, let's put it back
     result = re.sub(r'&lt;(.*)=""/&gt;', r'<\1>', result)  # automatic links
     result = re.sub(r'</?br\w?/?>', r'<br/>', result)  # we prefer xhtml line breaks
+    # allow lonely html entities...
+    result = re.sub(r'&lt;([^a-zA-Z])', r'<\1', result)
+    result = re.sub(r'([^a-zA-Z])&gt;', r'\1>', result)
+    result = re.sub(r'&amp;([^a-zA-Z])', r'&\1', result)
 
     return result
 

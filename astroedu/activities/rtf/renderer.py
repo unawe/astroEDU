@@ -35,6 +35,8 @@ class RtfFlattener(Flattener):
     def link(self, link, content):
         result = []
         result.append('{\\field{\\*\\fldinst HYPERLINK "%s"}{\\fldrslt ' % str(link))
+        if isinstance(content, basestring):
+            content = [content]
         result += content
         result.append('}}')
         return result
@@ -70,7 +72,7 @@ def render(obj, filename):
         if i % ACTIVITY_METADATA_COLS == 0:
             table_row = TableRow()
             table.append(table_row)
-        table_row.append(TableCell(['\\b ', title, '\\b0\line\n', value], style='Table Cell'))
+        table_row.append(TableCell(['\\b ', title, '\\b0\line ', value], style='Table Cell'))
     doc.append(table)
 
     for section_code, section_title in ACTIVITY_SECTIONS:

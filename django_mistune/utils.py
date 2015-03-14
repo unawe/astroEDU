@@ -34,11 +34,14 @@ Lalala
 '''
 
 def markdown(text, renderer=None, inline=None, block=None):
-    if not renderer:
-        renderer = MyRenderer()
+
     my_settings = settings.MISTUNE_STYLES if hasattr(settings, 'MISTUNE_STYLES') else {}
-    md = MyMarkdown(renderer, inline, block, **my_settings)
-    renderer.options.update(my_settings)  # should be fixed when PR 36 is merged https://github.com/lepture/mistune/pull/36
+    if not renderer:
+        renderer = MyRenderer(**my_settings)
+    else:
+        renderer.options.update(my_settings)
+
+    md = MyMarkdown(renderer, inline, block)
     result = md.render(text)
     return result
 
@@ -142,11 +145,11 @@ class Flattener(object):
                 value += self.emphasis(self._parse(contents[0])[1])
             
             elif name == 'linebreak':
-                print 'Found linebreak in markdown'
+                # print 'Found linebreak in markdown'
                 value += self.inline('<br/>')
             
             elif name == 'newline':
-                print 'Found newline in markdown'
+                # print 'Found newline in markdown'
                 value += self.inline('')
             
             elif name == 'link':
