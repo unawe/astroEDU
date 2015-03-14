@@ -27,6 +27,12 @@ class Styles(StyleSheet1):
             style.wordWrap = 'CJK'
         StyleSheet1.add(self, style)  # StyleSheet1 is an old-style class, can't use super()
 
+def normalizeRGB(text):
+    'transforms a #RRGGBB value into a tuple usable by setFillColorRGB() and setStrokeColorRGB()'
+    if text.startswith('#'):
+        text = text[1:]
+    return(int(text[0:2], 16)/256., int(text[2:4], 16)/256., int(text[4:6], 16)/256.)
+
 
 class PdfRendererBase(object):
     def __init__(self, pagesize=A4, ppi=150, assets_root=''):
@@ -62,12 +68,6 @@ class PdfRendererBase(object):
     #         return 'HanaMinA'
     #     else:
     #         return name
-
-    def normalizeRGB(self, text):
-        'transforms a #RRGGBB value into a tuple usable by setFillColorRGB() and setStrokeColorRGB()'
-        if text.startswith('#'):
-            text = text[1:]
-        return(int(text[0:2], 16)/256., int(text[2:4], 16)/256., int(text[4:6], 16)/256.)
 
     def get_dependent_image(self, name):
         #return 'images_' + str(PPI) + '/' + name
@@ -144,7 +144,7 @@ class PdfRendererBase(object):
             textobject.setTextOrigin(x, y+y_offset)
             textobject.setFont(style.fontName, fontSize)
             # print style.textColor, str(style.textColor)
-            textobject.setFillColorRGB(*self.normalizeRGB(style.textColor))
+            textobject.setFillColorRGB(*normalizeRGB(style.textColor))
             #textobject.setCharSpace(1.5)
             textobject.textLine(line)
             canvas.drawText(textobject)
