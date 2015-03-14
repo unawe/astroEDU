@@ -115,7 +115,7 @@ class ActivityAdminForm(forms.ModelForm):
             raise forms.ValidationError(_(u'Please fill in at least one of these fields: "Age", "Level"'))
 
         for fieldname in ('description', 'materials', 'goals', 'objectives', 'background', 'fulldesc', 'evaluation', 'curriculum', 'additional_information', 'conclusion', ):
-            value = cleaned_data[fieldname]
+            value = cleaned_data.get(fieldname)
             value = bleach_clean(value)  # sanitize html embed in markdown
             cleaned_data[fieldname] = value
             try:
