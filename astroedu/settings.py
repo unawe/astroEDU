@@ -48,7 +48,7 @@ EMAIL_SUBJECT_PREFIX = '[ASTROEDU] '
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
     'astroedu.iau.org',
-    '37.139.7.49',
+    '188.166.45.19',
     'astroedu',
     'astroedu.local',
 ]
