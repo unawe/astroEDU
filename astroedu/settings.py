@@ -264,8 +264,8 @@ MISTUNE_STYLES = {
 USE_ETAGS = True  # Note: disable debug toolbar while testing!
 
 # Bleach
-BLEACH_ALLOWED_TAGS = ('table', 'tr', 'th', 'td', 'sup', 'sub', 'a', 'em', 'it', 'p', 'br', 'tbody', )
-BLEACH_ALLOWED_ATTRIBUTES = {'a': ['href', 'target', ], }
+BLEACH_ALLOWED_TAGS = ('sup', 'sub', 'br', )
+BLEACH_ALLOWED_ATTRIBUTES = {}
 BLEACH_ALLOWED_STYLES = {}
 
 # Celery
