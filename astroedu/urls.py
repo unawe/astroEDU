@@ -35,19 +35,17 @@ urlpatterns = patterns('',
 
 if settings.DEBUG:
     urlpatterns += patterns('',
+        # test 404 and 500 pages
         (r'^500/$', TemplateView.as_view(template_name="500.html")),
         (r'^404/$', TemplateView.as_view(template_name="404.html")),
         # redirects (use nginx rewrite for production)
         (r'^favicon.ico/?$', RedirectView.as_view(url='/static/favicon.ico')),
         (r'^blog/?$', RedirectView.as_view(url='http://medium.com/@IAUastroEDU')),
         (r'^volunteer/?$', RedirectView.as_view(url='https://unawe.typeform.com/to/UIBI5e')),
-    )
-
-# serve MEDIA_ROOT (uploaded files) in development
-if settings.DEBUG:
-    urlpatterns += patterns('',
+        url(r'^a/', include('astroedu.activities.urls')),
+        # serve MEDIA_ROOT (uploaded files) in development
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-   )
+    )
 
 # Flatpages fallback    
 urlpatterns += patterns('django.contrib.flatpages.views',
