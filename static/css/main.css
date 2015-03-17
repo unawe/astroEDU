@@ -546,7 +546,7 @@ button.search_btn {
     text-decoration: underline;
 }
 .footer_meta {
-    width: 946px;
+    /*width: 946px;*/
     margin: 0 auto;
 }
 .footer_meta .meta_action {
@@ -554,7 +554,7 @@ button.search_btn {
 }
 .footer_meta .meta_action:not(:first-child) {
     float: left;
-    padding-left: 70px;
+    padding-left: 128px;
 }
 .footer_left {
     float: left; 
@@ -592,10 +592,13 @@ button.search_btn {
     display: block;
     text-align: center;
     text-decoration: none;
-    background-color: #F8B132;
+    background-color: #FDAC00; /* #F8B132;*/
 }
 .highlighted {
     background-color: yellow;
+}
+.sponsor-list {
+    float: right;
 }
 .sponsor-list ul, .sponsor-list li {
     list-style: none;
