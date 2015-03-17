@@ -520,7 +520,8 @@ button.search_btn {
 
 /* footer */
 .layout_footer {
-    background-image: url("../designimages/footer_grey_bg.png");
+    background-image: url("../designimages/footer_stars_bg.png");
+    background-position: center bottom;
     background-color: #616265; /* using the HTML color code doesn't work on some colour managed displays */
 }
 .layout_footer .layout_container {
