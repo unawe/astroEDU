@@ -80,17 +80,6 @@
       notify:
         - restart flower
 
-    ## elasticsearch
-    - name: ensure elasticsearch configuration is present
-      copy: src={{ BASE_DIR_LOCAL }}/share/conf/elasticsearch.yml dest={{ ETC_DIR }}/elasticsearch.yml
-      notify:
-        - restart elasticsearch
-    - name: ensure elasticsearch-supervisor configuration is present
-      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/elasticsearch.conf.j2 dest={{ ETC_DIR }}/supervisor/elasticsearch.conf
-      notify:
-        - restart elasticsearch
-
-
 
   handlers:
     - include: handlers/handlers.yml

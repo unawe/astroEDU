@@ -18,7 +18,3 @@
 - name: restart flower
   sudo: yes
   supervisorctl: name=flower state=restarted
-- name: restart elasticsearch
-  sudo: yes
-  supervisorctl: name=elasticsearch state=restarted
-
