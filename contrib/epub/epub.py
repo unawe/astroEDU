@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import os
 import re
 import zipfile
 import mimetypes
+import json
 
 if __name__ == '__main__':
     import utils
@@ -243,17 +246,8 @@ if __name__ == '__main__':
                 local = os.path.relpath(full, start=src_folder)
                 doc.files.append((local, full, None))
 
-    doc.metadata = {
-        'title': 'Hotel on the Corner of Bitter and Sweet',
-        'author': 'Jamie Ford',  # opf:file-as="Ford, Jamie"
-        # <dc:creator opf:file-as="Ford, Jamie" opf:role="aut">Jamie Ford</dc:creator>
-        'description': '',
-        'book_id': '978-0-345-51250-5',
-        'book_id_type': 'ISBN',
-        'language': 'en',
-        # <dc:publisher>Random House Publishing Group</dc:publisher>
-        # <dc:date opf:event="publication">2009</dc:date>
-    }
+    with open('metadata.json') as f:
+        doc.metadata = json.load(f)
 
     doc.compile()
 
