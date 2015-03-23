@@ -1,7 +1,9 @@
-import rtfunicode
 import re
 import os
+import copy
 from binascii import hexlify
+
+import rtfunicode
 
 from . import images
 
@@ -27,6 +29,8 @@ PAGE_MAX_WITH = 8640
 
 class Document(list):
     meta = {}
+    styles = copy.copy(STYLES)
+
     def write(self, f):
         f.write('{\\rtf1\\ansi\n')
         
@@ -42,7 +46,7 @@ class Document(list):
 
         for command in self:
             # print command.render()
-            f.write(command.render())
+            f.write(command.render(styles=self.styles))
         
         f.write('}\n')
 
@@ -53,14 +57,14 @@ class Paragraph(object):
 
     def __init__(self, content, style='Normal'):
         self.content = content
-        self.style = STYLES[style]
+        self.style = style
         super(Paragraph, self).__init__()
 
-    def render(self):
+    def render(self, styles):
         content  = ''
         for value in self.content:
             content += _render_value(value)
-        return self.START.format(style=self.style) + content + self.END
+        return self.START.format(style=styles[self.style]) + content + self.END
 
 
 class Heading(Paragraph):
@@ -85,8 +89,8 @@ class Image(Paragraph):
         self.END = ']}}' + self.END
         self.filename = os.path.basename(self.content)
 
-    def render(self):
-        return self.START.format(style=self.style) \
+    def render(self, styles):
+        return self.START.format(style=styles[self.style]) \
                 + '{\\*\\shppict ' + _render_image(self.content) \
                 + '}{\\nonshppict {[' \
                 + self.filename + self.END
@@ -94,7 +98,7 @@ class Image(Paragraph):
 
 class Table(list):
 
-    def render(self):
+    def render(self, styles):
         num_cols = max([len(row) for row in self])
         col_width = PAGE_MAX_WITH / num_cols
         row_format = '\\trowd \\trqc\\trgaph108\\trrh280\n'
@@ -103,18 +107,18 @@ class Table(list):
         result = '\\pard\\plain\\par\n'
         for row in self:
             result += row_format
-            result += row.render(cols=num_cols)
+            result += row.render(styles, cols=num_cols)
             result += '\\intbl\\row\n'
         return result
 
 
 class TableRow(list):
 
-    def render(self, cols=0):
+    def render(self, styles, cols=0):
         result = ''
         padding = [TableCell([''])] * (cols - len(self))
         for cell in self + padding:
-            result += cell.render()
+            result += cell.render(styles)
         return result
 
 
