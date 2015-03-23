@@ -48,8 +48,44 @@ def markdown_rtfcommand(text, inline=None, block=None):
     return result
 
 
+def _render_tree_to_rtf(doc, commands, obj, style='Normal'):
+    for name, content in commands:
+        if name == 'paragraph':
+            doc.append(Paragraph(content, style=style))
+        elif name.startswith('header_'):
+            level = int(name[len('header_'):])
+            doc.append(Heading(content, level=level))
+        elif name.startswith('list_item_'):
+            level = int(name[len('list_item_'):])
+            doc.append(BulletedListItem(content, level=level))
+        elif name == 'image':
+            from astroedu.activities import utils
+            import urllib
+            image_full_path, image_local_path = utils.local_resource(urllib.unquote(obj.attachment_url(content)))
+            doc.append(Image(image_full_path))
+        elif name == 'table':
+            table = Table()
+            for i, row in enumerate(content):
+                table_row = TableRow()
+                for j, cell in enumerate(row):
+                    fmt = cell[1]
+                    if fmt['header']:
+                        style = 'Table Header'
+                    else:
+                        style = 'Table Cell'
+                        if fmt['align']:
+                            # this can be one of left, right, center
+                            style += ' ' + fmt['align'].capitalize()
+                    table_row.append(TableCell(cell[0], style=style))
+                table.append(table_row)
+            doc.append(table)
+        else:
+            print name
+
+
 def render(obj, filename):
     doc = Document()
+    doc.styles['Disclaimer'] = '\\sb280\\fs18\\i'
 
     doc.meta['title'] = obj.title
     doc.meta['subject'] = obj.theme
@@ -79,40 +115,10 @@ def render(obj, filename):
         commands = markdown_rtfcommand(getattr(obj, section_code))
         if commands:
             doc.append(Paragraph([section_title], style='Heading 2'))
+            _render_tree_to_rtf(doc, commands, obj)
 
-            for name, content in commands:
-                if name == 'paragraph':
-                    doc.append(Paragraph(content))
-                elif name.startswith('header_'):
-                    level = int(name[len('header_'):])
-                    doc.append(Heading(content, level=level))
-                elif name.startswith('list_item_'):
-                    level = int(name[len('list_item_'):])
-                    doc.append(BulletedListItem(content, level=level))
-                elif name == 'image':
-                    from astroedu.activities import utils
-                    import urllib
-                    image_full_path, image_local_path = utils.local_resource(urllib.unquote(obj.attachment_url(content)))
-                    doc.append(Image(image_full_path))
-                elif name == 'table':
-                    table = Table()
-                    for i, row in enumerate(content):
-                        table_row = TableRow()
-                        for j, cell in enumerate(row):
-                            fmt = cell[1]
-                            if fmt['header']:
-                                style = 'Table Header'
-                            else:
-                                style = 'Table Cell'
-                                if fmt['align']:
-                                    # this can be one of left, right, center
-                                    style += ' ' + fmt['align'].capitalize()
-                            table_row.append(TableCell(cell[0], style=style))
-                        table.append(table_row)
-                    doc.append(table)
-                else:
-                    print name
-
+    commands = markdown_rtfcommand(obj.get_footer_disclaimer())
+    _render_tree_to_rtf(doc, commands, obj, style='Disclaimer')
 
     with open(filename, 'w') as f:
         doc.write(f)

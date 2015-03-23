@@ -14,6 +14,7 @@
 	table{ border-collapse: collapse; border-spacing: 0}
 	td, th { border: solid thin; font-size: 70%; height: 10pt; font-family: sans-serif; }
 	th { font-weight: bold; }
+	.disclaimer { font-style: italic; }
 	</style>
 </head>
 <body>
@@ -31,6 +32,10 @@
 	{% for section in sections %}
 		{% include "activities/epub_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
 	{% endfor %}
+
+
+	<div class="disclaimer">{{ object.get_footer_disclaimer|markdown }}</div>
+
 
 </body>
 </html>

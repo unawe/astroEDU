@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.core.exceptions import ValidationError
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 from django.contrib.redirects.models import Redirect
 from django.contrib.sites.models import Site
 from django.contrib.admin.models import LogEntry
@@ -34,7 +35,6 @@ def get_file_path_step(instance, filename):
 #     field4 = models.TextField()
 
 #     def get_absolute_url(self):
-#         from django.core.urlresolvers import reverse
 #         return reverse('activities:rich', args=[self.id])
 
 
@@ -239,8 +239,16 @@ class Activity(ArchivalModel, TranslationModel):
         return u'%s - %s' % (self.code, self.title)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('activities:detail', args=[self.slug])
+
+    def get_absolute_url_full(self):
+        return utils.get_qualified_url(self.get_absolute_url())
+
+    def get_short_url_full(self):
+        return utils.get_qualified_url('/a/%s' % self.code)
+
+    def get_footer_disclaimer(self):
+        return 'Go to %s for additional resources and download options of this activity.' % self.get_short_url_full()
 
     class Meta(ArchivalModel.Meta):
         ordering = ['-code']
@@ -340,7 +348,6 @@ class Collection(ArchivalModel):
         return unicode(self.title)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('collections:detail', args=[self.slug])
 
     class Meta(ArchivalModel.Meta):

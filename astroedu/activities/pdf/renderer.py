@@ -200,13 +200,20 @@ class Renderer(PdfRendererBase):
                 elements.append(KeepTogether([header, body[0]]))
                 elements += body[1:]
 
+        data = markdown_pdfcommand(obj.get_footer_disclaimer())
+        disclaimer = self._append_richtext(data, normal_style='Disclaimer')
+        disclaimer.insert(0, HorizontalRuler())
+        elements.append(Spacer(.5*cm, .5*cm))
+        # elements += disclaimer
+        elements.append(KeepTogether(disclaimer))
+
         doc.build(elements)
 
-    def _append_richtext(self, data):
+    def _append_richtext(self, data, normal_style='Normal'):
         result = []
         for name, content in data:
             if name == 'paragraph':
-                result.append(Paragraph(content, self.styles['Normal']))
+                result.append(Paragraph(content, self.styles[normal_style]))
             elif name.startswith('header'):
                 header_level = name[len('header_'):]
                 result.append(Paragraph(content, self.styles['Heading'+header_level]))

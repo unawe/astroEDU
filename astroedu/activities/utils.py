@@ -6,6 +6,8 @@ import bleach
 from django.utils.html import strip_tags
 from django.core.mail import EmailMultiAlternatives, send_mail, BadHeaderError
 from django.conf import settings
+from django.contrib.sites.models import Site
+
 
 def beautify_age_range(age_ranges):
     'Unifies a list of age ranges into a string. Input list must be sorted.'
@@ -42,9 +44,11 @@ def beautify_age_range(age_ranges):
     else:
         return ' '.join(age_ranges)
 
+
 class UnsupportedMediaPathException(Exception):
     pass
     
+
 def local_resource(uri):
     """
     Returns the full file path and a relative path for the resource
@@ -60,6 +64,7 @@ def local_resource(uri):
 
     # return path
     return urllib.unquote(path), urllib.unquote(local)
+
 
 # def send_notification_mail():
 #     # import logging
@@ -82,6 +87,7 @@ def local_resource(uri):
 #    
 #     return
 
+
 def bleach_clean(text):
     result = bleach.clean(text, settings.BLEACH_ALLOWED_TAGS, settings.BLEACH_ALLOWED_ATTRIBUTES, settings.BLEACH_ALLOWED_STYLES, strip=False, strip_comments=False)
 
@@ -96,3 +102,6 @@ def bleach_clean(text):
     return result
 
 
+def get_qualified_url(local_url):
+    current_site = Site.objects.get_current()
+    return 'http://%s%s' % (current_site, local_url)

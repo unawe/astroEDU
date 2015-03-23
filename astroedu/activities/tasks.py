@@ -61,7 +61,7 @@ def make_epub(obj):
         'title': obj.title + ' - astroEDU Activity',
         'author': obj.author_list(),
         'description': obj.teaser,
-        'book_id': 'http://astroedu.iau.org%s' % obj.get_absolute_url(),
+        'book_id': obj.get_absolute_url_full(),
         'book_id_type': 'URI',
         'language': 'en',
     }

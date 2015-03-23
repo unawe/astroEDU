@@ -18,6 +18,13 @@ def initStyleSheet(stylesheet):
         alignment = TA_JUSTIFY,
         ))
 
+    stylesheet.add(ParagraphStyle(name='Disclaimer', parent=stylesheet['Normal'],
+        fontName = 'Normal-Italic',
+        fontSize = 7,
+        leading = 8,
+        spaceBefore = 7,
+        ))
+
     ###############
     ## COVER PAGE
     ###############
