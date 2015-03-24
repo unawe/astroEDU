@@ -27,22 +27,28 @@
         line-height:22px;
     }
 
-    .sponsor-list li {
-        margin-left: 10px;
-    }
-    .sponsor-list li img {
-        height: 50px;
-        width: auto;
-    }
+
+    /* big icons */
 
     .layout_resources > .layout_container {
         max-width: 431px; /* 3*125 + 2*28 */
     }
-    .meta_action:not(:first-child) {
+    .bigicon:not(:first-child) {
         padding-left: 28px;
     }
-    .action_icon img {
+    .bigicon img {
         width: 125px;
     }
+
+
+    /* footer: menu and sponsors */ 
+
+    .sponsor-list li {
+        margin-left: 10px;
+    }
+    .sponsor-list li img {
+        height: 43px;
+    }
+
 
 }

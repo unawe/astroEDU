@@ -68,13 +68,16 @@
         font-size: 36px;
     }
 
+
+    /* big icons */
+
     .layout_resources > .layout_container {
         max-width: 880px; /* 3*220 + 2*110 */
     }
-    .meta_action:not(:first-child) {
+    .bigicon:not(:first-child) {
         padding-left: 110px;
     }
-    .action_icon img {
+    .bigicon img {
         width: 220px;
     }
 
