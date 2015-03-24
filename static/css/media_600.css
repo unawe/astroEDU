@@ -26,13 +26,7 @@
         font-size: 16px;
         line-height:22px;
     }
-    .meta_action img {
-      transform: scale(0.5);
-      -webkit-transform: scale(0.5);
-      -moz-transform: scale(0.5);
-      -o-transform: scale(0.5);
-      -ms-transform: scale(0.5);
-    }
+
     .sponsor-list li {
         margin-left: 10px;
     }
@@ -40,4 +34,15 @@
         height: 50px;
         width: auto;
     }
+
+    .layout_resources > .layout_container {
+        max-width: 431px; /* 3*125 + 2*28 */
+    }
+    .meta_action:not(:first-child) {
+        padding-left: 28px;
+    }
+    .action_icon img {
+        width: 125px;
+    }
+
 }

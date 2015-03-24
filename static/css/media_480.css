@@ -76,28 +76,19 @@
         padding-bottom: 0;
         font-size: 20px;
     }
-    .meta_action img, .top_right_search img {
+    .top_right_search img {
       transform: scale(0.75);
       -webkit-transform: scale(0.75);
       -moz-transform: scale(0.75);
       -o-transform: scale(0.75);
       -ms-transform: scale(0.75);
      }
-    .action_icon {
-        margin-bottom: 20px;
-    }
     .contact-content,
     .contact-thumb {
         min-height: 190px;
     }
     .featured_item .metadata_bottom .value {
         font-size: 14px;
-    }
-
-    .footer_meta .meta_action {
-        float: left !important;
-        width: 100%;
-        padding-left: 0px !important;
     }
     .featured_item {
         width: 100%;
@@ -131,5 +122,16 @@
     }
     .footer_profiles {
         padding-left: 10px;
+    }
+
+    .layout_resources > .layout_container {
+        max-width: 60%;
+    }
+    .meta_action {
+        padding-left: 0px !important;
+        margin-bottom: 80px;
+    }
+    .action_icon img {
+        width: 100%;
     }
 }

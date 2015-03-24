@@ -144,7 +144,7 @@ span.close-btn img {
     background-color: #F6F6F6;
 }
 .layout_resources {
-    background-color: #6C6C70;
+    background-color: #F6F6F6;
     height: auto;    
     padding: 64px 0 50px 0;
 }
@@ -545,17 +545,6 @@ button.search_btn {
 .layout_footer a:hover {
     text-decoration: underline;
 }
-.footer_meta {
-    /*width: 946px;*/
-    margin: 0 auto;
-}
-.footer_meta .meta_action {
-    float: left;
-}
-.footer_meta .meta_action:not(:first-child) {
-    float: left;
-    padding-left: 128px;
-}
 .footer_left {
     float: left; 
     width: 35%;
@@ -572,10 +561,20 @@ button.search_btn {
     margin-top: 260px;
     padding-bottom: 40px; 
 }
-.action_icon {
-    margin-bottom: 50px;
+
+/* big icons */
+
+.meta_action {
+    float: left;
 }
-/* buttons */
+.meta_action:not(:first-child) {
+    padding-left: 144px;
+}
+.action_icon img {
+    width: 257px;
+    height: auto !important;
+}
+/* buttons (deprecated) */
 .orange_gray_button {
     height: 50px;
     width: 100%;
@@ -592,11 +591,11 @@ button.search_btn {
     display: block;
     text-align: center;
     text-decoration: none;
-    background-color: #FDAC00; /* #F8B132;*/
+    background-color: #F8B132;
 }
-.highlighted {
-    background-color: yellow;
-}
+
+/* sponsors */ 
+
 .sponsor-list {
     float: right;
 }

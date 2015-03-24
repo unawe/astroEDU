@@ -128,11 +128,6 @@
         width: 36%;
         word-break: break-all;
     }
-    .orange_gray_button a {
-        padding: 10px 20px;
-        font-size: 16px;
-        width: 80%;
-    }
     .featured_item .title a {
         font-size: 24px;
     }
@@ -140,5 +135,16 @@
         float: none; 
         width: 90%;
     }
+
+    .layout_resources > .layout_container {
+        max-width: 540px; /* 3*140 + 2*60 */
+    }
+    .meta_action:not(:first-child) {
+        padding-left: 60px;
+    }
+    .action_icon img {
+        width: 140px;
+    }
+
 }
 

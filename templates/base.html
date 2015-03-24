@@ -45,53 +45,33 @@
 {% block content %}{% endblock %}
 
 	<div class="layout_resources">
-		<div class="layout_container footer_meta">
+		<div class="layout_container">
 		
-		<div class="meta_action">
-			
-			<div class="action_icon">
-				<a href="{% url 'collections:list' %}"><img src="{% static 'designimages/bigicon_collections.png' %}" alt="View activity collections" /></a>
+			<div class="meta_action">
+				<div class="action_icon">
+					<a href="{% url 'collections:list' %}">
+						<img src="{% static 'designimages/bigicon_collections.svg' %}" alt="Activity Collections" />
+					</a>
+				</div>
 			</div>
 			
-			<div class="orange_gray_button">
-				<a href="{% url 'collections:list' %}">
-					Activity Collections
-				</a>
-			</div>
-
-		</div>
-		
-		<div class="meta_action">
-			
-			<div class="action_icon">
-				<a href="{% url 'activities:list' %}"><img src="{% static 'designimages/bigicon_activities.png' %}" alt="See all activities" /></a>
+			<div class="meta_action">
+				<div class="action_icon">
+					<a href="{% url 'activities:list' %}">
+						<img src="{% static 'designimages/bigicon_activities.svg' %}" alt="See All Activities" />
+					</a>
+				</div>
 			</div>
 			
-			<div class="orange_gray_button">
-				<a href="{% url 'activities:list' %}">
-					See All Activities
-				</a>
+			<div class="meta_action">
+				<div class="action_icon">
+					<a href="/submission/">
+						<img src="{% static 'designimages/bigicon_submit.svg' %}" alt="Submit Your Activities" />
+					</a>
+				</div>
 			</div>
 
-		</div>
-		
-		<div class="meta_action">
-			
-			<div class="action_icon">
-				<a href="/submission/">
-					<img src="{% static 'designimages/bigicon_submit.png' %}" alt="How to submit" />
-				</a>
-			</div>
-			
-			<div class="orange_gray_button">
-				<a href="/submission/">
-					Submit Your Activities
-				</a>
-			</div>
-
-		</div>
-
-		<div style="clear: both;"></div>
+			<div style="clear: both;"></div>
 
 		</div>
 	</div>
