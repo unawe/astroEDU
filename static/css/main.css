@@ -413,6 +413,7 @@ button.search_btn {
 }
 .facet .title_text {
     font-size: 12px;
+    line-height: 14px;
     font-weight: 900;
     text-transform: uppercase;
 }

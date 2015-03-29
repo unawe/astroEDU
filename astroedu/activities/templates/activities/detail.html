@@ -50,21 +50,21 @@
     {% if object.code == '1302' %} <!-- Scientix Award --> <div><a href="https://medium.com/@iauastroedu/iau-astroedu-honoured-with-science-education-award-95437e356d50" class="award_badge" target="_blank"><img src="{% static 'designimages/award_badge.png' %}" alt="Scientix Award" /></a></div>{% endif %}
 
 	{% for section in sections %}
-		{% include "activities/detail_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
+		{% include 'activities/detail_section.html' with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
 	{% endfor %}
 
 </div>
 <div class="layout_rightcolumn">
 
 	<div class="meta">
-		{% include "activities/detail_section_meta.html" with code="keywords" text="Keywords" content=object.keywords %}
-		{# {% include "activities/detail_section_meta.html" with code="language" text="Language" content=object.lang %} #}
+		{% include 'activities/detail_section_meta.html' with code='keywords' text='Keywords' content=object.keywords %}
+		{# {% include 'activities/detail_section_meta.html' with code='language' text='Language' content=object.lang %} #}
 
 		{% for section in sections_meta %}
 			{% if section.2.multiple %}
-				{% include "activities/detail_section_meta_list.html" with code=section.0 text=section.1 content=object|getattribute:section.0|getattribute:'all' %}
+				{% include 'activities/detail_section_meta_list.html' with code=section.0 text=section.1 content=object|getattribute:section.0|getattribute:'all' %}
 			{% else %}
-				{% include "activities/detail_section_meta.html" with code=section.0 text=section.1 content=object|getattribute:section.2.display %}
+				{% include 'activities/detail_section_meta.html' with code=section.0 text=section.1 content=object|getattribute:section.2.display %}
 			{% endif %}
 		{% endfor %}
 

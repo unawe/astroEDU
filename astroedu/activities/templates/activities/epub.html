@@ -30,7 +30,7 @@
 	</dl>
 
 	{% for section in sections %}
-		{% include "activities/epub_section.html" with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
+		{% include 'activities/epub_section.html' with code=section.0 text=section.1 content=object|getattribute:section.0|markdown|relativise_img_src:object %}
 	{% endfor %}
 
 
