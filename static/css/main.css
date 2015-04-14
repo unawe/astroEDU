@@ -38,6 +38,23 @@ ul.unbulleted {
     transition: all 0.3s ease;
 }
 
+.layout_leftcolumn table, .layout_flatpage table {
+    margin-top: 1em;
+    margin-left: auto; 
+    margin-right: auto;    
+}
+.layout_leftcolumn th, .layout_flatpage th {
+    font-weight: bold;
+}
+.layout_leftcolumn td, .layout_leftcolumn th, .layout_flatpage td, .layout_flatpage th {
+    border: solid thin #6C6C70;
+    margin: 4px; 
+    padding-left: 4px; padding-right: 4px;
+    padding-top: 4px; padding-bottom: 4px;
+    font-size: 85%;
+    height: 12px;
+}
+
 /* background images */
 body {
     background-image: url("../designimages/stars_bg.png");
@@ -101,7 +118,7 @@ span.close-btn img {
 .layout_container > .layout_wide { padding-bottom: 180px; }
 .layout_container > .layout_narrow { width: 630px; padding-bottom: 180px; }
 .layout_container > .layout_flatpage { padding-bottom: 180px; }
-.layout_container > .layout_flatpage p, .layout_container > .layout_flatpage ul, .layout_container > .layout_flatpage ol { width: 630px; }
+.layout_container > .layout_flatpage  { width: 630px; }
 .layout_container > .layout_leftcolumn { width: 630px; padding-bottom: 100px; float: left; }
 .layout_container > .layout_rightcolumn { margin-left: 90px; width: 338px; padding-bottom: 100px; float: left; }
 .layout_container > .layout_leftcolumn p img,     .layout_container > .layout_flatpage p img {
@@ -500,22 +517,7 @@ button.search_btn {
 .activity_detail .section img {max-width: 545px; }
 
 .activity_detail .section.fulldesc h1, .activity_detail .section.fulldesc h2, .activity_detail .section.fulldesc h3 { color: #F8B132; font-size: 18px; font-weight: 500; border-top: solid 1px #F6E8CF; margin-top: 32px; padding-top: 12px; }
-.activity_detail .section table {
-    margin-top: 1em;
-    margin-left: auto; 
-    margin-right: auto;    
-}
-.activity_detail .section th {
-    font-weight: bold;
-}
-.activity_detail .section td, .activity_detail .section th {
-    border: solid thin #6C6C70;
-    margin: 4px; 
-    padding-left: 4px; padding-right: 4px;
-    padding-top: 4px; padding-bottom: 4px;
-    font-size: 85%;
-    height: 12px;
-}
+
 #disqus_thread { margin-top: 80px; }
 
 
