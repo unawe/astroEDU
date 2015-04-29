@@ -1,4 +1,0 @@
--r common.txt
-
-# uwsgi==2.0.8  # not needed, it is installed system-wide
-# django-redis-cache==0.13.0
