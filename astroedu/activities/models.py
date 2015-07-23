@@ -135,7 +135,7 @@ class Activity(ArchivalModel, TranslationModel):
     doi = models.CharField(blank=True, max_length=50, verbose_name='DOI', help_text=_(u'Digital Object Identifier, in the format XXXX/YYYY. See http://www.doi.org/'))
 
     title = models.CharField(max_length=255, db_index=True, help_text=_(u'Title is shown in browser window. Use a good informative title, since search engines normally display the title on their result pages.'))
-    teaser = models.TextField(blank=False, max_length=140, help_text=_(u'Maximum 140 characters'))
+    teaser = models.TextField(blank=False, max_length=140, help_text=_(u'One line, 140 characters maximum'))
     theme = models.CharField(blank=False, max_length=40, help_text=_(u'Use top level AVM metadata'))
     keywords = models.TextField(blank=False, help_text=_(u'List of keywords, separated by commas'))
 

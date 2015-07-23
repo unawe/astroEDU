@@ -106,6 +106,11 @@ class ActivityAdminForm(forms.ModelForm):
             raise forms.ValidationError(_(u'The code should be four digits, in the format: YY##'))
         return code
 
+    def clean_teaser(self):
+        teaser = self.cleaned_data['teaser']
+        teaser = teaser.replace('\n', ' ').strip()
+        return teaser
+
     def clean(self):
         cleaned_data = super(ActivityAdminForm, self).clean()
 
