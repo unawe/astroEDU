@@ -98,6 +98,7 @@ class ActivityAdminForm(forms.ModelForm):
             'location': forms.RadioSelect,
             'learning': forms.RadioSelect,
             # 'log': forms.Textarea(attrs={'disabled': True}),
+            'teaser': forms.TextInput(attrs={'class': 'vTextField'}),
         }
 
     def clean_code(self):
