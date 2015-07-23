@@ -299,11 +299,10 @@ PIPELINE_CSS = {
 }
 PIPELINE_JS = {
     'scripts': {
-        'source_filenames': (
+        'source_filenames': [
             'js/jquery.js',
             'js/scripts.js',
-            'js/download-analytics.js',
-        ),
+        ],
         'output_filename': 'js/astroedu.min.js',
     }
 }
@@ -354,6 +353,7 @@ elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DATABASES['default']['PASSWORD'] = secrets['DATABASE_PASSWORD_PROD']
     STATIC_ROOT = os.path.join(PARENT_DIR, 'astroEDU_static')
     WHOOSH_INDEX_PATH = '/home/web/usr/whoosh_index'
+    PIPELINE_JS['scripts']['source_filenames'].append('js/download-analytics.js')
 
 else:
     if DJANGO_SETTINGS_CONFIG:
