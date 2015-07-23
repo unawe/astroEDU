@@ -301,7 +301,8 @@ PIPELINE_JS = {
     'scripts': {
         'source_filenames': (
             'js/jquery.js',
-            'js/scripts.js'
+            'js/scripts.js',
+            'js/download-analytics.js',
         ),
         'output_filename': 'js/astroedu.min.js',
     }
