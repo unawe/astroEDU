@@ -47,8 +47,8 @@ if (typeof jQuery != 'undefined') {
           if ( el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
             setTimeout(function() { location.href = elEv.loc; }, 400);
             return false;
-      }
-    }
+          }
+        }
       }
     });
   });
