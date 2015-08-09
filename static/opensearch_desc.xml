@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>astroEDU</ShortName>
+    <Description>astroEDU - Peer-reviewed Astronomy Education Activities</Description>
+    <Image height="16" width="16" type="image/x-icon">http://astroedu.iau.org/favicon.ico</Image>
+    <Url type="text/html" method="get" template="http://astroedu.iau.org/search/?q={searchTerms}" />
+    <moz:SearchForm>http://astroedu.iau.org/</moz:SearchForm>
+</OpenSearchDescription>
