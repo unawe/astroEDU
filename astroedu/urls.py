@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     # url(r'^grappelli/', include('grappelli.urls')),
     # url(r'^tinymce/', include('tinymce.urls')),
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/about/', 'astroedu.views.about', name='about'),
     url(r'^admin/history/', include('djangoplicity.adminhistory.urls', namespace="adminhistory_site", app_name="history" )),
     url(r'^admin/', include(admin.site.urls)),
 
