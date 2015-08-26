@@ -7,12 +7,12 @@
     REMOTE_DIR: 
   tasks:
     - name: copy mysql db file to remote
-      copy: src=/Users/rino/Projects/astroEDU/database-latest.gz dest=/tmp/database-latest-dev.gz
+      copy: src=/Users/rino/Projects/astroEDU/database-latest.sql dest=/tmp/database-latest-dev.sql
     - name: import mysql database from file
       mysql_db: 
         name: astroedu
         state: import 
-        target: /tmp/database-latest-dev.gz
+        target: /tmp/database-latest-dev.sql
         login_user: "{{ DATABASE_USER_PROD }}"
         login_password: "{{ DATABASE_PASSWORD_PROD }}"
     - name: copy astroEDU uploaded files

@@ -3,7 +3,7 @@
   gather_facts: False
   vars:
     BASE_DIR: /home/web/astroEDU
-    BASE_DIR_LOCAL: /Users/rino/dev/astroEDU
+    BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroEDU
     VIRTUALENV: /home/web/.virtualenvs/astroEDU
     REPO: https://github.com/unawe/astroEDU.git
     LOG_DIR: /home/web/usr/log
@@ -25,8 +25,12 @@
       synchronize:
         src: "{{ BASE_DIR_LOCAL }}/"
         dest: "{{ BASE_DIR }}"
+      notify:
+        - restart uwsgi
     # - name: ensure git repository is up-to-date
     #   git: repo={{ REPO }} dest={{ BASE_DIR }} depth=1
+    #   notify:
+    #     - restart uwsgi
     #   # register: result
     # # - debug: var=result
     - name: ensure secrets file is present

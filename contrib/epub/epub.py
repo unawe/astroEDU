@@ -216,11 +216,10 @@ class Document(object):
         </html>
         ''' % utils.toc_html(toc)
             self.write_file('OEBPS/toc.xhtml', toc_html, 'utf-8')
-        
-        
+
+
 if __name__ == '__main__':
     import sys
-    import os
 
     src_folder = '.'
     out_file = None
@@ -250,5 +249,3 @@ if __name__ == '__main__':
         doc.metadata = json.load(f)
 
     doc.compile()
-
-
