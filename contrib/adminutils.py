@@ -63,7 +63,7 @@ class UnicodeWriter:
             self.writerow(row)
 
 
-def download_csv(modeladmin, request, queryset):
+def download_csv(modeladmin, request, queryset, filename='export.csv'):
     import csv
     from django.http import HttpResponse
     from django.core.exceptions import PermissionDenied
@@ -74,7 +74,7 @@ def download_csv(modeladmin, request, queryset):
     model = queryset.model
     response = HttpResponse(content_type='text/csv')
     # force download.
-    response['Content-Disposition'] = 'attachment;filename=export.csv'
+    response['Content-Disposition'] = 'attachment;filename=%s' % filename
     # the csv writer
     writer = UnicodeWriter(response)
     field_names = [field.name for field in opts.fields]

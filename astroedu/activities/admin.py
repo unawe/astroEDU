@@ -153,7 +153,7 @@ class ActivityAdmin(CounterAdmin):
     thumb_embed.allow_tags = True
 
     counted_fields = ('teaser', )
-    prepopulated_fields = {"slug": ("title",)}
+    prepopulated_fields = {'slug': ('title',)}
 
     form = ActivityAdminForm
     list_display = ('code', 'title', 'author_list', 'published', 'release_date', 'is_visible', 'featured', 'doi', 'thumb_embed', 'view_link')  # , 'list_link_thumbnail', view_link('activities'))

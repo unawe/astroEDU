@@ -21,8 +21,8 @@ from astroedu.activities import utils, tasks
 from filemanager.models import File as ManagedFile
 
 
-def get_file_path(instance, filename):
-    return os.path.join('activities/attach', instance.uuid, filename)
+# def get_file_path(instance, filename):
+#     return os.path.join('activities/attach', instance.uuid, filename)
 
 def get_file_path_step(instance, filename):
     return os.path.join('activities/attach', instance.hostmodel.uuid, filename)

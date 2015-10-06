@@ -14,7 +14,7 @@
   supervisorctl: name=uwsgi state=restarted
 - name: restart celery
   sudo: yes
-  supervisorctl: name=celety state=restarted
+  supervisorctl: name=celery state=restarted
 - name: restart flower
   sudo: yes
   supervisorctl: name=flower state=restarted
