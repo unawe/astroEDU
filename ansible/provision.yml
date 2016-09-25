@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  sudo: yes
+  become: yes
   tasks:
 
     - name: ensure system packages are installed
@@ -8,7 +8,7 @@
       with_items:
         - zip
         - python-dev
-        - python-pip
+        # - python-pip
         - supervisor
         - git
         - nginx
@@ -27,6 +27,14 @@
         - nodejs
         - nodejs-legacy  # so that "/usr/bin/env node" works; needed for npm ansible task
         - npm
+
+    - name: get latest pip
+      get_url: url=https://bootstrap.pypa.io/get-pip.py dest=/tmp/
+    - name: install pip2
+      command: '/usr/bin/python2 /tmp/get-pip.py'
+      args:
+        creates: /usr/local/bin/pip2
+
     - name: ensure system-wide python packages are installed
       pip: name={{ item }} state=present
       with_items:
@@ -36,6 +44,11 @@
       npm: name={{ item }} global=yes state=present
       with_items:
         - yuglify
+
+    - name: move our uwsgi binary to safe location
+      command: 'mv /usr/local/bin/uwsgi /usr/local/bin/uwsgi-python2'
+      args:
+        creates: /usr/local/bin/uwsgi-python2
 
     - name: ensure web user is in the required groups
       user: name=web group=www-data groups=sudo,mysql

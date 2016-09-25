@@ -6,6 +6,7 @@
     BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroEDU
     VIRTUALENV: /home/web/.virtualenvs/astroEDU
     REPO: https://github.com/unawe/astroEDU.git
+    SHORT_NAME: astroedu
     LOG_DIR: /home/web/usr/log
     ETC_DIR: /home/web/usr/etc
   tasks:
@@ -42,45 +43,46 @@
     # - name: ensure perms for log file
     #   file: path=/tmp/astroedu.log state=touch group=www-data mode="g+w" 
     - name: install python dependencies in virtualenv
-      pip: 
+      pip:
+        executable: pip2
+        virtualenv_python: python2.7
         requirements: "{{ BASE_DIR }}/requirements.txt"
         virtualenv: "{{ VIRTUALENV }}"
-        # extra_args: "-i ../dependencies"
 
     ## NGINX
     - name: ensure default nginx configuration is not present
-      sudo: yes
+      become: yes
       file: path=/etc/nginx/sites-enabled/default state=absent
     - name: ensure nginx 'available' configuration is present
-      sudo: yes
-      copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-available/astroedu
+      become: yes
+      copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-available/{{ SHORT_NAME }}
       notify:
         - restart nginx
     - name: ensure nginx 'enabled' configuration is present
-      sudo: yes
-      file: src=/etc/nginx/sites-available/astroedu path=/etc/nginx/sites-enabled/astroedu state=link
-      # copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-enabled/astroedu
+      become: yes
+      file: src=/etc/nginx/sites-available/{{ SHORT_NAME }} path=/etc/nginx/sites-enabled/{{ SHORT_NAME }} state=link
+      # copy: src={{ BASE_DIR_LOCAL }}/share/conf/nginx.conf dest=/etc/nginx/sites-enabled/{{ SHORT_NAME }}
       notify:
         - restart nginx
 
 
     ## uWSGI
     - name: ensure uwsgi configuration is present
-      template: src={{ BASE_DIR_LOCAL }}/share/conf/uwsgi.ini.j2 dest={{ ETC_DIR }}/uwsgi.ini
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/uwsgi.ini.j2 dest={{ ETC_DIR }}/uwsgi-{{ SHORT_NAME }}.ini
       notify:
         - restart uwsgi
     - name: ensure uwsgi-supervisor configuration is present
-      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/uwsgi.conf.j2 dest={{ ETC_DIR }}/supervisor/uwsgi.conf
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/uwsgi.conf.j2 dest={{ ETC_DIR }}/supervisor/uwsgi-{{ SHORT_NAME }}.conf
       notify:
         - restart uwsgi
 
     ## Celery
     - name: ensure celery-supervisor configuration is present
-      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/celery.conf.j2 dest={{ ETC_DIR }}/supervisor/celery.conf
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/celery.conf.j2 dest={{ ETC_DIR }}/supervisor/celery-{{ SHORT_NAME }}.conf
       notify:
         - restart celery
     - name: ensure flower-supervisor configuration is present
-      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/flower.conf.j2 dest={{ ETC_DIR }}/supervisor/flower.conf
+      template: src={{ BASE_DIR_LOCAL }}/share/conf/supervisor/flower.conf.j2 dest={{ ETC_DIR }}/supervisor/flower-{{ SHORT_NAME }}.conf
       notify:
         - restart flower
 
