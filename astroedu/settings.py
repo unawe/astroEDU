@@ -111,7 +111,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'pipeline.finders.PipelineFinder',
 )
 
@@ -243,7 +243,7 @@ LOGGING = {
             'propagate': True,
         },
         'django.db.backends': {
-            'handlers': ['default',],
+            'handlers': ['default', ],
             'level': 'INFO',
         }
     }
@@ -253,7 +253,7 @@ LOGGING = {
 MISTUNE_STYLES = {
     # 'escape': True,  # all raw html tags will be escaped.
     # 'hard_wrap': True,  # it will has GFM line breaks feature.
-    'use_xhtml': True, # all tags will be in xhtml, for example: <hr />.
+    'use_xhtml': True,  # all tags will be in xhtml, for example: <hr />.
     # 'parse_html': True,  # parse text in block level html.
     # 'skip_style': True,
     # 'skip_html': True,
@@ -310,10 +310,10 @@ PIPELINE_JS = {
 WHOOSH_INDEX_PATH = '/tmp/whoosh_index'
 
 THUMBNIZER_SIZES = {
-    'thumb': (334, 180, True, ), 
-    'thumb2': (500, 269, True, ), 
-    'epubcover': (800, 1066, True, ), 
-    'logo': (0, 180, True, ), 
+    'thumb': (334, 180, True, ),
+    'thumb2': (500, 269, True, ),
+    'epubcover': (800, 1066, True, ),
+    'logo': (0, 180, True, ),
 }
 THUMBNIZER_KEYS = {
     'activities': {'formats': ['thumb', 'thumb2', 'epubcover']},
@@ -360,4 +360,3 @@ else:
         raise EnvironmentError(1, 'DJANGO_SETTINGS_CONFIG environment variable set to invalid value: %s' % DJANGO_SETTINGS_CONFIG)
     else:
         raise EnvironmentError(1, 'DJANGO_SETTINGS_CONFIG environment variable not set')
-

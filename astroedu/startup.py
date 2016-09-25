@@ -1,5 +1,6 @@
 from django.conf import settings
 
+
 def run():
     '''
     Code executed on django startup; technique used by Pinax
@@ -16,5 +17,3 @@ def dev():
         current_site.domain = DEV_DOMAIN
         print 'updating current_site.domain...'
         current_site.save()
-
-

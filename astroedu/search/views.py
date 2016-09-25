@@ -6,8 +6,9 @@ from . import whoosh_utils
 from astroedu.activities.models import Activity, MetadataOption
 from .forms import SearchForm
 
+
 def _pimp_facets(facets):
-    
+
     # create a cache of MetadataOption
     options = {}
     for obj in MetadataOption.objects.all():
@@ -24,7 +25,7 @@ def _pimp_facets(facets):
                 new_values.append((code, opt[1], count, opt[2]))
             # sort by the position field
             facets['fields'][facet] = sorted(new_values, key=itemgetter(3))
-    
+
     return facets
 
 

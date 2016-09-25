@@ -14,31 +14,31 @@ from astroedu.activities.models import Activity
 
 def _get_schema():
     analyzer = StemmingAnalyzer() | CharsetFilter(accent_map)  # WARN: stemming is english specific
-    schema = Schema(slug = ID(unique=True, stored=True), 
-                    title = TEXT(analyzer=analyzer, stored=True), 
-                    content = TEXT(analyzer=analyzer),
-                    keywords = KEYWORD(commas=True, lowercase=True, sortable=RefBytesColumn()),  # , scorable=True
-                    
-                    teaser = STORED(),
-                    theme = STORED(),
-                    age_range = STORED(),
-                    release_date = STORED(),
-                    author_list = STORED(),
-                    code = STORED(),
-                    main_visual = STORED(),
-                    thumb2_url = STORED(),
+    schema = Schema(
+        slug=ID(unique=True, stored=True),
+        title=TEXT(analyzer=analyzer, stored=True),
+        content=TEXT(analyzer=analyzer),
+        keywords=KEYWORD(commas=True, lowercase=True, sortable=RefBytesColumn()),  # , scorable=True
 
-                    age = KEYWORD(commas=True, sortable=RefBytesColumn()),
-                    level = KEYWORD(commas=True, sortable=RefBytesColumn()),
-                    time = ID(sortable=RefBytesColumn(), stored=True),
-                    group = ID(sortable=RefBytesColumn()),
-                    supervised = ID(sortable=RefBytesColumn()),
-                    cost = ID(sortable=RefBytesColumn()),
-                    location = ID(sortable=RefBytesColumn()),
-                    skills = KEYWORD(commas=True, sortable=RefBytesColumn()),
-                    learning = ID(sortable=RefBytesColumn()),
+        teaser=STORED(),
+        theme=STORED(),
+        age_range=STORED(),
+        release_date=STORED(),
+        author_list=STORED(),
+        code=STORED(),
+        main_visual=STORED(),
+        thumb2_url=STORED(),
 
-                    )
+        age=KEYWORD(commas=True, sortable=RefBytesColumn()),
+        level=KEYWORD(commas=True, sortable=RefBytesColumn()),
+        time=ID(sortable=RefBytesColumn(), stored=True),
+        group=ID(sortable=RefBytesColumn()),
+        supervised=ID(sortable=RefBytesColumn()),
+        cost=ID(sortable=RefBytesColumn()),
+        location=ID(sortable=RefBytesColumn()),
+        skills=KEYWORD(commas=True, sortable=RefBytesColumn()),
+        learning=ID(sortable=RefBytesColumn()),
+    )
     return schema
 
 
@@ -58,10 +58,10 @@ def _open_index():
     return ix
 
 
-def _activity_content(obj):
+def _content(obj):
     # TODO: should run through markdown to remove markup...
     return '\n\n\n'.join([
-        # obj.title, 
+        # obj.title,
         obj.theme,
         obj.teaser,
         obj.description,
@@ -79,7 +79,7 @@ def _activity_content(obj):
 
 
 def build_index():
-    ix = _create_index() # this will delete the existing index...
+    ix = _create_index()  # this will delete the existing index...
     with ix.writer() as writer:
         ## optimize analyzer for batch updates
         # analyzer = writer.schema['content'].format.analyzer
@@ -96,35 +96,38 @@ def build_index():
             print obj
             _update_activity(obj, writer=writer)
 
-def _update_activity(obj, writer):
-    writer.update_document(slug=obj.slug, title=obj.title, content=_activity_content(obj),
-                           keywords = obj.keywords,
 
-                           teaser = obj.teaser,
-                           theme = obj.theme,
-                           age_range = obj.age_range(),
-                           release_date = obj.release_date,
-                           author_list = obj.author_list(),
-                           code = obj.code,
-                           main_visual = True if obj.main_visual else False,
-                           thumb2_url = obj.thumb2_url(),
-                           
-                           age = u','.join([x.code for x in obj.age.all()]),
-                           level = u','.join([x.code for x in obj.level.all()]),
-                           time = obj.time.code if obj.time else None,
-                           group = obj.group.code if obj.group else None,
-                           supervised = obj.supervised.code if obj.supervised else None,
-                           cost = obj.cost.code if obj.cost else None,
-                           location = obj.location.code if obj.location else None,
-                           skills = u','.join([x.code for x in obj.skills.all()]),
-                           learning = obj.learning.code if obj.learning else None,
-                           )
+def _update_activity(obj, writer):
+    writer.update_document(
+        slug=obj.slug, title=obj.title, content=_content(obj),
+        keywords=obj.keywords,
+
+        teaser=obj.teaser,
+        theme=obj.theme,
+        age_range=obj.age_range(),
+        release_date=obj.release_date,
+        author_list=obj.author_list(),
+        code=obj.code,
+        main_visual=True if obj.main_visual else False,
+        thumb2_url=obj.thumb2_url(),
+
+        age=u','.join([x.code for x in obj.age.all()]),
+        level=u','.join([x.code for x in obj.level.all()]),
+        time=obj.time.code if obj.time else None,
+        group=obj.group.code if obj.group else None,
+        supervised=obj.supervised.code if obj.supervised else None,
+        cost=obj.cost.code if obj.cost else None,
+        location=obj.location.code if obj.location else None,
+        skills=u','.join([x.code for x in obj.skills.all()]),
+        learning=obj.learning.code if obj.learning else None,
+    )
 
 
 def update_activity(obj):
     ix = _open_index()
     with ix.writer() as writer:
         _update_activity(obj, writer=writer)
+
 
 def remove_activity(obj):
     #TODO
@@ -165,7 +168,7 @@ def search(querystring, queryfacets=None):
 
     result = {
         'results': [],
-        'facets': {'fields' : {}},
+        'facets': {'fields': {}},
     }
 
     with ix.searcher() as searcher:
@@ -200,7 +203,7 @@ def search(querystring, queryfacets=None):
         # collect facets
         for facet_name in results.facet_names():
             result['facets']['fields'][facet_name] = []
-            for facet_value,doc_list in results.groups(facet_name).iteritems():
+            for facet_value, doc_list in results.groups(facet_name).iteritems():
                 if facet_value:
                     # filter by query facets
                     if hit_filter:
@@ -214,4 +217,3 @@ def search(querystring, queryfacets=None):
                             result['facets']['fields'][facet_name].append((facet_value, len(doc_list), ))
 
     return result
-
