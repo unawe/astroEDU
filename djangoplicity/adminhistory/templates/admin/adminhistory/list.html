@@ -1,36 +1,5 @@
 {% extends "admin/base_site.html" %}
-
-{% load staticfiles %}
-{% load i18n %}
-
-{% block extrastyle %}
-  {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/changelists.css' %}" />
-  {{ media.css }}
-    <style>
-      #changelist table thead th:first-child {width: inherit}
-    </style>
-{% endblock %}
-
-{% block extrahead %}
-{{ block.super }}
-{{ media.js }}
-{% endblock %}
-
-{% block bodyclass %}change-list{% endblock %}
-
-  {% block breadcrumbs %}
-    <div class="breadcrumbs">
-      <a href="../">
-        {% trans "Home" %}
-      </a>
-      &rsaquo; 
-      History
-    </div>
-  {% endblock %}
-
-{% block coltype %}flex{% endblock %}
-{% block site_title %}TEST{% endblock %}
+{% load i18n %}{% load staticfiles %}
 
 {% block content %}
  <h1>History</h1>
