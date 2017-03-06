@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles thumbnail i18n %}
 
 {% comment %}<!-- 
 page.object_list = [activity1, ... ]
@@ -9,9 +10,7 @@ page.next_page_number
 -->{% endcomment %}
 
 
-{% load staticfiles %}
-
-{% block site_title %} Search results | astroEDU {% endblock %}
+{% block site_title %} {% trans 'Search results' %} | astroEDU {% endblock %}
 
 {% block content %}
 
@@ -24,9 +23,9 @@ page.next_page_number
     <div class="archives_list">
 
         {% for result in page.object_list %}
-            <!-- {{ result.score|floatformat:2}}  -->{% include 'activities/list_item.html' with object=result.object %}
+            <!-- {{ result.score|floatformat:2}}  -->{% include 'activities/activity_list_item.html' with object=result.object %}
         {% empty %}
-            <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> No results found!</p>
+            <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> {% trans 'No results found!' %}</p>
         {% endfor %}
 
          {% if page.has_previous or page.has_next %}
@@ -39,7 +38,7 @@ page.next_page_number
     </div>
 
     {% else %}
-    <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> Sorry, no results found that match your query.</p> 
+    <p class="notfound"><img src="{% static 'designimages/search_notfound.svg' %}" alt="" /> {% trans 'No results found!' %}</p> 
     {% endif %}
 
 

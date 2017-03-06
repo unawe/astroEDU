@@ -1,14 +1,13 @@
-import os
-
-from whoosh.index import create_in, open_dir
-from whoosh.fields import *
+from whoosh.fields import Schema, ID, TEXT, STORED, KEYWORD
 from whoosh.columns import RefBytesColumn
 from whoosh.qparser import QueryParser, MultifieldParser, WildcardPlugin
 from whoosh.analysis import StemmingAnalyzer, CharsetFilter
 from whoosh.sorting import Facets, StoredFieldFacet, FieldFacet
 from whoosh.support.charset import accent_map
 from django.conf import settings
+from whoosh.analysis.morph import StemFilter
 
+from django_ext.whoosh_utils import LanguageIndex
 from activities.models import Activity
 
 
@@ -27,7 +26,7 @@ def _get_schema():
         author_list=STORED(),
         code=STORED(),
         main_visual=STORED(),
-        thumb2_url=STORED(),
+        is_released=STORED(),
 
         age=KEYWORD(commas=True, sortable=RefBytesColumn()),
         level=KEYWORD(commas=True, sortable=RefBytesColumn()),
@@ -40,22 +39,6 @@ def _get_schema():
         learning=ID(sortable=RefBytesColumn()),
     )
     return schema
-
-
-def _create_index():
-    if not os.path.exists(settings.WHOOSH_INDEX_PATH):
-        os.mkdir(settings.WHOOSH_INDEX_PATH)
-    ix = create_in(settings.WHOOSH_INDEX_PATH, _get_schema())
-    return ix
-
-
-def _open_index():
-    try:
-        ix = open_dir(settings.WHOOSH_INDEX_PATH)
-    except:
-        ix = build_index()
-    # ix = open_dir(settings.WHOOSH_INDEX_PATH)
-    return ix
 
 
 def _content(obj):
@@ -78,55 +61,65 @@ def _content(obj):
     ])
 
 
-def build_index():
-    ix = _create_index()  # this will delete the existing index...
-    with ix.writer() as writer:
-        ## optimize analyzer for batch updates
-        # analyzer = writer.schema['content'].format.analyzer
-        # analyzer.cachesize = -1
-        # analyzer.clear()
-        from whoosh.analysis.morph import StemFilter
-        analyzer = writer.schema['content'].analyzer
-        for item in analyzer.items:
-            if isinstance(item, StemFilter):
-                item.cachesize = -1
-                item.clear()
-
-        for obj in Activity.objects.available():
-            print(obj)
-            _update_activity(obj, writer=writer)
+def _optimize_analyzer(writer):
+    # optimize analyzer for batch updates
+    analyzer = writer.schema['content'].analyzer
+    for item in analyzer.items:
+        if isinstance(item, StemFilter):
+            item.cachesize = -1
+            item.clear()
 
 
-def _update_activity(obj, writer):
+def rebuild_indexes():
+    try:
+        writers = {}
+        # print("rebuild_indexes")
+        for obj_master in Activity.objects.available():
+            for obj in obj_master.translations.all():
+                lang = obj.language_code
+                if lang not in writers:
+                    ix = LanguageIndex(settings.WHOOSH_INDEX_PATH, lang, _get_schema())
+                    ix.clear()
+                    writers[lang] = ix.get_writer()
+                    _optimize_analyzer(writers[lang])
+                # print(obj)
+                _update_activity(obj_master, obj, writer=writers[lang])
+    finally:
+        for writer in writers.values():
+            writer.commit()
+
+
+def _update_activity(obj_master, obj, writer):
     writer.update_document(
         slug=obj.slug, title=obj.title, content=_content(obj),
         keywords=obj.keywords,
 
         teaser=obj.teaser,
         theme=obj.theme,
-        age_range=obj.age_range(),
-        release_date=obj.release_date,
-        author_list=obj.author_list(),
-        code=obj.code,
-        main_visual=True if obj.main_visual else False,
-        thumb2_url=obj.thumb2_url(),
+        age_range=obj_master.age_range(),
+        release_date=obj_master.release_date,
+        author_list=obj_master.author_list(),
+        code=obj_master.code,
+        main_visual=obj_master.main_visual,
+        is_released=obj_master.is_released(),
 
-        age=u','.join([x.code for x in obj.age.all()]),
-        level=u','.join([x.code for x in obj.level.all()]),
-        time=obj.time.code if obj.time else None,
-        group=obj.group.code if obj.group else None,
-        supervised=obj.supervised.code if obj.supervised else None,
-        cost=obj.cost.code if obj.cost else None,
-        location=obj.location.code if obj.location else None,
-        skills=u','.join([x.code for x in obj.skills.all()]),
-        learning=obj.learning.code if obj.learning else None,
+        age=u','.join([x.code for x in obj_master.age.all()]),
+        level=u','.join([x.code for x in obj_master.level.all()]),
+        time=obj_master.time.code if obj_master.time else None,
+        group=obj_master.group.code if obj_master.group else None,
+        supervised=obj_master.supervised.code if obj_master.supervised else None,
+        cost=obj_master.cost.code if obj_master.cost else None,
+        location=obj_master.location.code if obj_master.location else None,
+        skills=u','.join([x.code for x in obj_master.skills.all()]),
+        learning=obj_master.learning.code if obj_master.learning else None,
     )
 
 
-def update_activity(obj):
-    ix = _open_index()
-    with ix.writer() as writer:
-        _update_activity(obj, writer=writer)
+def update_article(obj_master):
+    indexes = LanguageIndexes()
+    for obj in obj_master.translations.all():
+        with indexes[obj.language_code].get_writer() as writer:
+            _update_activity(obj_master, obj, writer=writer)
 
 
 def remove_activity(obj):
@@ -142,8 +135,8 @@ def remove_activity(obj):
 #     return result
 
 
-def search(querystring, queryfacets=None):
-    ix = _open_index()
+def search(querystring, language_code, queryfacets=None):
+    ix = LanguageIndex(settings.WHOOSH_INDEX_PATH, language_code, _get_schema()).load()
     # parser = QueryParser('content', ix.schema)
     parser = MultifieldParser(['title', 'keywords', 'content'], ix.schema)  # fieldboosts={'title':5, 'keywords':4, 'content':1})
     parser.remove_plugin_class(WildcardPlugin)  # remove unused feature for better performance

@@ -32,9 +32,8 @@ def _pimp_facets(facets):
 def search(request):
     form = SearchForm(request.GET)
     if form.is_valid():
-        # search_query = request.GET['q']
         search_query = form.cleaned_data['q']
-        search_result = whoosh_utils.search(search_query, queryfacets=form.cleaned_data)
+        search_result = whoosh_utils.search(search_query, request.LANGUAGE_CODE, queryfacets=form.cleaned_data)
         context = {
             'query': search_query,
             'facets': _pimp_facets(search_result['facets']),
@@ -48,7 +47,7 @@ def search(request):
             'form': form,
         }
 
-    if not 'page' in context or not context['page']['object_list']:
+    if 'page' not in context or not context['page']['object_list']:
         context['featured'] = Activity.objects.featured()[0:3]
 
     return render(request, 'search/search.html', context)
