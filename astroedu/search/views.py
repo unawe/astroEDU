@@ -3,7 +3,7 @@ from operator import itemgetter
 from django.shortcuts import render
 
 from . import whoosh_utils
-from astroedu.activities.models import Activity, MetadataOption
+from activities.models import Activity, MetadataOption
 from .forms import SearchForm
 
 
@@ -15,7 +15,7 @@ def _pimp_facets(facets):
         options[(obj.code, obj.group)] = (obj.code, obj.title, obj.position)
 
     # go through the search result facets, to sort them and add the title
-    for facet, values in facets['fields'].iteritems():
+    for facet, values in facets['fields'].items():
         if facet != 'keywords':
             new_values = []
             for code, count in values:

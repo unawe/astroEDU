@@ -2,9 +2,9 @@
 - hosts: all
   gather_facts: False
   vars:
-    BASE_DIR: /home/web/astroEDU
-    BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroEDU
-    VIRTUALENV: /home/web/.virtualenvs/astroEDU
+    BASE_DIR: /home/web/astroedu
+    BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroedu
+    VIRTUALENV: /home/web/.virtualenvs/astroedu
     REPO: https://github.com/unawe/astroEDU.git
     SHORT_NAME: astroedu
     LOG_DIR: /home/web/usr/log
@@ -22,7 +22,7 @@
         login_password: "{{ DATABASE_PASSWORD_PROD }}"
 
     # Django
-    - name: copy astroEDU source files
+    - name: copy astroedu source files
       synchronize:
         src: "{{ BASE_DIR_LOCAL }}/"
         dest: "{{ BASE_DIR }}"
@@ -93,9 +93,9 @@
 - hosts: all
   gather_facts: False
   vars:
-    BASE_DIR: /home/web/astroEDU
-    BASE_DIR_LOCAL: /Users/rino/dev/astroEDU
-    VIRTUALENV: /home/web/.virtualenvs/astroEDU
+    BASE_DIR: /home/web/astroedu
+    BASE_DIR_LOCAL: /Users/rino/dev/astroedu
+    VIRTUALENV: /home/web/.virtualenvs/astroedu
     REPO: https://github.com/unawe/astroEDU.git
     LOG_DIR: /home/web/usr/log
     ETC_DIR: /home/web/usr/etc

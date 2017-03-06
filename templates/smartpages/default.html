@@ -4,13 +4,13 @@
 {% load i18n %}
 {% load staticfiles %}
 
-{% block site_title %}{{ flatpage.title }} | astroEDU {% endblock %}
+{% block site_title %}{{ object.title }} | astroEDU {% endblock %}
 
 {% block content %}
 
 <div class="layout_content"><div class="layout_container"><div class="layout_flatpage">
-	<h1>{{ flatpage.title }}</h1>
-	{{ flatpage.content|markdown }}
+	<h1>{{ object.title }}</h1>
+	{{ object.content|safe }}
 </div></div></div>
 
 {% endblock %}

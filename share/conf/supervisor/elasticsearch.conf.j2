@@ -1,9 +1,9 @@
-[program:elasticsearch]
+[program:elasticsearch-{{ SHORT_NAME }}]
 environment = ES_HEAP_SIZE="128m",MAX_LOCKED_MEMORY="100000",ES_JAVA_OPTS="-server"
 command = /usr/share/elasticsearch/bin/elasticsearch -Des.default.path.conf=/etc/elasticsearch -Des.config={{ ETC_DIR }}/elasticsearch.yml
 user = web
 
-stdout_logfile = {{ LOG_DIR }}/elasticsearch-stdout.log
+stdout_logfile = {{ LOG_DIR }}/elasticsearch-{{ SHORT_NAME }}-stdout.log
 redirect_stderr = true
 
 startsecs = 10

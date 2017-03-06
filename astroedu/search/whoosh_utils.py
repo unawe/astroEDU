@@ -9,7 +9,7 @@ from whoosh.sorting import Facets, StoredFieldFacet, FieldFacet
 from whoosh.support.charset import accent_map
 from django.conf import settings
 
-from astroedu.activities.models import Activity
+from activities.models import Activity
 
 
 def _get_schema():
@@ -92,8 +92,8 @@ def build_index():
                 item.cachesize = -1
                 item.clear()
 
-        for obj in Activity.objects.all():
-            print obj
+        for obj in Activity.objects.available():
+            print(obj)
             _update_activity(obj, writer=writer)
 
 
@@ -203,7 +203,7 @@ def search(querystring, queryfacets=None):
         # collect facets
         for facet_name in results.facet_names():
             result['facets']['fields'][facet_name] = []
-            for facet_value, doc_list in results.groups(facet_name).iteritems():
+            for facet_value, doc_list in results.groups(facet_name).items():
                 if facet_value:
                     # filter by query facets
                     if hit_filter:

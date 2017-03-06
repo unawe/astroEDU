@@ -1,0 +1,4 @@
+backupname=astroedu_db_`date '+%Y%m%d-%H%M'`.dump
+folder=/home/web/backups/astroedu/db
+
+pg_dump -h localhost -U backmeup astroedu  -Fc --no-acl --no-owner --file=$folder/$backupname

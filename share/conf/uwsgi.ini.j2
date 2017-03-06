@@ -1,28 +1,41 @@
 [uwsgi]
 
-# Django-related settings
+## Django-related settings
 # the base directory (full path)
 chdir           = {{ BASE_DIR }}
 # Django's wsgi file
-module          = astroedu.wsgi
+module          = {{ SHORT_NAME }}.wsgi
 # the virtualenv (full path)
 home            = {{ VIRTUALENV }}
 
-# process-related settings
+## process-related settings
 # master
 master          = true
-# maximum number of worker processes
-processes       = 10
+# minimum number of workers to keep at all times
+cheaper         = 2
+# number of workers to spawn at startup
+cheaper-initial = 4
+# maximum number of worker processes (note: processes==workers)
+processes       = 6
+###### DISABLED because: enabling cheaper-rss-limit-soft requires enabling also memory-report
+## soft limit will prevent cheaper from spawning new workers
+## if workers total rss memory is equal or higher
+## we use 128MB soft limit below (values are in bytes)
+#cheaper-rss-limit-soft = 134217728
+## hard limit will force cheaper to cheap single worker
+## if workers total rss memory is equal or higher
+## we use 160MB hard limit below (values are in bytes)
+#cheaper-rss-limit-hard = 167772160
 # the socket (use the full path to be safe
-socket          = /home/web/usr/astroEDU.sock
+socket          = /home/web/usr/{{ SHORT_NAME }}.sock
 # ... with appropriate permissions - may be needed
 chmod-socket    = 664
 # clear environment on exit
 vacuum          = true
 
-# logs
-logto           = /home/web/usr/log/uwsgi.log
+## logs
+logto           = /home/web/usr/log/uwsgi-{{ SHORT_NAME }}.log
 logdate         = true
 
-# files created under django (FIXME: does not seem to be working... maybe need to fix in celery?)
+## files created under django (FIXME: does not seem to be working... maybe need to fix in celery?)
 umask           = 002

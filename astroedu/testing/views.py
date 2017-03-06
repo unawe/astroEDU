@@ -4,9 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django import forms
 from django.conf import settings
 
+
 class MailForm(forms.Form):
     # subject = forms.CharField(max_length=100)
     message = forms.CharField()
+
 
 def email(request):
     sender = 'UNAWE WEBMASTER <%s>' % settings.DEFAULT_FROM_EMAIL
@@ -14,7 +16,7 @@ def email(request):
     if request.method == 'POST':
         form = MailForm(request.POST)
         if form.is_valid():
-            subject = 'astroEDU email test'
+            subject = 'astroedu email test'
             message = form.cleaned_data['message']
 
             from django.core.mail import send_mail
@@ -26,15 +28,17 @@ def email(request):
 
     return render(request, 'testing/email.html', {
         'form': form,
-        'sender' : sender, 
-        'recipients' : recipients,
+        'sender': sender,
+        'recipients': recipients,
     })
+
 
 def markdown(request):
     from django_mistune import markdown
     mtext = '## Boa Tarde\n\n_TTX_\n'
     htext = markdown(mtext)
     return render(request, 'testing/markdown.html', {'value': htext + '\n\n---\n\n' + mtext})
+
 
 def error(request):
     raise UnknownError
@@ -54,4 +58,4 @@ def debug_request(request):
     return HttpResponse(result, content_type='application/json')
 
 
-    
+

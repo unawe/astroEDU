@@ -2,12 +2,12 @@
 - hosts: all
   gather_facts: False
   vars:
-    BASE_DIR: /home/web/astroEDU
-    BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroEDU
+    BASE_DIR: /home/web/astroedu
+    BASE_DIR_LOCAL: /Users/rino/dev/unawe/astroedu
     REMOTE_DIR: 
   tasks:
     - name: copy mysql db file to remote
-      copy: src=/Users/rino/Projects/astroEDU/database-latest.sql dest=/tmp/astroedu-database-latest-dev.sql
+      copy: src=/Users/rino/Projects/astroedu/database-latest.sql dest=/tmp/astroedu-database-latest-dev.sql
     - name: import mysql database from file
       mysql_db: 
         name: astroedu
@@ -15,7 +15,7 @@
         target: /tmp/astroedu-database-latest-dev.sql
         login_user: "{{ DATABASE_USER_PROD }}"
         login_password: "{{ DATABASE_PASSWORD_PROD }}"
-    - name: copy astroEDU uploaded files
+    - name: copy astroedu uploaded files
       synchronize:
         src: "{{ BASE_DIR_LOCAL }}_uploads/"
         dest: "{{ BASE_DIR }}_uploads"

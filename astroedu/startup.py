@@ -15,5 +15,5 @@ def dev():
     current_site = Site.objects.get_current()
     if current_site.domain != DEV_DOMAIN:
         current_site.domain = DEV_DOMAIN
-        print 'updating current_site.domain...'
+        print('updating current_site.domain...')
         current_site.save()

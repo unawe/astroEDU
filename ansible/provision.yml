@@ -7,7 +7,8 @@
       apt: name={{ item }} update_cache=yes cache_valid_time=3600 state=present
       with_items:
         - zip
-        - python-dev
+        # - python-dev
+        - python3-dev
         # - python-pip
         - supervisor
         - git

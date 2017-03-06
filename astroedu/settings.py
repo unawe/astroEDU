@@ -1,10 +1,16 @@
 # Django settings for astroedu project.
 import os
-
+import sys
 import json
+import copy
+import operator
 
+
+SHORT_NAME = 'astroedu'
 BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 PARENT_DIR = os.path.dirname(BASE_DIR)
+
+sys.path.append(os.path.join(PARENT_DIR, 'django-apps'))
 
 SECRETS_FILE = os.path.join(BASE_DIR, 'secrets.json')
 if os.path.isfile(SECRETS_FILE):
@@ -14,35 +20,22 @@ if os.path.isfile(SECRETS_FILE):
 else:
     raise 'No secrets found!'
 
+
+DEBUG = False
+DJANGO_SETTINGS_CONFIG = os.environ.get('DJANGO_SETTINGS_CONFIG', None)
+if DJANGO_SETTINGS_CONFIG == 'DEV':
+    DEBUG = True
+
+# cannonical base URL for the website
+SITE_URL = 'http://astroedu.iau.org'
+SITE_ID = 1
+
 ADMINS = (
     ('Bruno Rino', secrets['ADMIN_EMAIL']),
 )
 
-MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'astroedu',
-        'USER': 'root',
-        'PASSWORD': '',
-        # 'HOST': '',     # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        # 'PORT': '',     # Set to empty string for default.
-    }
-}
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = secrets['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = secrets['EMAIL_HOST_PASSWORD']
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
-EMAIL_SUBJECT_PREFIX = '[ASTROEDU] '
-
-# SESSION_COOKIE_AGE = 86400  # 1 day, in seconds
-# SESSION_SAVE_EVERY_REQUEST = False
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = secrets['SECRET_KEY']
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -53,31 +46,155 @@ ALLOWED_HOSTS = [
     'astroedu.local',
 ]
 
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Europe/Amsterdam'
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # 'django.contrib.flatpages',
+    'django.contrib.sitemaps',
+    'django.contrib.redirects',
+
+    # Admin
+    # 'django.contrib.admindocs',
+    'djangoplicity.adminhistory',
+
+    # 'huey.djhuey',
+    # 'djcelery',
+
+    'pipeline',
+
+    'parler',
+    'ckeditor',
+
+    'sorl.thumbnail',
+
+    'django_mistune',
+    # 'markupmirror',
+    # # 'django_markdown',
+    # 'pagedown',
+
+    'django_ext',
+    'smartpages',
+    'institutions',
+    'activities',
+    'astroedu',
+    'astroedu.testing',
+    # 'astroedu.activities',
+    # 'activities'
+    'astroedu.search',
+    'filemanager',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'CacheMiddleware'
+    'django.middleware.locale.LocaleMiddleware',  # see https://docs.djangoproject.com/en/1.8/topics/i18n/translation/#how-django-discovers-language-preference
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+)
+
+ROOT_URLCONF = 'astroedu.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # debug, sql_queries
+                'django.template.context_processors.debug',
+                # request
+                'django.template.context_processors.request',
+                # user, perms
+                'django.contrib.auth.context_processors.auth',
+                # messages, DEFAULT_MESSAGE_LEVELS
+                'django.contrib.messages.context_processors.messages',
+                # LANGUAGES, LANGUAGE_CODE
+                'django.template.context_processors.i18n',
+                # THUMBNAIL_ALIASES
+                'django_ext.context_processors.thumbnail_aliases',
+                # SITE_URL
+                'django_ext.context_processors.site_url',
+                # # SECTIONS, CATEGORIES (spaceawe)
+                # 'django_ext.context_processors.texts',
+                # # DEBUG (deprecated astroedu)
+                # 'astroedu.context_processors.debug',
+            ],
+            'debug': False,
+        },
+    },
+]
+
+WSGI_APPLICATION = 'astroedu.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'astroedu',
+        'USER': secrets['DATABASE_USER_PROD'],
+        'PASSWORD': secrets['DATABASE_PASSWORD_PROD'],
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.8/topics/i18n/
+
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+    # ('cs', 'Czech'),
+    # ('nl', 'Dutch'),
+    ('en', 'English'),
+    # ('fr', 'French'),
+    # ('de', 'German'),
+    # ('el', 'Greek'),
+    ('it', 'Italian'),
+    # ('pl', 'Polish'),
+    # ('ro', 'Romanian'),
+    # ('es', 'Spanish'),
+    # ('pt', 'Portuguese'),
+)
+LANGUAGES = sorted(LANGUAGES, key=operator.itemgetter(0))
+
 # TIME_ZONE = 'UTC'
-# TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Amsterdam'
 
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-uk'
-
-SITE_ID = 1
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
-USE_L10N = False
-DATETIME_FORMAT = 'Y-m-d H:i:s'
+USE_L10N = True
+FORMAT_MODULE_PATH = (
+    'formats',
+)
+# DATETIME_FORMAT = 'Y-m-d H:i:s'
 
-# If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+# Media
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -92,7 +209,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/tmp'
+STATIC_ROOT = os.path.join(PARENT_DIR, 'astroedu_static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -115,91 +232,153 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets['SECRET_KEY']
-
-# # List of callables that know how to import templates from various sources.
-# TEMPLATE_LOADERS = (
-#     'django.template.loaders.filesystem.Loader',
-#     'django.template.loaders.app_directories.Loader',
-# #     'django.template.loaders.eggs.Loader',
-# )
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    # 'astroedu.context_processors.featured',
-    # 'astroedu.context_processors.debug',
-)
-
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-)
-
-ROOT_URLCONF = 'astroedu.urls'
-
-# Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'astroedu.wsgi.application'
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, 'templates'),
-)
-
-INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.flatpages',
-    'django.contrib.sitemaps',
-    'django.contrib.redirects',
-
-    # 'south',
-
-    # Admin
-    # 'django.contrib.admindocs',
-    'djangoplicity.adminhistory',
-
-    # 'huey.djhuey',
-    'djcelery',
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 
-    'django_mistune',
-    # 'markupmirror',
-    # # 'django_markdown',
-    # 'pagedown',
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = secrets['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = secrets['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-    # # 'multilingual',
-    # # 'multilingual.flatpages',
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_SUBJECT_PREFIX = '[astroedu] '
 
-    # Script concatenation
-    'pipeline',
 
-    'astroedu',
-    'astroedu.testing',
-    'astroedu.activities',
-    'astroedu.search',
-    'filemanager',
-)
+# Caching
+USE_ETAGS = True  # Note: disable debug toolbar while testing!
+
+# Pipeline
+PIPELINE = {
+    # 'PIPELINE_ENABLED': True,
+    # 'JS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
+    # 'CSS_COMPRESSOR': 'pipeline.compressors.yuglify.YuglifyCompressor',
+    'STYLESHEETS': {
+        'styles': {
+            'source_filenames': [
+                'css/fonts.css',
+                'css/reset.css',
+                'css/main.css',
+                'css/media_1280.css',
+                'css/media_1080.css',
+                'css/media_992.css',
+                'css/media_768.css',
+                'css/media_600.css',
+                'css/media_480.css',
+            ],
+            'output_filename': 'css/astroedu.min.css',
+            'extra_context': {
+                'media': 'screen',
+            },
+        },
+    },
+    'JAVASCRIPT': {
+        'scripts': {
+            'source_filenames': [
+                'js/jquery.js',
+                'js/scripts.js',
+            ],
+            'output_filename': 'js/astroedu.min.js',
+        }
+    },
+}
+
+# # Thumbnails
+# # http://sorl-thumbnail.readthedocs.org/en/latest/reference/settings.html
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+THUMBNAIL_DBM_FILE = os.path.join(PARENT_DIR, 'usr/redis/thumbnails_astroedu')
+# THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.convert_engine.Engine'  #TODO: revisit this choice
+THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.pil_engine.Engine'  #TODO: revisit this choice
+THUMBNAIL_KEY_PREFIX = 'sorl-thumbnail-astroedu'
+THUMBNAIL_PRESERVE_FORMAT = 'True'
+# # THUMBNAIL_ALTERNATIVE_RESOLUTIONS = [1.5, 2]
+THUMBNAIL_ALIASES = {
+    'thumb': '334x180',
+    'thumb2': '500x269',
+    'epubcover': '800x1066',
+    'logo': 'x180',
+}
+
+# THUMBNIZER_SIZES = {
+#     'thumb': (334, 180, True, ),
+#     'thumb2': (500, 269, True, ),
+#     'epubcover': (800, 1066, True, ),
+#     'logo': (0, 180, True, ),
+# }
+# THUMBNIZER_KEYS = {
+#     'activities': {'formats': ['thumb', 'thumb2', 'epubcover']},
+#     'collections': {'formats': ['thumb', 'epubcover']},
+#     'institutions': {'formats': ['logo', ]},
+# }
+
+
+# CK editor
+CKEDITOR_CONFIGS = {
+    ## see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
+    'smartpages': {
+        'fillEmptyBlocks': False,
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Source', ],
+            ['Format', ],
+            ['Bold', 'Italic', '-', 'Underline', 'Subscript', 'Superscript', '-', 'Undo', 'Redo', 'RemoveFormat', ],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', ],
+            ['Link', 'Unlink', ],
+            ['Image', 'Table', 'SpecialChar', ],
+            ['Maximize', 'ShowBlocks', ],
+            ['BidiLtr', 'BidiRtl', ],
+        ],
+        'width': 845,
+    },
+}
+
+# Bleach
+BLEACH_ALLOWED_TAGS = ('sup', 'sub', 'br', )
+BLEACH_ALLOWED_ATTRIBUTES = {}
+BLEACH_ALLOWED_STYLES = {}
+
+# Mistune
+MISTUNE_STYLES = {
+    # 'escape': True,  # all raw html tags will be escaped.
+    # 'hard_wrap': True,  # it will has GFM line breaks feature.
+    'use_xhtml': True,  # all tags will be in xhtml, for example: <hr />.
+    # 'parse_html': True,  # parse text in block level html.
+    # 'skip_style': True,
+    # 'skip_html': True,
+}
+
+# Woosh Search
+WHOOSH_INDEX_PATH = '/home/web/usr/whoosh_index/astroedu'
+
+# Celery
+BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TASK_SERIALIZER = 'pickle'  # default serializer used by the decorators
+CELERY_ACCEPT_CONTENT = ['pickle']  # serializers accepted by the deamon
+
+# parler
+# http://django-parler.readthedocs.org/en/latest/
+# https://github.com/edoburu/django-parler
+PARLER_LANGUAGES = {
+    None: (
+        # {'code': 'en',},
+        # {'code': 'de',},
+        # {'code': 'pt',},
+        # {'code': 'ar',},
+        # {'code': 'vi',},
+    ),
+    'default': {
+        'fallbacks': ['en'],
+        'hide_untranslated': False,   # False is the default; let .active_translations() return fallbacks too.
+    }
+}
+
+
+# SESSION_COOKIE_AGE = 86400  # 1 day, in seconds
+# SESSION_SAVE_EVERY_REQUEST = False
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -249,77 +428,18 @@ LOGGING = {
     }
 }
 
-
-MISTUNE_STYLES = {
-    # 'escape': True,  # all raw html tags will be escaped.
-    # 'hard_wrap': True,  # it will has GFM line breaks feature.
-    'use_xhtml': True,  # all tags will be in xhtml, for example: <hr />.
-    # 'parse_html': True,  # parse text in block level html.
-    # 'skip_style': True,
-    # 'skip_html': True,
-}
-
-
-# Caching
-USE_ETAGS = True  # Note: disable debug toolbar while testing!
-
-# Bleach
-BLEACH_ALLOWED_TAGS = ('sup', 'sub', 'br', )
-BLEACH_ALLOWED_ATTRIBUTES = {}
-BLEACH_ALLOWED_STYLES = {}
-
-# Celery
-BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_TASK_SERIALIZER = 'pickle'  # default serializer used by the decorators
-CELERY_ACCEPT_CONTENT = ['pickle']  # serializers accepted by the deamon
-
-# Pipeline
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
-PIPELINE_CSS = {
-    'styles': {
-        'source_filenames': (
-            'css/fonts.css',
-            'css/reset.css',
-            'css/main.css',
-            'css/media_1280.css',
-            'css/media_1080.css',
-            'css/media_992.css',
-            'css/media_768.css',
-            'css/media_600.css',
-            'css/media_480.css',
-        ),
-        'output_filename': 'css/astroedu.min.css',
-        'extra_context': {
-            'media': 'screen',
-        },
-    },
-}
-PIPELINE_JS = {
-    'scripts': {
-        'source_filenames': [
-            'js/jquery.js',
-            'js/scripts.js',
-        ],
-        'output_filename': 'js/astroedu.min.js',
+ACTIVITY_DOWNLOADS = {
+    'model': 'activities.models.Activity',
+    'filename_tpl': '%(slug)s-astroEDU-%(code)s%(lang)s.%(ext)s',
+    'path': 'activities/download/',
+    'renderers': {
+        'pdf': 'astroedu.renderers.activity.pdf',
+        'rtf': 'astroedu.renderers.activity.rtf',
+        'epub': 'astroedu.renderers.activity.epub',
+        'zip': 'astroedu.renderers.activity.zip',
     }
 }
 
-WHOOSH_INDEX_PATH = '/tmp/whoosh_index'
-
-THUMBNIZER_SIZES = {
-    'thumb': (334, 180, True, ),
-    'thumb2': (500, 269, True, ),
-    'epubcover': (800, 1066, True, ),
-    'logo': (0, 180, True, ),
-}
-THUMBNIZER_KEYS = {
-    'activities': {'formats': ['thumb', 'thumb2', 'epubcover']},
-    'collections': {'formats': ['thumb', 'epubcover']},
-    'institutions': {'formats': ['logo', ]},
-}
 
 REPOSITORIES = {
     'Scientix': ('Scientix', 'https?://www.scientix.eu/', ),
@@ -328,11 +448,10 @@ REPOSITORIES = {
 }
 
 
-DJANGO_SETTINGS_CONFIG = os.environ.get('DJANGO_SETTINGS_CONFIG', None)
 if DJANGO_SETTINGS_CONFIG == 'DEV':
-    TIME_ZONE = 'Europe/Dublin'
-    DEBUG = True
-    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    # TIME_ZONE = 'Europe/Dublin'
+    STATIC_ROOT = '/tmp'
     # debug toolbar
     INTERNAL_IPS = ('127.0.0.1',)
     MIDDLEWARE_CLASSES += (
@@ -344,16 +463,21 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
-    EMAIL_SUBJECT_PREFIX = '[ASTROEDU_DEV] '
+    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
+    EMAIL_SUBJECT_PREFIX = '[astroedu dev] '
+
+    THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.dbm_kvstore.KVStore'  # in-memory sorl KV store
+    THUMBNAIL_DUMMY = True
+    THUMBNAIL_DUMMY_SOURCE = 'http://placekitten.com/%(width)s/%(height)s'
+    THUMBNAIL_DUMMY_SOURCE = 'http://placehold.it//%(width)sx%(height)s'
+    # THUMBNAIL_DUMMY_RATIO = 1.5
+
+    WHOOSH_INDEX_PATH = os.path.join(PARENT_DIR, 'usr/whoosh_index/astroedu')
+    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DEBUG = False
-    DATABASES['default']['USER'] = secrets['DATABASE_USER_PROD']
-    DATABASES['default']['PASSWORD'] = secrets['DATABASE_PASSWORD_PROD']
-    STATIC_ROOT = os.path.join(PARENT_DIR, 'astroEDU_static')
-    WHOOSH_INDEX_PATH = '/home/web/usr/whoosh_index'
-    PIPELINE_JS['scripts']['source_filenames'].append('js/download-analytics.js')
+    PIPELINE['JAVASCRIPT']['scripts']['source_filenames'].append('js/download-analytics.js')
 
 else:
     if DJANGO_SETTINGS_CONFIG:

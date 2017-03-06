@@ -37,7 +37,7 @@ from django.db import models
 from django.http import Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from urllib import urlencode
+from urllib.parse import urlencode
 import operator
 
 # Fields to search through

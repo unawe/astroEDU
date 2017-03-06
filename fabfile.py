@@ -43,15 +43,15 @@ def prepare_deploy():
 
 
 def copy_secrets():
-	put('astroedu/secrets.py','astroEDU/astroedu/secrets.py')
+	put('astroedu/secrets.py','astroedu/astroedu/secrets.py')
 
 def deploy():
-    code_dir = '/home/web/astroEDU'
+    code_dir = '/home/web/astroedu'
 
     # clone git repo if not existing
     with settings(warn_only=True):
         if run('test -d %s' % code_dir).failed:
-            run('git clone https://github.com/unawe/astroEDU.git %s' % code_dir)
+            run('git clone https://github.com/unawe/astroedu.git %s' % code_dir)
 
     with cd(code_dir):
     	# update code from public git repo
@@ -68,13 +68,13 @@ def deploy():
 def clone_db():
 	# get database dump
 	## TODO: force dump
-	result = get('astroEDU_backups/database.sql.gz', '/tmp')
+	result = get('astroedu_backups/database.sql.gz', '/tmp')
 	print result.succeeded
 	for f in result:
 		print f
 	# get file uploads
 	## TODO: get _latest_ backup
-	result = get('astroEDU_backup_archives/uploads/hourly/uploads-2014-10-14-1234.tar.gz', '/tmp')
+	result = get('astroedu_backup_archives/uploads/hourly/uploads-2014-10-14-1234.tar.gz', '/tmp')
 	print result.succeeded
 	for f in result:
 		print f

@@ -1,5 +1,7 @@
 -r requirements.txt
 
-django-debug-toolbar==1.2.2
-Fabric==1.10.0
-wheel   # download dependencies
+django-debug-toolbar==1.5
+
+## for ansible
+#PyYAML==3.11
+#Jinja2==2.8

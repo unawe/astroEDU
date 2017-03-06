@@ -1,0 +1,2 @@
+ls -1 /home/web/backups/astroedu/db/astroedu_db_`date '+%Y%m'`* | head -1 | xargs -I {} s3cmd put {} s3://unawe-backup
+find /home/web/backups/astroedu/db/ -type f -mtime +64 -print0 | xargs -0 rm
