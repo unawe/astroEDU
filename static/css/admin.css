@@ -1,3 +1,6 @@
+label.translatable-field, label.required.translatable-field {
+    color: red !important; /* important is needed to get required fields */
+}
 /* admin customisation @goodthngs */
 
 body {
@@ -209,3 +212,4 @@ select {
 #repositoryentry_set-group .vURLField {
     width: 80%;
 }
+

@@ -63,10 +63,7 @@ INSTALLED_APPS = (
 
     # Admin
     # 'django.contrib.admindocs',
-    'djangoplicity.adminhistory',
-
-    # 'huey.djhuey',
-    # 'djcelery',
+    # 'djangoplicity.adminhistory',
 
     'pipeline',
 
@@ -80,14 +77,12 @@ INSTALLED_APPS = (
     # # 'django_markdown',
     # 'pagedown',
 
-    'django_ext',
+    # 'django_ext',
     'smartpages',
     'institutions',
     'activities',
     'astroedu',
     'astroedu.testing',
-    # 'astroedu.activities',
-    # 'activities'
     'astroedu.search',
     'filemanager',
 )
@@ -130,10 +125,6 @@ TEMPLATES = [
                 'django_ext.context_processors.thumbnail_aliases',
                 # SITE_URL
                 'django_ext.context_processors.site_url',
-                # # SECTIONS, CATEGORIES (spaceawe)
-                # 'django_ext.context_processors.texts',
-                # # DEBUG (deprecated astroedu)
-                # 'astroedu.context_processors.debug',
             ],
             'debug': False,
         },
@@ -234,6 +225,17 @@ STATICFILES_FINDERS = (
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
+# parler
+# http://django-parler.readthedocs.org/en/latest/
+# https://github.com/edoburu/django-parler
+PARLER_LANGUAGES = {
+    1: (
+    ),
+    'default': {
+        'fallbacks': ['en'],
+        'hide_untranslated': True,   # False is the default; let .active_translations() return fallbacks too.
+    }
+}
 
 # Email
 EMAIL_HOST = 'smtp.gmail.com'
@@ -315,6 +317,7 @@ THUMBNAIL_ALIASES = {
 
 
 # CK editor
+CKEDITOR_UPLOAD_PATH = 'upload/'
 CKEDITOR_CONFIGS = {
     ## see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
     'smartpages': {
@@ -351,29 +354,6 @@ MISTUNE_STYLES = {
 
 # Woosh Search
 WHOOSH_INDEX_PATH = '/home/web/usr/whoosh_index/astroedu'
-
-# Celery
-BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_TASK_SERIALIZER = 'pickle'  # default serializer used by the decorators
-CELERY_ACCEPT_CONTENT = ['pickle']  # serializers accepted by the deamon
-
-# parler
-# http://django-parler.readthedocs.org/en/latest/
-# https://github.com/edoburu/django-parler
-PARLER_LANGUAGES = {
-    None: (
-        # {'code': 'en',},
-        # {'code': 'de',},
-        # {'code': 'pt',},
-        # {'code': 'ar',},
-        # {'code': 'vi',},
-    ),
-    'default': {
-        'fallbacks': ['en'],
-        'hide_untranslated': False,   # False is the default; let .active_translations() return fallbacks too.
-    }
-}
 
 
 # SESSION_COOKIE_AGE = 86400  # 1 day, in seconds
@@ -468,8 +448,8 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
 
     THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.dbm_kvstore.KVStore'  # in-memory sorl KV store
     THUMBNAIL_DUMMY = True
-    THUMBNAIL_DUMMY_SOURCE = 'http://placekitten.com/%(width)s/%(height)s'
-    THUMBNAIL_DUMMY_SOURCE = 'http://placehold.it//%(width)sx%(height)s'
+    # THUMBNAIL_DUMMY_SOURCE = 'http://placekitten.com/%(width)s/%(height)s'
+    # THUMBNAIL_DUMMY_SOURCE = 'http://placehold.it//%(width)sx%(height)s'
     # THUMBNAIL_DUMMY_RATIO = 1.5
 
     WHOOSH_INDEX_PATH = os.path.join(PARENT_DIR, 'usr/whoosh_index/astroedu')
