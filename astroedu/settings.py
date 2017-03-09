@@ -229,7 +229,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 # http://django-parler.readthedocs.org/en/latest/
 # https://github.com/edoburu/django-parler
 PARLER_LANGUAGES = {
-    1: (
+    SITE_ID: (
     ),
     'default': {
         'fallbacks': ['en'],
