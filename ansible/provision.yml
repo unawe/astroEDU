@@ -21,23 +21,32 @@
         - libjpeg62-dev
         # - python-lockfile
         # - memcached
-        - redis-server
-        - libmysqlclient-dev
-        - mysql-server
-        - python-mysqldb  # required by the mysql_user ansible module
+        # - redis-server
+        - postgresql
+        - postgresql-contrib
+        - libpq-dev
+        - python-psycopg2  # required by the postgresql ansible modules
         - nodejs
         - nodejs-legacy  # so that "/usr/bin/env node" works; needed for npm ansible task
         - npm
+        - libffi-dev
+        - libssl-dev
+        - libxml2-dev
+        - libxslt1-dev
+        - zlib1g-dev
 
     - name: get latest pip
       get_url: url=https://bootstrap.pypa.io/get-pip.py dest=/tmp/
-    - name: install pip2
-      command: '/usr/bin/python2 /tmp/get-pip.py'
+    - name: install pip3
+      command: '/usr/bin/python3 /tmp/get-pip.py'
       args:
-        creates: /usr/local/bin/pip2
+        creates: /usr/local/bin/pip3
 
     - name: ensure system-wide python packages are installed
-      pip: name={{ item }} state=present
+      pip: 
+        name: "{{ item }}"
+        state: present
+        virtualenv_python: python3
       with_items:
         - virtualenv
         - uwsgi
@@ -47,12 +56,12 @@
         - yuglify
 
     - name: move our uwsgi binary to safe location
-      command: 'mv /usr/local/bin/uwsgi /usr/local/bin/uwsgi-python2'
+      command: 'mv /usr/local/bin/uwsgi /usr/local/bin/uwsgi-python3'
       args:
-        creates: /usr/local/bin/uwsgi-python2
+        creates: /usr/local/bin/uwsgi-python3
 
     - name: ensure web user is in the required groups
-      user: name=web group=www-data groups=sudo,mysql
+      user: name=web group=www-data groups=sudo
 
     ## create work dirs
     - file: path=/home/web/usr/etc state=directory owner=web group=www-data
@@ -64,44 +73,10 @@
     - name: configure supervisor
       ini_file: dest=/etc/supervisor/supervisord.conf section=include option=files value=/home/web/usr/etc/supervisor/*.conf
 
-    ## MySQL
-    - name: ensure mysql is configured to use MyISAM
-      ini_file: dest=/etc/mysql/my.cnf section=mysqld option=default-storage-engine value=MyISAM
-    - name: ensure mysql user exists
-      user: name=mysql group=mysql
-    - name: ensure services are running (and started on boot)
-      service: name={{ item }} state=started enabled=true
-      with_items:
-        - nginx
-        - mysql
-        - redis-server
-    - name: update mysql root password for all root accounts
-      mysql_user: 
-        name: "{{ DATABASE_USER_PROD }}"
-        password: "{{ DATABASE_PASSWORD_PROD }}"
-        host: "{{ item }}" 
-        login_user: root
-        login_password: "{{ DATABASE_PASSWORD_PROD }}"
-        check_implicit_admin: yes  # tries to login first as root without password
-        priv: "*.*:ALL,GRANT"
-      with_items:
-        - "{{ ansible_hostname }}"
-        - 127.0.0.1  # local IP
-        - ::1        # local IPv6
-        - localhost  # socket
-        # - 10.10.10.1 # vagrant/virtualbox host IP
-    - name: Load MySQL time zone tables
-      shell: "mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u {{ DATABASE_USER_PROD }} --password='{{ DATABASE_PASSWORD_PROD }}' mysql && touch .mysql_tzinfo_to_sql_done"
-      args:
-        chdir: /home/web/
-        creates: .mysql_tzinfo_to_sql_done
-
-    ## Redis
-    - name: configure redis
-      lineinfile: dest=/etc/redis/redis.conf regexp='^maxmemory' line='maxmemory 50mb'
-      notify:
-        - restart redis
-
+    ## PostgreSQL
+    - name: ensure postgres user exists
+      become: yes
+      user: name=postgres shell=/bin/bash groups=postgres,ssl-cert
 
   handlers:
     - include: handlers/handlers.yml

@@ -1,20 +1,8 @@
 ---
 - name: restart nginx
-  sudo: yes
+  become: yes
   service: name=nginx state=restarted
-- name: restart mysql
-  sudo: yes
-  service: name=mysql state=restarted
-- name: restart redis
-  sudo: yes
-  service: name=redis-server state=restarted
 
 - name: restart uwsgi
-  sudo: yes
-  supervisorctl: name=uwsgi state=restarted
-- name: restart celery
-  sudo: yes
-  supervisorctl: name=celery state=restarted
-- name: restart flower
-  sudo: yes
-  supervisorctl: name=flower state=restarted
+  become: yes
+  supervisorctl: name=uwsgi-astroedu state=restarted
