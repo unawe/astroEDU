@@ -15,4 +15,6 @@ mistune==0.5
 rtfunicode==1.0
 html5lib==0.9999999  # the latest html5lib==0.999999999 install fails
 
+redis==2.10.5
+
 Whoosh==2.7.4
