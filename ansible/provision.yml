@@ -21,7 +21,7 @@
         - libjpeg62-dev
         # - python-lockfile
         # - memcached
-        # - redis-server
+        - redis-server
         - postgresql
         - postgresql-contrib
         - libpq-dev

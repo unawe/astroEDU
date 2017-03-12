@@ -57,7 +57,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.flatpages',
     'django.contrib.sitemaps',
     'django.contrib.redirects',
 
@@ -73,11 +72,8 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
 
     'django_mistune',
-    # 'markupmirror',
-    # # 'django_markdown',
-    # 'pagedown',
 
-    # 'django_ext',
+    'django_ext',
     'smartpages',
     'institutions',
     'activities',
@@ -189,7 +185,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(PARENT_DIR, 'astroEDU_uploads')
+MEDIA_ROOT = os.path.join(PARENT_DIR, 'astroedu_uploads')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -302,18 +298,6 @@ THUMBNAIL_ALIASES = {
     'epubcover': '800x1066',
     'logo': 'x180',
 }
-
-# THUMBNIZER_SIZES = {
-#     'thumb': (334, 180, True, ),
-#     'thumb2': (500, 269, True, ),
-#     'epubcover': (800, 1066, True, ),
-#     'logo': (0, 180, True, ),
-# }
-# THUMBNIZER_KEYS = {
-#     'activities': {'formats': ['thumb', 'thumb2', 'epubcover']},
-#     'collections': {'formats': ['thumb', 'epubcover']},
-#     'institutions': {'formats': ['logo', ]},
-# }
 
 
 # CK editor
@@ -443,7 +427,6 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
     EMAIL_SUBJECT_PREFIX = '[astroedu dev] '
 
     THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.dbm_kvstore.KVStore'  # in-memory sorl KV store
@@ -453,7 +436,6 @@ if DJANGO_SETTINGS_CONFIG == 'DEV':
     # THUMBNAIL_DUMMY_RATIO = 1.5
 
     WHOOSH_INDEX_PATH = os.path.join(PARENT_DIR, 'usr/whoosh_index/astroedu')
-    # CELERY_ALWAYS_EAGER = True  # Tasks are run synchronously
 
 elif DJANGO_SETTINGS_CONFIG == 'PROD':
     DEBUG = False
