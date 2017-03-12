@@ -1,19 +1,21 @@
-<!DOCTYPE html>{% load i18n %}{% load staticfiles %}
-<html lang="en">
+<!DOCTYPE html>{% load i18n parler_tags staticfiles smartpages pipeline %}
+
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="astroEDU is an open-access peer-review platform for educators to discover, review, distribute, improve, and remix the best astronomy education activities around the world.">
 <link rel="search" type="application/opensearchdescription+xml" href="/opensearch_desc.xml" title="astroEDU">
 <title>{% block site_title %}astroEDU{% endblock %}</title>
-{% load pipeline %}{% stylesheet 'styles' %}
+{% stylesheet 'styles' %}
 {% block extra_head %}{% endblock %}
 </head>
 <body>
 <div id="cookie-policy">
 	<div class="layout_container">
 		<span class="close-btn"><img src="{% static 'designimages/icon_close.png' %}" alt="Close"></span>
-		<p>This site uses cookies to offer you a better browsing experience. Read about how we use cookies <a href="/cookie-policy/" title="">here</a>.</p>
+		<p>{% trans "This site uses cookies to offer you a better browsing experience." %} <a href="{% smartpage_url 'cookie-policy' %}" title="">{% trans "Read about how we use cookies." %}</a></p>
 	</div>
 </div>
 <div class="body_wrap">
@@ -24,7 +26,7 @@
 		<div class="layout_container" style="position: relative;">
 		
 			<div class="top_left">
-				<a href="/">
+				<a href="{% url 'home' %}">
 					<img src="{% static 'designimages/astroedu_logo.png' %}" class="logo" alt="astroEDU Logo" />
 				</a>
 			</div>
@@ -77,18 +79,18 @@
 
 			<div class="footer_nav">
 				<ul class="unbulleted">
-					<li><a href="/submission/">Submission</a></li>
-					<li><a href="/peerreview/">Peer Review</a></li>
-					<li><a href="/ebl/">Enquiry</a></li>
-					<li><a href="/faq/">FAQ</a></li>
+					<li><a href="{% smartpage_url 'submission' %}">Submission</a></li>
+					<li><a href="{% smartpage_url 'peerreview' %}">Peer Review</a></li>
+					<li><a href="{% smartpage_url 'ebl' %}">Enquiry</a></li>
+					<li><a href="{% smartpage_url 'faq' %}">FAQ</a></li>
 				</ul>
 			</div>
 			<div class="footer_nav">
 				<ul class="unbulleted">
-					<li><a href="/about/">About</a></li>
-					<li><a href="/workflow/">Workflow</a></li>
+					<li><a href="{% smartpage_url 'about' %}">About</a></li>
+					<li><a href="{% smartpage_url 'workflow' %}">Workflow</a></li>
 					<li><a href="/blog/">Blog</a></li>
-					<li><a href="/contact/">Contact</a></li>
+					<li><a href="{% smartpage_url 'contact' %}">Contact</a></li>
 				</ul>
 			</div>
 		<div style="clear: both"></div>
