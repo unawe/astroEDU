@@ -48,6 +48,6 @@ def search(request):
         }
 
     if 'page' not in context or not context['page']['object_list']:
-        context['featured'] = Activity.objects.featured()[0:3]
+        context['featured'] = Activity.objects.featured().active_translations()[0:3]
 
     return render(request, 'search/search.html', context)

@@ -6,7 +6,7 @@ from activities.models import Activity
 
 
 def home(request):
-    return render(request, 'astroedu/home.html', {'featured': Activity.objects.featured()[0:3], })
+    return render(request, 'astroedu/home.html', {'featured': Activity.objects.featured().active_translations()[0:3], })
 
 
 @login_required
