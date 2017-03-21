@@ -71,16 +71,16 @@
 			{% endfor %}
 			{% if object.attachment_list|length > 1 %}
 			<div class="title_text">All Attachments</div>
-			<div class="content"><img src="{% static 'designimages/attachment_all_icon.png' %}" alt="" /><a href="?format=zip">All attachments</a></div>
+			<div class="content"><img src="{% static 'designimages/attachment_all_icon.png' %}" alt="" /><a href="{% url 'activities:detail' code=object.code slug=object.slug %}?format=zip">All attachments</a></div>
 			{% endif %}
 		</div>
 		{% endif %}
 		<div class="section_meta_2 orange">
 			<div class="title_text">Downloads</div>
 			<div class="icon">
-				<a href="?format=pdf" target="download"><img title="PDF" src="{% static 'designimages/sections-orange/file_pdf.svg' %}" alt="" /></a>
-				<a href="?format=rtf"><img title="RTF" src="{% static 'designimages/sections-orange/file_rtf.svg' %}" alt="" /></a>
-				<a href="?format=epub"><img title="ePUB" src="{% static 'designimages/sections-orange/file_epub.svg' %}" alt="" /></a>
+				<a href="{% url 'activities:detail' code=object.code slug=object.slug %}?format=pdf" target="download"><img title="PDF" src="{% static 'designimages/sections-orange/file_pdf.svg' %}" alt="" /></a>
+				<a href="{% url 'activities:detail' code=object.code slug=object.slug %}?format=rtf"><img title="RTF" src="{% static 'designimages/sections-orange/file_rtf.svg' %}" alt="" /></a>
+				<a href="{% url 'activities:detail' code=object.code slug=object.slug %}?format=epub"><img title="ePUB" src="{% static 'designimages/sections-orange/file_epub.svg' %}" alt="" /></a>
 			</div>
 		</div>
 		<div class="section_meta_2 grey">
