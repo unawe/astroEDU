@@ -10,11 +10,11 @@
 <div class="admin-toolbar{% if not object.is_released%} unpublished{% endif %}">
     {% if object %}
 	<div class"modeladmin">
-		<a href="{{ object.get_admin_change_url }}">Edit</a> |
-		<a href="{{ object.get_admin_delete_url }}">Delete</a> |
-		<a href="{{ object.get_admin_history_url }}">History</a> |
-		<a href="{{ object.get_admin_add_url }}">Add another {{ object.get_verbose_name }}</a> |
-		<a href="{{ object.get_admin_changelist_url }}">Manage {{ object.get_verbose_name_plural }}</a>
+		<a href="{{ object.get_admin_change_url }}">{% trans "Edit" %}</a> |
+		<a href="{{ object.get_admin_delete_url }}">{% trans "Delete" %}</a> |
+		<a href="{{ object.get_admin_history_url }}">{% trans "History" %}</a> |
+		<a href="{{ object.get_admin_add_url }}">{% trans "Add another" %} {{ object.get_verbose_name }}</a> |
+		<a href="{{ object.get_admin_changelist_url }}">{% trans "Manage" %} {{ object.get_verbose_name_plural }}</a>
 	</div>
     <div class="archival">
     	is_released: {{ object.is_released }} |
