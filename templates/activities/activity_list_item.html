@@ -11,7 +11,7 @@
 
         <div class="description">
             {% if object.main_visual %}{% thumbnail object.main_visual THUMBNAIL_ALIASES.thumb2 crop="center" as im %}
-            <img src="{{ im.url }}" alt="{{object.title}}" />{% endthumbnail %}{% endif %}
+            <a href="{% url 'activities:detail' code=object.code slug=object.slug %}"><img src="{{ im.url }}" alt="{{object.title}}" /></a>{% endthumbnail %}{% endif %}
             <div class="list_item_short">{{ object.teaser }}</div>
         </div>
 
