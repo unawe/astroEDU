@@ -550,11 +550,11 @@ button.search_btn {
 }
 .footer_left {
     float: left; 
-    width: 35%;
+    width: 30%;
 }
 .footer_right {
     float: right;
-    width: 65%;
+    width: 70%;
 }
 .footer_nav {
     float: left; 
@@ -597,7 +597,11 @@ button.search_btn {
     margin-left: 0;
 }
 
-
+a.europlanet {
+    height: 70px;
+    vertical-align: middle;
+    display: inline-block;
+}
 /* contact */
 
 .contact-section {
