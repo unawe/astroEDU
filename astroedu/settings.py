@@ -31,7 +31,7 @@ SITE_URL = 'http://astroedu.iau.org'
 SITE_ID = 1
 
 ADMINS = (
-    ('Bruno Rino', secrets['ADMIN_EMAIL']),
+    ('Vaclav Ehrlich', secrets['ADMIN_EMAIL']),
 )
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -319,6 +319,19 @@ CKEDITOR_CONFIGS = {
         ],
         'width': 845,
     },
+    'small': {
+        'fillEmptyBlocks': False,
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Source', ],
+            ['Bold', 'Italic', '-', 'Subscript', 'Superscript', '-', 'Undo', 'Redo', 'RemoveFormat', ],
+            ['Link', 'Unlink', ],
+            # ['Image', ],
+            ['BidiLtr', 'BidiRtl', ],
+        ],
+        'height': 100,
+    },
+
 }
 
 # Bleach
