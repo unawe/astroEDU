@@ -121,6 +121,7 @@
       with_items:
         - migrate
         - collectstatic
+        - compilemessages
         # - rebuild_index --noinput
         # - rebuild_index
       environment:

@@ -1,6 +1,7 @@
+{% load i18n %}
 <div id="search-form">
 	<form method="get" action="{% url 'search' %}" name="search">
-		<input type="text" name="q" class="search_textbox" placeholder="Find Education Activities" value="{{ form.q.value }}" />
+		<input type="text" name="q" class="search_textbox" placeholder="{% trans "Find Education Activities" %}:" value="{{ form.q.value }}" />
 		<button type="submit" class="search_btn" onclick="document.forms['search'].submit()">Search</button>
 	</form>
 </div>

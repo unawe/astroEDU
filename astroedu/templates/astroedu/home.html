@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles i18n %}
+
 
 
 {% block top %}
@@ -17,7 +18,7 @@
 					<img src="{% static 'designimages/iau_logo.png' %}" alt="IAU logo" title="Office of Astronomy for Development project" />
 				</a>
 				<a href="/volunteer" target="_blank">
-					<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" title="Join us: Volunteer!" />
+					<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
 				</a>
 			</div>
 
@@ -31,7 +32,7 @@
 {% block content %}
 
 	<div class="layout_search">
-		<div class="home_slogan"><strong>Peer-reviewed</strong> astronomy education activities</div>
+		<div class="home_slogan"><strong>{% trans "Peer-reviewed" %}</strong> {% trans "astronomy education activities" %}</div>
 		<div class="home_search_box">{% include 'astroedu/search_form.html' %}</div>
 	</div>
 
