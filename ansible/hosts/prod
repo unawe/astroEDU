@@ -1,2 +1,2 @@
 # ansible 'hosts' file for prod (production)
-production       ansible_connection=ssh      ansible_ssh_user=web      ansible_ssh_host=52.48.240.232
+production       ansible_connection=ssh      ansible_ssh_user=web      ansible_ssh_host=52.19.173.137
