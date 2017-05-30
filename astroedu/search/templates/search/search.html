@@ -46,6 +46,9 @@ page.next_page_number
 
 
 {% if query %}
+    {% if page.object_list %}
+        <div clas="caption">{% trans "Filters" %}:</div>
+    {% endif %}
     <!-- Begin faceting. -->
     <div class="meta">
         {% include 'search/search_facet.html' with code='age' text='age' selected=form.age.value facet=facets.fields.age %}
