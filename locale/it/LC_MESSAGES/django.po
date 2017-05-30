@@ -1,0 +1,191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-04 19:09+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: astroedu/search/templates/search/search.html:14
+msgid "Search results"
+msgstr ""
+
+#: astroedu/search/templates/search/search.html:29
+#: astroedu/search/templates/search/search.html:42
+msgid "No results found!"
+msgstr ""
+
+#: astroedu/templates/astroedu/featured.html:4
+msgid "Featured Activities"
+msgstr "In evidenza"
+
+#: astroedu/templates/astroedu/home.html:20
+msgid "Join us"
+msgstr "Unisciti a noi"
+
+#: astroedu/templates/astroedu/home.html:20
+msgid "Volunteer"
+msgstr "Volontari"
+
+#: astroedu/templates/astroedu/home.html:34
+msgid "Peer-reviewed"
+msgstr "Astronomia peer reviewed"
+
+#: astroedu/templates/astroedu/home.html:34
+msgid "astronomy education activities"
+msgstr "attività didattiche"
+
+#: djangoplicity/adminhistory/templates/admin/adminhistory/list.html:15
+msgid "Search"
+msgstr "Cerca"
+
+#: templates/404.html:7
+msgid "404, Page not found."
+msgstr ""
+
+#: templates/500.html:7
+msgid "Something went wrong."
+msgstr ""
+
+#: templates/activities/activity_detail.html:21
+#: templates/activities/collection_detail.html:13
+msgid "Edit"
+msgstr ""
+
+#: templates/activities/activity_detail.html:22
+#: templates/activities/collection_detail.html:14
+msgid "Delete"
+msgstr ""
+
+#: templates/activities/activity_detail.html:23
+#: templates/activities/collection_detail.html:15
+msgid "History"
+msgstr ""
+
+#: templates/activities/activity_detail.html:24
+#: templates/activities/collection_detail.html:16
+msgid "Add another"
+msgstr ""
+
+#: templates/activities/activity_detail.html:25
+#: templates/activities/collection_detail.html:17
+msgid "Manage"
+msgstr ""
+
+#: templates/activities/activity_detail.html:68
+msgid "Attachments"
+msgstr ""
+
+#: templates/activities/activity_detail.html:73
+msgid "All Attachments"
+msgstr ""
+
+#: templates/activities/activity_detail.html:79
+msgid "Downloads"
+msgstr ""
+
+#: templates/activities/activity_detail.html:87
+msgid "Share"
+msgstr ""
+
+#: templates/activities/activity_detail.html:113
+msgid "Repositories"
+msgstr ""
+
+#: templates/activities/activity_detail.html:123
+msgid "Citation"
+msgstr ""
+
+#: templates/activities/activity_detail.html:131
+msgid "Acknowledgement"
+msgstr ""
+
+#: templates/activities/activity_list_item.html:21
+msgid "THEME"
+msgstr ""
+
+#: templates/activities/activity_list_item.html:30
+msgid "AGE"
+msgstr ""
+
+#: templates/activities/activity_list_item.html:39
+msgid "TIME"
+msgstr ""
+
+#: templates/activities/collection_list.html:4
+#: templates/activities/collection_list.html:11
+msgid "Activity Collections"
+msgstr "Attività a tema"
+
+#: templates/activities/collection_list.html:21
+msgid "No collections are available."
+msgstr ""
+
+#: templates/admin/base_site.html:4
+msgid "Django site admin"
+msgstr ""
+
+#: templates/admin/base_site.html:12
+msgid "Administration"
+msgstr ""
+
+#: templates/base.html:18
+msgid "This site uses cookies to offer you a better browsing experience."
+msgstr ""
+
+#: templates/base.html:18
+msgid "Read about how we use cookies."
+msgstr ""
+
+#: templates/base.html:61
+msgid "See All Activities"
+msgstr "Vedi tutte le attività"
+
+#: templates/base.html:67
+#| msgid "Featured Activities"
+msgid "Submit Your Activities"
+msgstr "Sottometti la tua attività"
+
+#: templates/base.html:82
+msgid "Submission"
+msgstr "Inviare un'attività"
+
+#: templates/base.html:83
+msgid "Peer Review"
+msgstr ""
+
+#: templates/base.html:84
+msgid "Enquiry"
+msgstr "Il modello di apprendimento (EBL)"
+
+#: templates/base.html:85
+msgid "FAQ"
+msgstr ""
+
+#: templates/base.html:90
+msgid "About"
+msgstr "Chi siamo"
+
+#: templates/base.html:91
+msgid "Workflow"
+msgstr "Flusso di lavoro"
+
+#: templates/base.html:92
+msgid "Blog"
+msgstr ""
+
+#: templates/base.html:93
+msgid "Contact"
+msgstr "Contatti"
