@@ -46,25 +46,42 @@
 {% endblock %}
 
 {% block content %}{% endblock %}
-
 	<div class="layout_resources">
 		<div class="layout_container">
 		
 			<div class="bigicon">
 				<a href="{% url 'collections:list' %}">
-					<img src="{% static 'designimages/bigicon_collections.svg' %}" alt="{% trans "Activity Collections" %} " />
+					<img src="
+					{% if actual_language == 'en' %}
+						{% static 'designimages/bigicon_collections.svg' %}
+					{% elif actual_language == 'it' %}
+						{% static 'designimages/attivita_a_tema.svg' %}
+					{% endif %}
+					" alt="{% trans "Activity Collections" %} " />
 				</a>
 			</div>
-			
+
 			<div class="bigicon">
 				<a href="{% url 'activities:list' %}">
-					<img src="{% static 'designimages/bigicon_activities.svg' %}" alt="{% trans "See All Activities" %}" />
+					<img src="
+					{% if actual_language == 'en' %}
+						{% static 'designimages/bigicon_activities.svg' %}
+					{% elif actual_language == 'it' %}
+						{% static 'designimages/vedi_tutte_le_attivita.svg' %}
+					{% endif %}
+					" alt="{% trans "See All Activities" %}" />
 				</a>
 			</div>
 			
 			<div class="bigicon">
 				<a href="/submission/">
-					<img src="{% static 'designimages/bigicon_submit.svg' %}" alt="{% trans "Submit Your Activities" %}" />
+					<img src="
+					{% if actual_language == 'en' %}
+						{% static 'designimages/bigicon_submit.svg' %}
+					{% elif actual_language == 'it' %}
+						{% static 'designimages/sottometti_la_tua_attivita.svg' %}
+					{% endif %}
+					" alt="{% trans "Submit Your Activities" %}" />
 				</a>
 			</div>
 
@@ -128,6 +145,16 @@
 	</div></div>
 
 </div>
+<script type="application/javascript">
+	var searchSuggestions = {
+        strings: ["{% trans "Find Educational Activities" %}", "{% trans "Black holes" %}", "{% trans "Galaxies" %}", "{% trans "Drawing" %}", "{% trans "Primary School" %}"],
+	    typeSpeed: 10,
+	    backSpeed: -50,
+	    loop: true,
+	    showCursor: false,
+	    backDelay: 3000
+    }
+</script>
 {% javascript 'scripts' %}
 {% block extra_script %}{% endblock %}
 <script>

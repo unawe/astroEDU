@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles i18n %}
+{% load staticfiles i18n parler_tags %}
 
 
 
@@ -18,7 +18,13 @@
 					<img src="{% static 'designimages/iau_logo.png' %}" alt="IAU logo" title="Office of Astronomy for Development project" />
 				</a>
 				<a href="/volunteer" target="_blank">
-					<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
+					<img src="
+					{% if actual_language == 'en' %}
+						{% static 'designimages/volunteer_badge.png' %}
+					{% elif actual_language == 'it' %}
+						{% static 'designimages/unisciti_a_noi_volontari.png' %}
+					{% endif %}
+  					" alt="apply as volunteer" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
 				</a>
 			</div>
 

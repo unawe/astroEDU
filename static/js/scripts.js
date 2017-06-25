@@ -12,14 +12,7 @@ $(document).ready(function () {
 	}
 
 	// typed.js animated search suggestions
-	var searchSuggestions = {
-        strings: ["Find Educational Activities", "Black holes", "Galaxies", "Drawing", "Primary School"],
-	    typeSpeed: 10,
-	    backSpeed: -50,
-	    loop: true,
-	    showCursor: false,
-	    backDelay: 3000
-    }
+
 	$('.home_search_box .search_textbox').attr("placeholder", '');
 	$(".home_search_box .search_textbox").typed(searchSuggestions);
 
