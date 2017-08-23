@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load staticfiles i18n parler_tags %}
-
-
-
+{% load i18n parler_tags staticfiles smartpages pipeline %}
+{% get_current_language as LANGUAGE_CODE %}
+HOME
+{{ LANGUAGE_CODE}}
 {% block top %}
 
 	<div class="layout_top">
@@ -19,12 +19,12 @@
 				</a>
 				<a href="/volunteer" target="_blank">
 					<img src="
-					{% if actual_language == 'en' %}
+					{% if LANGUAGE_CODE == 'en' %}
 						{% static 'designimages/volunteer_badge.png' %}
-					{% elif actual_language == 'it' %}
+					{% elif LANGUAGE_CODE == 'it' %}
 						{% static 'designimages/unisciti_a_noi_volontari.png' %}
 					{% endif %}
-  					" alt="apply as volunteer" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
+  					" alt="{% trans "apply as volunteer"%}" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
 				</a>
 			</div>
 

@@ -33,7 +33,13 @@
 
 			<div class="top_right_search">
 				<a href="/volunteer" target="_blank">
-					<img src="{% static 'designimages/volunteer_badge.png' %}" alt="apply as volunteer" />
+					<img src="
+					{% if LANGUAGE_CODE == 'en' %}
+						{% static 'designimages/volunteer_badge.png' %}
+					{% elif LANGUAGE_CODE == 'it' %}
+						{% static 'designimages/unisciti_a_noi_volontari.png' %}
+					{% endif %}
+  					" alt="{% trans "apply as volunteer"%}" title="{% trans "Join us" %}: {% trans "Volunteer"%}!" />
 				</a>
 				<div class="top_search">{% include 'astroedu/search_form.html' %} </div>
 			</div>
@@ -52,9 +58,9 @@
 			<div class="bigicon">
 				<a href="{% url 'collections:list' %}">
 					<img src="
-					{% if actual_language == 'en' %}
+					{% if LANGUAGE_CODE == 'en' %}
 						{% static 'designimages/bigicon_collections.svg' %}
-					{% elif actual_language == 'it' %}
+					{% elif LANGUAGE_CODE == 'it' %}
 						{% static 'designimages/attivita_a_tema.svg' %}
 					{% endif %}
 					" alt="{% trans "Activity Collections" %} " />
@@ -64,9 +70,9 @@
 			<div class="bigicon">
 				<a href="{% url 'activities:list' %}">
 					<img src="
-					{% if actual_language == 'en' %}
+					{% if LANGUAGE_CODE == 'en' %}
 						{% static 'designimages/bigicon_activities.svg' %}
-					{% elif actual_language == 'it' %}
+					{% elif LANGUAGE_CODE == 'it' %}
 						{% static 'designimages/vedi_tutte_le_attivita.svg' %}
 					{% endif %}
 					" alt="{% trans "See All Activities" %}" />
@@ -74,11 +80,11 @@
 			</div>
 			
 			<div class="bigicon">
-				<a href="/submission/">
+				<a href="/{{ LANGUAGE_CODE }}/submission/">
 					<img src="
-					{% if actual_language == 'en' %}
+					{% if LANGUAGE_CODE == 'en' %}
 						{% static 'designimages/bigicon_submit.svg' %}
-					{% elif actual_language == 'it' %}
+					{% elif LANGUAGE_CODE == 'it' %}
 						{% static 'designimages/sottometti_la_tua_attivita.svg' %}
 					{% endif %}
 					" alt="{% trans "Submit Your Activities" %}" />
