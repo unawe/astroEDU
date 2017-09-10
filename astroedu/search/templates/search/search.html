@@ -51,13 +51,13 @@ page.next_page_number
     {% endif %}
     <!-- Begin faceting. -->
     <div class="meta">
-        {% include 'search/search_facet.html' with code='age' text='age' selected=form.age.value facet=facets.fields.age %}
-        {% include 'search/search_facet.html' with code='level' text='level' selected=form.level.value facet=facets.fields.level %}
-        {% include 'search/search_facet.html' with code='time' text='time' selected=form.time.value facet=facets.fields.time %}
-        {% include 'search/search_facet.html' with code='group' text='group' selected=form.group.value facet=facets.fields.group %}
-        {% include 'search/search_facet.html' with code='supervised' text='supervised' selected=form.supervised.value facet=facets.fields.supervised %}
-        {% include 'search/search_facet.html' with code='cost' text='cost' selected=form.cost.value facet=facets.fields.cost %}
-        {% include 'search/search_facet.html' with code='location' text='location' selected=form.location.value facet=facets.fields.location %}
+        {% include 'search/search_facet.html' with code='age' text='Age' selected=form.age.value facet=facets.fields.age %}
+        {% include 'search/search_facet.html' with code='level' text='Level' selected=form.level.value facet=facets.fields.level %}
+        {% include 'search/search_facet.html' with code='time' text='Time' selected=form.time.value facet=facets.fields.time %}
+        {% include 'search/search_facet.html' with code='group' text='Group' selected=form.group.value facet=facets.fields.group %}
+        {% include 'search/search_facet.html' with code='supervised' text='Supervised' selected=form.supervised.value facet=facets.fields.supervised %}
+        {% include 'search/search_facet.html' with code='cost' text='Cost' selected=form.cost.value facet=facets.fields.cost %}
+        {% include 'search/search_facet.html' with code='location' text='Location' selected=form.location.value facet=facets.fields.location %}
         {% include 'search/search_facet.html' with code='skills' text='Core skills' selected=form.skills.value facet=facets.fields.skills %}
         {% include 'search/search_facet.html' with code='learning' text='Type of learning activity' selected=form.learning.value facet=facets.fields.learning %}
     </div>

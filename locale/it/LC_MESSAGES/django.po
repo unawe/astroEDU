@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-27 12:22+0200\n"
+"POT-Creation-Date: 2017-09-10 23:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,11 +35,15 @@ msgstr "Filtri"
 msgid "Featured Activities"
 msgstr "In evidenza"
 
-#: astroedu/templates/astroedu/home.html:27
+#: astroedu/templates/astroedu/home.html:27 templates/base.html:42
+msgid "apply as volunteer"
+msgstr ""
+
+#: astroedu/templates/astroedu/home.html:27 templates/base.html:42
 msgid "Join us"
 msgstr "Unisciti a noi"
 
-#: astroedu/templates/astroedu/home.html:27
+#: astroedu/templates/astroedu/home.html:27 templates/base.html:42
 msgid "Volunteer"
 msgstr "Volontari"
 
@@ -51,7 +55,7 @@ msgstr "Astronomia peer reviewed"
 msgid "astronomy education activities"
 msgstr "attività didattiche"
 
-#: astroedu/templates/astroedu/search_form.html:4 templates/base.html:151
+#: astroedu/templates/astroedu/search_form.html:4 templates/base.html:156
 msgid "Find Educational Activities"
 msgstr "trova le attività"
 
@@ -122,19 +126,19 @@ msgid "Acknowledgement"
 msgstr "Ringraziamenti"
 
 #: templates/activities/activity_list_item.html:21
-msgid "THEME"
+msgid "Theme"
 msgstr ""
 
 #: templates/activities/activity_list_item.html:30
-msgid "AGE"
+msgid "Age"
 msgstr "Età"
 
 #: templates/activities/activity_list_item.html:39
-msgid "TIME"
+msgid "Time"
 msgstr "Durata"
 
 #: templates/activities/collection_list.html:4
-#: templates/activities/collection_list.html:11 templates/base.html:61
+#: templates/activities/collection_list.html:11 templates/base.html:66
 msgid "Activity Collections"
 msgstr "Attività a tema"
 
@@ -152,65 +156,67 @@ msgstr ""
 
 #: templates/base.html:18
 msgid "This site uses cookies to offer you a better browsing experience."
-msgstr "Questo sito usa dei cookied per offrirvi una migliore navigazione in rete. Leggi come utilizziamo i cookies."
+msgstr ""
+"Questo sito usa dei cookied per offrirvi una migliore navigazione in rete. "
+"Leggi come utilizziamo i cookies."
 
 #: templates/base.html:18
 msgid "Read about how we use cookies."
 msgstr "Leggi come utilizziamo i cookies."
 
-#: templates/base.html:73
+#: templates/base.html:78
 msgid "See All Activities"
 msgstr "Vedi tutte le attività"
 
-#: templates/base.html:85
+#: templates/base.html:90
 msgid "Submit Your Activities"
 msgstr "Sottometti la tua attività"
 
-#: templates/base.html:100
+#: templates/base.html:105
 msgid "Submission"
 msgstr "Inviare un'attività"
 
-#: templates/base.html:101
+#: templates/base.html:106
 msgid "Peer Review"
 msgstr ""
 
-#: templates/base.html:102
+#: templates/base.html:107
 msgid "Enquiry"
 msgstr "Modello di apprendimento"
 
-#: templates/base.html:103
-msgid "FAQ"
+#: templates/base.html:108
+msgid "Faq"
 msgstr ""
 
-#: templates/base.html:108
+#: templates/base.html:113
 msgid "About"
 msgstr "Chi siamo"
 
-#: templates/base.html:109
+#: templates/base.html:114
 msgid "Workflow"
 msgstr "Flusso di lavoro"
 
-#: templates/base.html:110
+#: templates/base.html:115
 msgid "Blog"
 msgstr ""
 
-#: templates/base.html:111
+#: templates/base.html:116
 msgid "Contact"
 msgstr "Contatti"
 
-#: templates/base.html:151
+#: templates/base.html:156
 msgid "Black holes"
 msgstr "buchi neri"
 
-#: templates/base.html:151
+#: templates/base.html:156
 msgid "Galaxies"
 msgstr "galassie"
 
-#: templates/base.html:151
+#: templates/base.html:156
 msgid "Drawing"
 msgstr "disegni"
 
-#: templates/base.html:151
+#: templates/base.html:156
 msgid "Primary School"
 msgstr "scuola primaria"
 
