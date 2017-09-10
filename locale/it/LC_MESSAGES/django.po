@@ -20,16 +20,16 @@ msgstr ""
 
 #: astroedu/search/templates/search/search.html:14
 msgid "Search results"
-msgstr ""
+msgstr "Risultati della ricerca"
 
 #: astroedu/search/templates/search/search.html:29
 #: astroedu/search/templates/search/search.html:42
 msgid "No results found!"
-msgstr ""
+msgstr "Non ho trovato nessun risultato!"
 
 #: astroedu/search/templates/search/search.html:51
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #: astroedu/templates/astroedu/featured.html:4
 msgid "Featured Activities"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: templates/500.html:7
 msgid "Something went wrong."
-msgstr ""
+msgstr "Ops, qualcosa è andato storto"
 
 #: templates/activities/activity_detail.html:21
 #: templates/activities/collection_detail.html:13
@@ -95,31 +95,31 @@ msgstr ""
 
 #: templates/activities/activity_detail.html:68
 msgid "Attachments"
-msgstr ""
+msgstr "Allegati"
 
 #: templates/activities/activity_detail.html:73
 msgid "All Attachments"
-msgstr ""
+msgstr "Tutti gli allegati"
 
 #: templates/activities/activity_detail.html:79
 msgid "Downloads"
-msgstr ""
+msgstr "Downloads"
 
 #: templates/activities/activity_detail.html:87
 msgid "Share"
-msgstr ""
+msgstr "Condividi"
 
 #: templates/activities/activity_detail.html:113
 msgid "Repositories"
-msgstr ""
+msgstr "Archivi"
 
 #: templates/activities/activity_detail.html:123
 msgid "Citation"
-msgstr ""
+msgstr "Citazione"
 
 #: templates/activities/activity_detail.html:131
 msgid "Acknowledgement"
-msgstr ""
+msgstr "Ringraziamenti"
 
 #: templates/activities/activity_list_item.html:21
 msgid "THEME"
@@ -127,11 +127,11 @@ msgstr ""
 
 #: templates/activities/activity_list_item.html:30
 msgid "AGE"
-msgstr ""
+msgstr "Età"
 
 #: templates/activities/activity_list_item.html:39
 msgid "TIME"
-msgstr ""
+msgstr "Durata"
 
 #: templates/activities/collection_list.html:4
 #: templates/activities/collection_list.html:11 templates/base.html:61
@@ -140,7 +140,7 @@ msgstr "Attività a tema"
 
 #: templates/activities/collection_list.html:21
 msgid "No collections are available."
-msgstr ""
+msgstr "Non ci sono attività a tema"
 
 #: templates/admin/base_site.html:4
 msgid "Django site admin"
@@ -152,8 +152,7 @@ msgstr ""
 
 #: templates/base.html:18
 msgid "This site uses cookies to offer you a better browsing experience."
-msgstr ""
-"Questo sito usa dei cookied per offrirvi una migliore navigazione in rete."
+msgstr "Questo sito usa dei cookied per offrirvi una migliore navigazione in rete. Leggi come utilizziamo i cookies."
 
 #: templates/base.html:18
 msgid "Read about how we use cookies."
@@ -177,7 +176,7 @@ msgstr ""
 
 #: templates/base.html:102
 msgid "Enquiry"
-msgstr "Il modello di apprendimento (EBL)"
+msgstr "Modello di apprendimento"
 
 #: templates/base.html:103
 msgid "FAQ"
