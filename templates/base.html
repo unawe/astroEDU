@@ -123,13 +123,20 @@
 			<div class="sponsor-list">
 				<ul>
 					<li><a href="http://www.iau.org" title="IAU" target="_blank"><img src="{% static 'designimages/sponsors/iau_logo.png' %}" alt="sponsor: IAU" /></a></li>
+					{% if LANGUAGE_CODE == 'en' %}
 					<li><a href="http://www.unawe.org" title="UNAWE" target="_blank"><img src="{% static 'designimages/sponsors/unawe_logo.png' %}" alt="sponsor: UNAWE" /></a></li>
 					<li><a href="http://www.ras.org.uk/" title="Royal Astronomical Society" target="_blank"><img src="{% static 'designimages/sponsors/ras_logo.png' %}" alt="sponsor: Royal Astronomical Society" /></a></li>
+					{% endif %}
 					<li><a href="http://www.leiden.edu" title="Leiden University" target="_blank"><img src="{% static 'designimages/sponsors/uni_leiden_logo.png' %}" alt="sponsor: Leiden University" /></a></li>
+					{% if LANGUAGE_CODE == 'en' %}
 					<li><a href="http://ec.europa.eu/index_en.htm" title="European Commission" target="_blank"><img src="{% static 'designimages/sponsors/eu_logo.png' %}" alt="sponsor: European Commission" /></a></li>
 					<li><a href="https://lco.global/" title="LCO" target="_blank"><img style="width:80px;height:auto;" src="{% static 'designimages/sponsors/lco_logo.png' %}" alt="sponsor: LCO" /></a></li>
 					<li><a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/what-are-open-educational-resources-oers/" title="UNESCO Open Educational Resources" target="_blank"><img src="{% static 'designimages/sponsors/unesco_oer_logo.png' %}" alt="sponsor: UNESCO OER" /></a></li>
 					<li><a href="http://www.europlanet-eu.org/" title="Europlanet" class="europlanet" target="_blank"><img style="width:80px;height:auto;" src="{% static 'designimages/sponsors/europlanet_logo.svg' %}" alt="sponsor: Europlanet" /></a></li>
+					{% endif %}
+					{% if LANGUAGE_CODE == 'it' %}
+					<li><a href="http://www.inaf.it/it" title="INAF" target="_blank"><img style="width:200px;height:auto;" src="{% static 'designimages/sponsors/INAF_logo.png' %}" alt="sponsor: INAF" /></a></li>
+					{% endif %}
 				</ul>
 			</div>
 		</div>
