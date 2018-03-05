@@ -1,6 +1,6 @@
 Django==1.8.17
 pytz
-psycopg2==2.6.1  # postgreSQL 
+psycopg2 #==2.6.1  # postgreSQL
 django-pipeline==1.6.8
 django-autoslug==1.9.3
 django-parler==1.5.1
@@ -18,3 +18,4 @@ html5lib==0.9999999  # the latest html5lib==0.999999999 install fails
 redis==2.10.5
 
 Whoosh==2.7.4
+unicodecsv
