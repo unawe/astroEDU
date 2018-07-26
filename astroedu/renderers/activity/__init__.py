@@ -29,6 +29,17 @@ def zip(obj, path, site_url=None):
         if f.file:
             # skip missing files
             result += subprocess.call(['zip', zipoptions, path, f.file.path])
+
+    for f in obj.attachment_list():
+        if f.file:
+            # skip missing files
+            result += subprocess.call(['zip', zipoptions, path, f.file.path])
+
+    for f in obj.languageattachment_list():
+        if f.file:
+            # skip missing files
+            result += subprocess.call(['zip', zipoptions, path, f.file.path])
+
     return result
 
 
