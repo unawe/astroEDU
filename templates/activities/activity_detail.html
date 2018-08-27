@@ -45,6 +45,27 @@
 	<div class="summary">{{ object.teaser }}</div>
 	<div class="authors">{{ object.author_list }}</div>
 
+    {% if object.main_video_link %}
+	<div class="section video">
+		<div class="title">
+			<div class="icon"><img src="{% static 'designimages/sections-orange/video.svg' %}" alt="" /></div>
+			<div class="title_text">Video</div>
+			<div style="clear: both"></div>
+		</div>
+		<div class="text">
+            <iframe width="100%" src="{{  object.main_video_link.youtube_embed_url }}" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <p class="video_info">
+            <strong>{{  object.main_video_link.title | upper}}</strong><br/>
+            <div>{{  object.main_video_link.description }}</div>
+            <hr>
+            <a href="{{ object.main_video_link.url }}">{{ object.main_video_link.url }}</a>
+            </p>
+        </div>
+	</div>
+	<div class="clear"></div>
+	{% endif %}
+
+
     {% if object.code == '1302' %} <!-- Scientix Award --> <div><a href="https://medium.com/@iauastroedu/iau-astroedu-honoured-with-science-education-award-95437e356d50" class="award_badge" target="_blank"><img src="{% static 'designimages/award_badge.png' %}" alt="Scientix Award" /></a></div>{% endif %}
 
 	{% for section in sections %}
