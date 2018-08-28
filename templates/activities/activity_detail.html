@@ -53,7 +53,9 @@
 			<div style="clear: both"></div>
 		</div>
 		<div class="text">
-            <iframe width="100%" src="{{  object.main_video_link.youtube_embed_url }}" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div class="video_wrapper">
+                <iframe src="{{  object.main_video_link.youtube_embed_url }}" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
             <p class="video_info">
             <strong>{{  object.main_video_link.title | upper}}</strong><br/>
             <div>{{  object.main_video_link.description }}</div>

@@ -209,6 +209,23 @@ span.close-btn img {
     font-size: 12px;
     font-weight: bold;
 }
+.video_wrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.video_wrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
 .featured_item .metadata_bottom {
     min-height: 100px;
 }
