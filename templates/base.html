@@ -102,6 +102,8 @@
 
 			<div class="footer_nav">
 				<ul class="unbulleted">
+                    <li style="border-bottom: #cccccc 1px dotted">{% trans "Language" %}
+                    </li>
 					<li><a href="{% smartpage_url 'submission' %}">{% trans "Submission" %}</a></li>
 					<li><a href="{% smartpage_url 'peerreview' %}">{% trans "Peer Review" %}</a></li>
 					<li><a href="{% smartpage_url 'ebl' %}">{% trans "Enquiry" %}</a></li>
@@ -110,6 +112,18 @@
 			</div>
 			<div class="footer_nav">
 				<ul class="unbulleted">
+                    <li style="border-bottom: #cccccc 1px dotted; width: 50px;">{% for lang_code, title in LANGUAGES %}
+                            {% get_translated_url lang_code as tr_url %}
+                            {% if tr_url %}
+                                {%  if LANGUAGE_CODE != lang_code %}
+                                <a href="{{ tr_url }}">{{ lang_code }}</a>
+                                {%  else %}
+                                    <span style="color: #aaaaaa">{{ lang_code }}</span>
+                                {% endif %}
+                                {%  if not forloop.last	 %} | {% endif %}
+                            {% endif %}
+                       {% endfor %}
+                    </li>
 					<li><a href="{% smartpage_url 'about' %}">{% trans "About" %}</a></li>
 					<li><a href="{% smartpage_url 'workflow' %}">{% trans "Workflow" %}</a></li>
 					<li><a href="/blog/">{% trans "Blog" %}</a></li>
