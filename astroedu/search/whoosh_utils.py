@@ -36,7 +36,7 @@ def _get_schema():
         cost=ID(sortable=RefBytesColumn()),
         location=ID(sortable=RefBytesColumn()),
         skills=KEYWORD(commas=True, sortable=RefBytesColumn()),
-        learning=ID(sortable=RefBytesColumn()),
+        # learning=ID(sortable=RefBytesColumn()),
     )
     return schema
 
@@ -111,7 +111,7 @@ def _update_activity(obj_master, obj, writer):
         cost=obj_master.cost.code if obj_master.cost else None,
         location=obj_master.location.code if obj_master.location else None,
         skills=u','.join([x.code for x in obj_master.skills.all()]),
-        learning=obj_master.learning.code if obj_master.learning else None,
+        # learning=obj_master.learning.code if obj_master.learning else None,
     )
 
 
@@ -157,7 +157,7 @@ def search(querystring, language_code, queryfacets=None):
     facets.add_field('cost')
     facets.add_field('location')
     facets.add_field('skills', allow_overlap=True)
-    facets.add_field('learning')
+    # facets.add_field('learning')
 
     result = {
         'results': [],
