@@ -1,6 +1,6 @@
 from whoosh.fields import Schema, ID, TEXT, STORED, KEYWORD
 from whoosh.columns import RefBytesColumn
-from whoosh.qparser import QueryParser, MultifieldParser, WildcardPlugin
+from whoosh.qparser import QueryParser, MultifieldParser, WildcardPlugin, OperatorsPlugin
 from whoosh.analysis import StemmingAnalyzer, CharsetFilter
 from whoosh.sorting import Facets, StoredFieldFacet, FieldFacet
 from whoosh.support.charset import accent_map
@@ -138,7 +138,8 @@ def remove_activity(obj):
 def search(querystring, language_code, queryfacets=None):
     ix = LanguageIndex(settings.WHOOSH_INDEX_PATH, language_code, _get_schema()).load()
     # parser = QueryParser('content', ix.schema)
-    parser = MultifieldParser(['title', 'keywords', 'content'], ix.schema)  # fieldboosts={'title':5, 'keywords':4, 'content':1})
+    # removed keywords. users needed to search with quotes. need to be better configured.
+    parser = MultifieldParser(['title', 'content'], ix.schema)  # fieldboosts={'title':5, 'keywords':4, 'content':1})
     parser.remove_plugin_class(WildcardPlugin)  # remove unused feature for better performance
     query = parser.parse(querystring)
 
