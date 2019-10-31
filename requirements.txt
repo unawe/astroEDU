@@ -6,7 +6,7 @@ django-autoslug==1.9.3
 django-parler==1.5.1
 django-ckeditor==5.0.3
 
-pillow==3.2.0
+pillow==6.2.0
 sorl-thumbnail==12.3
 reportlab==3.3.0
 beautifulsoup4==4.3.2
