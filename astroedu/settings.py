@@ -162,6 +162,7 @@ LANGUAGES = (
     # ('ro', 'Romanian'),
     # ('es', 'Spanish'),
     # ('pt', 'Portuguese'),
+    ('kr', 'Korean'),
 )
 LANGUAGES = sorted(LANGUAGES, key=operator.itemgetter(0))
 
@@ -228,6 +229,7 @@ PARLER_LANGUAGES = {
     SITE_ID: (
         {'code': 'en'},
         {'code': 'it'},
+        {'code': 'kr'},
     ),
     'default': {
         'fallbacks': ['en'],
