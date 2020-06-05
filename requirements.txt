@@ -1,4 +1,4 @@
-Django==1.8.17
+Django==1.11.29
 pytz
 psycopg2 #==2.6.1  # postgreSQL
 django-pipeline==1.6.8
